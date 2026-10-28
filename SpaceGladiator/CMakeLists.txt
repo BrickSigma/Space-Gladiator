@@ -1,11 +1,19 @@
 add_executable(${PROJECT_NAME})
 
+if(MSVC)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+else()
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
+
 target_sources(${PROJECT_NAME}
     PRIVATE
         src/main.cpp
         src/start_scene.cpp
         src/game_scene.cpp
         src/credits_scene.cpp
+        src/entity.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -13,6 +21,7 @@ target_sources(${PROJECT_NAME}
             include/start_scene.hpp
             include/game_scene.hpp
             include/credits_scene.hpp
+            include/entity.hpp
 )
 
 #set(raylib_VERBOSE 1)
