@@ -8,6 +8,9 @@ Player::Player(GameScene *scene) : Entity({24, (CANVAS_HEIGHT / 2) - 6}, 26, 12,
     reset();
 
     // Load up the player's assets and other components needed
+    textures[0] = LoadTexture("assets/images/player-normal.png");
+    textures[1] = LoadTexture("assets/images/player-down.png");
+    textures[2] = LoadTexture("assets/images/player-up.png"); 
 }
 
 void Player::reset()
@@ -19,6 +22,10 @@ void Player::reset()
 Player::~Player()
 {
     // Free any allocated assets
+    for (int i = 0; i < 3; i++)
+    {
+        UnloadTexture(textures[i]);
+    }
 }
 
 void Player::handleInput()
@@ -61,7 +68,13 @@ void Player::handlePhysics()
 
 void Player::draw()
 {
-    DrawRectangle(pos.x, pos.y, width, height, RED);
+    int texture = PLAYER_TEXTURE_NORMAL;
+    if (movement[PLAYER_UP]) {
+        texture = PLAYER_TEXTURE_UP;
+    } else if (movement[PLAYER_DOWN]) {
+        texture = PLAYER_TEXTURE_DOWN;
+    }
+    DrawTexture(textures[texture], pos.x, pos.y, WHITE);
 }
 
 void Player::update()

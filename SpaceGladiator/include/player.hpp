@@ -3,7 +3,7 @@
 
 #include "entity.hpp"
 
-#define PLAYER_BASE_SPEED (2)
+#define PLAYER_BASE_SPEED (1)
 
 class Player : public Entity
 {
@@ -27,7 +27,7 @@ private:
     // Draw the space ship to the screen
     void draw() override;
 
-    enum PlayerMovement : int
+    enum PlayerMovement
     {
         PLAYER_UP,
         PLAYER_DOWN,
@@ -40,6 +40,14 @@ private:
 
     // Player move speed
     unsigned int speed = PLAYER_BASE_SPEED;
+
+    enum PlayerTextureDirection {
+        PLAYER_TEXTURE_NORMAL,
+        PLAYER_TEXTURE_DOWN,
+        PLAYER_TEXTURE_UP
+    };
+
+    Texture textures[3] = {};
 };
 
 #endif // PLAYER_HPP
