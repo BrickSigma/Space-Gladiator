@@ -5,9 +5,9 @@
 
 class StartScene : public Scene {
 public:
-    StartScene();
+    StartScene(RenderTexture *screen);
     ~StartScene();
-    SceneState update(RenderTexture *screen);
+    SceneState update();
 
 private:
     // Pulse counter used for the start button

@@ -5,11 +5,9 @@
 
 class CreditsScene : public Scene {
 public:
-    CreditsScene();
+    CreditsScene(RenderTexture *screen);
     ~CreditsScene();
-    SceneState update(RenderTexture *screen);
-
-private:
+    SceneState update();
 };
 
 #endif  // CREDITS_SCENE_HPP

@@ -1,11 +1,11 @@
 #include "credits_scene.hpp"
 #include <raylib.h>
 
-CreditsScene::CreditsScene() {}
+CreditsScene::CreditsScene(RenderTexture *screen) : Scene(screen) {}
 
 CreditsScene::~CreditsScene() {}
 
-SceneState CreditsScene::update(RenderTexture *screen)
+SceneState CreditsScene::update()
 {
     SceneState next_state = SceneState::CREDITS;
 

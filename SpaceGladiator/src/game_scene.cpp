@@ -1,11 +1,11 @@
 #include "game_scene.hpp"
 #include <raylib.h>
 
-GameScene::GameScene() {}
+GameScene::GameScene(RenderTexture *screen) : Scene(screen) {}
 
 GameScene::~GameScene() {}
 
-SceneState GameScene::update(RenderTexture *screen)
+SceneState GameScene::update()
 {
     SceneState next_state = SceneState::GAME;
 

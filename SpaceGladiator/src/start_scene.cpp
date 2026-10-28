@@ -1,16 +1,17 @@
 #include "start_scene.hpp"
 #include <raylib.h>
 
-StartScene::StartScene() {}
+StartScene::StartScene(RenderTexture *screen) : Scene(screen) {}
 
 StartScene::~StartScene() {}
 
-SceneState StartScene::update(RenderTexture *screen)
+SceneState StartScene::update()
 {
     SceneState next_state = SceneState::START_SCREEN;
 
     // Handle user input
-    if (IsKeyPressed(KEY_ENTER)) {
+    if (IsKeyPressed(KEY_ENTER))
+    {
         next_state = SceneState::GAME;
     }
 

@@ -13,5 +13,5 @@ SceneManager::~SceneManager() {}
 void SceneManager::update()
 {
     int current_scene = static_cast<int>(this->current_scene);
-    this->current_scene = scenes[current_scene]->update(this->screen);
+    this->current_scene = scenes[current_scene]->update();
 }

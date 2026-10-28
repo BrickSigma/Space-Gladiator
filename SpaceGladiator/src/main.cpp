@@ -17,6 +17,10 @@ void UpdateDrawFrame(void);
 
 int main(int argc, char *argv[])
 {
+    // Used to ignore compiler errors of unused variables
+    (void)argc;
+    (void)argv;
+
     // Initialize the window
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Space Gladiator");
 
@@ -24,9 +28,9 @@ int main(int argc, char *argv[])
     RenderTexture screen = LoadRenderTexture(CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // Setup the main scene manager
-    StartScene *start = new StartScene();
-    GameScene *game = new GameScene();
-    CreditsScene *credits = new CreditsScene();
+    StartScene *start = new StartScene(&screen);
+    GameScene *game = new GameScene(&screen);
+    CreditsScene *credits = new CreditsScene(&screen);
     scene_manager = new SceneManager(
         &screen,
         static_cast<Scene *>(start),
