@@ -6,6 +6,8 @@
 #include "constants.hpp"
 #include "scene_manager.hpp"
 #include "start_scene.hpp"
+#include "game_scene.hpp"
+#include "credits_scene.hpp"
 
 // Global scene manager
 SceneManager *scene_manager = nullptr;
@@ -23,7 +25,13 @@ int main(int argc, char *argv[])
 
     // Setup the main scene manager
     StartScene *start = new StartScene();
-    scene_manager = new SceneManager(&screen, static_cast<Scene *>(start), nullptr, nullptr);
+    GameScene *game = new GameScene();
+    CreditsScene *credits = new CreditsScene();
+    scene_manager = new SceneManager(
+        &screen,
+        static_cast<Scene *>(start),
+        static_cast<Scene *>(game),
+        static_cast<Scene *>(credits));
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -39,7 +47,12 @@ int main(int argc, char *argv[])
 
     // Free the scene manager
     delete scene_manager;
+    // Free all of the other scenes
+    delete start;
+    delete game;
+    delete credits;
 
+    // Free the render texture
     UnloadRenderTexture(screen);
 
     CloseWindow();

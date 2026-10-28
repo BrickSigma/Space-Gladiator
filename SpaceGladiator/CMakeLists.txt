@@ -4,11 +4,15 @@ target_sources(${PROJECT_NAME}
     PRIVATE
         src/main.cpp
         src/start_scene.cpp
+        src/game_scene.cpp
+        src/credits_scene.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
         FILES
             include/start_scene.hpp
+            include/game_scene.hpp
+            include/credits_scene.hpp
 )
 
 #set(raylib_VERBOSE 1)
