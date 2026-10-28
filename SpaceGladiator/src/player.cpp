@@ -10,7 +10,7 @@ Player::Player(GameScene *scene) : Entity({24, (CANVAS_HEIGHT / 2) - 6}, 26, 12,
     // Load up the player's assets and other components needed
     textures[0] = LoadTexture("assets/images/player-normal.png");
     textures[1] = LoadTexture("assets/images/player-down.png");
-    textures[2] = LoadTexture("assets/images/player-up.png"); 
+    textures[2] = LoadTexture("assets/images/player-up.png");
 }
 
 void Player::reset()
@@ -64,14 +64,27 @@ void Player::handlePhysics()
     {
         pos.x += speed;
     }
+
+    // Make sure the player can't go off screen
+    if (pos.x < 16)
+        pos.x = 16;
+    if (pos.x >= CANVAS_WIDTH - (16 + width))
+        pos.x = CANVAS_WIDTH - (16 + width);
+    if (pos.y < 16)
+        pos.y = 16;
+    if (pos.y >= CANVAS_HEIGHT - (16 + height))
+        pos.y = CANVAS_HEIGHT - (16 + height);
 }
 
 void Player::draw()
 {
     int texture = PLAYER_TEXTURE_NORMAL;
-    if (movement[PLAYER_UP]) {
+    if (movement[PLAYER_UP])
+    {
         texture = PLAYER_TEXTURE_UP;
-    } else if (movement[PLAYER_DOWN]) {
+    }
+    else if (movement[PLAYER_DOWN])
+    {
         texture = PLAYER_TEXTURE_DOWN;
     }
     DrawTexture(textures[texture], pos.x, pos.y, WHITE);
