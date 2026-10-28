@@ -7,7 +7,7 @@ CreditsScene::~CreditsScene() {}
 
 SceneState CreditsScene::update()
 {
-    SceneState next_state = SceneState::CREDITS;
+    SceneState next_state = SceneState::NO_CHANGE;
 
     // Handle user input
     if (IsKeyPressed(KEY_BACKSPACE)) {

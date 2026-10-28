@@ -7,7 +7,7 @@ StartScene::~StartScene() {}
 
 SceneState StartScene::update()
 {
-    SceneState next_state = SceneState::START_SCREEN;
+    SceneState next_state = SceneState::NO_CHANGE;
 
     // Handle user input
     if (IsKeyPressed(KEY_ENTER))

@@ -15,6 +15,9 @@ public:
     // Update loop for the entity
     virtual void update() = 0;
 
+    // Draw the entity
+    virtual void draw() = 0;
+
     // Used to check if this entity is colliding with another
     bool checkCollision(Entity &entity);
 

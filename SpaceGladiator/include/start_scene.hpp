@@ -7,7 +7,7 @@ class StartScene : public Scene {
 public:
     StartScene(RenderTexture *screen);
     ~StartScene();
-    SceneState update();
+    SceneState update() override;
 
 private:
     // Pulse counter used for the start button

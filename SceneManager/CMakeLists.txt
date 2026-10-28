@@ -1,11 +1,5 @@
 add_library(SceneManager STATIC)
 
-if(MSVC)
-  target_compile_options(SceneManager PRIVATE /W4 /WX)
-else()
-  target_compile_options(SceneManager PRIVATE -Wall -Wextra -Wpedantic -Werror)
-endif()
-
 target_sources(SceneManager
     PRIVATE
         src/scene_manager.cpp
@@ -17,4 +11,10 @@ target_sources(SceneManager
             include/scene.hpp
 )
 
-target_link_libraries(SceneManager PRIVATE raylib)
+if(MSVC)
+  target_compile_options(SceneManager PRIVATE /W4 /WX /fsanitize=address)
+  target_link_libraries(SceneManager PRIVATE raylib /fsanitize=address)
+  else()
+  target_compile_options(SceneManager PRIVATE -Wall -Wextra -Wpedantic -Werror -fsanitize=address)
+  target_link_libraries(SceneManager PRIVATE raylib -fsanitize=address)
+endif()

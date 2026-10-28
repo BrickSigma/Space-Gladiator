@@ -1,12 +1,5 @@
 add_executable(${PROJECT_NAME})
 
-if(MSVC)
-  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
-else()
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
-endif()
-
-
 target_sources(${PROJECT_NAME}
     PRIVATE
         src/main.cpp
@@ -14,6 +7,7 @@ target_sources(${PROJECT_NAME}
         src/game_scene.cpp
         src/credits_scene.cpp
         src/entity.cpp
+        src/player.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -22,6 +16,7 @@ target_sources(${PROJECT_NAME}
             include/game_scene.hpp
             include/credits_scene.hpp
             include/entity.hpp
+            include/player.hpp
 )
 
 #set(raylib_VERBOSE 1)
@@ -31,6 +26,14 @@ target_link_libraries(${PROJECT_NAME}
         SceneManager
         raylib
 )
+
+if(MSVC)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX /fsanitize=address)
+  target_link_libraries(${PROJECT_NAME} PRIVATE /fsanitize=address)
+  else()
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -fsanitize=address)
+  target_link_libraries(${PROJECT_NAME} PRIVATE -fsanitize=address)
+endif()
 
 # Web Configurations
 if (${PLATFORM} STREQUAL "Web")

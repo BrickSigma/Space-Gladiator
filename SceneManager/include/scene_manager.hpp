@@ -10,6 +10,7 @@ enum class SceneState : int
     START_SCREEN, // Start screen state
     GAME,         // Main game
     CREDITS,      // End credits
+    NO_CHANGE     // Indicates that the scene didn't change
 };
 
 // Scene manager, used to handle different scenes like the start
@@ -30,7 +31,7 @@ private:
     Scene *scenes[3] = {};
 
     // The current scene being run
-    SceneState current_scene = SceneState::START_SCREEN;
+    SceneState current_state = SceneState::START_SCREEN;
 };
 
 #endif // SCENE_MANAGER_HPP
