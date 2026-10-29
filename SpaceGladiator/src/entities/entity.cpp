@@ -1,6 +1,6 @@
-#include "entity.hpp"
+#include "entities/entity.hpp"
 
-Entity::Entity(EntityType type, Vector2 pos, int width, int height, GameScene *scene) : type(type), pos(pos), width(width), height(height), scene(scene) {}
+Entity::Entity(EntityType type, Vector2 pos, int width, int height) : type(type), pos(pos), width(width), height(height) {}
 
 Rectangle Entity::getRect()
 {

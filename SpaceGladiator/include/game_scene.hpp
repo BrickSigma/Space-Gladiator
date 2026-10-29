@@ -2,8 +2,8 @@
 #define GAME_SCENE_HPP
 
 #include "scene_manager.hpp"
-#include "entity.hpp"
-#include "player.hpp"
+#include "entities/entity.hpp"
+#include "entities/player.hpp"
 
 #include <vector>
 

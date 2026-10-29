@@ -3,22 +3,24 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME}
     PRIVATE
         src/main.cpp
+        src/texture_manager.cpp
         src/start_scene.cpp
         src/game_scene.cpp
         src/credits_scene.cpp
-        src/entity.cpp
-        src/player.cpp
-        src/texture_manager.cpp
+        src/entities/entity.cpp
+        src/entities/player.cpp
+        src/entities/projectile.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
         FILES
             include/start_scene.hpp
+            include/texture_manager.hpp
             include/game_scene.hpp
             include/credits_scene.hpp
-            include/entity.hpp
-            include/player.hpp
-            include/texture_manager.hpp
+            include/entities/entity.hpp
+            include/entities/player.hpp
+            include/entities/projectile.hpp
 )
 
 #set(raylib_VERBOSE 1)

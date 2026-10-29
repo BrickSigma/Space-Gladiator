@@ -25,7 +25,7 @@ void GameScene::resetFromCheckpoint()
     entities.clear();
 
     // Reset the player and it to the entities list
-    player = new Player(this);
+    player = new Player();
     entities.push_back(player);
 }
 
@@ -45,7 +45,7 @@ SceneState GameScene::update()
     // Handle the entities update method
     for (Entity *entity : entities)
     {
-        entity->update();
+        entity->update(this);
     }
 
     // Handle user input

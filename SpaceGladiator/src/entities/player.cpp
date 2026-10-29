@@ -1,10 +1,10 @@
-#include "player.hpp"
+#include "entities/player.hpp"
 #include "game_scene.hpp"
 
 #include "constants.hpp"
 #include "texture_manager.hpp"
 
-Player::Player(GameScene *scene) : Entity(EntityType::PLAYER, {24, (CANVAS_HEIGHT / 2) - 6}, 26, 12, scene)
+Player::Player() : Entity(EntityType::PLAYER, {24, (CANVAS_HEIGHT / 2) - 6}, 26, 12)
 {
     reset();
 
@@ -89,8 +89,10 @@ void Player::draw()
     DrawTexture(textures[texture], pos.x, pos.y, WHITE);
 }
 
-void Player::update()
+void Player::update(GameScene *scene)
 {
+    (void)scene;
+    
     // Handle any user input
     handleInput();
 

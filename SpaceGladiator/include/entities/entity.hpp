@@ -15,12 +15,12 @@ enum class EntityType {
 class Entity
 {
 public:
-    // Create a new entity with a position, width, and height. Also pass a reference to the game scene to it.
-    Entity(EntityType type, Vector2 pos, int width, int height, GameScene *scene);
+    // Create a new entity with a position, width, and height.
+    Entity(EntityType type, Vector2 pos, int width, int height);
     virtual ~Entity() = default;
 
     // Update loop for the entity
-    virtual void update() = 0;
+    virtual void update(GameScene *scene) = 0;
 
     // Draw the entity
     virtual void draw() = 0;
@@ -31,16 +31,13 @@ public:
     Rectangle getRect();
 
     // Used to indicate if the entity should be deleted from the system
-    bool deleteEntity = false;
+    bool delete_entity = false;
 
 protected:
     EntityType type;
     Vector2 pos;
     int width;
     int height;
-    
-    // Internal pointer to the world
-    GameScene *scene;
 };
 
 #endif // ENTITY_HPP

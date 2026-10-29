@@ -1,21 +1,21 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "entity.hpp"
+#include "entities/entity.hpp"
 
 #define PLAYER_BASE_SPEED (1)
 
 class Player : public Entity
 {
 public:
-    Player(GameScene *scene);
+    Player();
     ~Player();
 
     // Reset the player's state
     void reset();
 
     // Update the player
-    void update() override;
+    void update(GameScene *scene) override;
 
 private:
     // Handle user input to move the player or shoot
