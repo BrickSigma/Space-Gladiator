@@ -7,7 +7,8 @@
 
 #include <vector>
 
-class GameScene : public Scene {
+class GameScene : public Scene
+{
 public:
     GameScene(RenderTexture *screen);
     ~GameScene();
@@ -24,6 +25,9 @@ public:
     // Handle entering the game scene from another state
     void onEnter(SceneState previous_state) override;
 
+    // Used to spawn a new entity
+    void spawnEntity(Entity *entity);
+
     // Current distance into the level
     unsigned long distance = 0;
 
@@ -32,12 +36,16 @@ public:
 
     // Last level succesfully reached
     unsigned int level = 1;
+
 private:
     // Pointer to player object for quick access by other entities
     Player *player = nullptr;
 
     // List of all entities in the system;
-    std::vector<Entity *> entities{};   
+    std::vector<Entity *> entities{};
+
+    // Queue for any entities to add at the end of the game loop
+    std::vector<Entity *> new_entities{};
 };
 
-#endif  // GAME_SCENE_HPP
+#endif // GAME_SCENE_HPP

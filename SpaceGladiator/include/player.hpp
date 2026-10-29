@@ -41,7 +41,8 @@ private:
     // Player move speed
     unsigned int speed = PLAYER_BASE_SPEED;
 
-    enum PlayerTextureDirection {
+    enum PlayerTextureDirection
+    {
         PLAYER_TEXTURE_NORMAL,
         PLAYER_TEXTURE_DOWN,
         PLAYER_TEXTURE_UP

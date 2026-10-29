@@ -8,6 +8,7 @@
 #include "start_scene.hpp"
 #include "game_scene.hpp"
 #include "credits_scene.hpp"
+#include "texture_manager.hpp"
 
 // Global scene manager
 SceneManager *scene_manager = nullptr;
@@ -23,6 +24,9 @@ int main(int argc, char *argv[])
 
     // Initialize the window
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Space Gladiator");
+
+    // Initialize the texture manager
+    TextureManager::getInstance();
 
     // Render texture used to draw to
     RenderTexture screen = LoadRenderTexture(CANVAS_WIDTH, CANVAS_HEIGHT);

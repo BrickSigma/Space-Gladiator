@@ -8,6 +8,7 @@ target_sources(${PROJECT_NAME}
         src/credits_scene.cpp
         src/entity.cpp
         src/player.cpp
+        src/texture_manager.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -17,6 +18,7 @@ target_sources(${PROJECT_NAME}
             include/credits_scene.hpp
             include/entity.hpp
             include/player.hpp
+            include/texture_manager.hpp
 )
 
 #set(raylib_VERBOSE 1)

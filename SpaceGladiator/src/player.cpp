@@ -2,15 +2,18 @@
 #include "game_scene.hpp"
 
 #include "constants.hpp"
+#include "texture_manager.hpp"
 
-Player::Player(GameScene *scene) : Entity({24, (CANVAS_HEIGHT / 2) - 6}, 26, 12, scene)
+Player::Player(GameScene *scene) : Entity(EntityType::PLAYER, {24, (CANVAS_HEIGHT / 2) - 6}, 26, 12, scene)
 {
     reset();
 
     // Load up the player's assets and other components needed
-    textures[0] = LoadTexture("assets/images/player-normal.png");
-    textures[1] = LoadTexture("assets/images/player-down.png");
-    textures[2] = LoadTexture("assets/images/player-up.png");
+    TextureManager &texture_manager = TextureManager::getInstance();
+
+    textures[0] = texture_manager.player_normal;
+    textures[1] = texture_manager.player_down;
+    textures[2] = texture_manager.player_up;
 }
 
 void Player::reset()
@@ -21,11 +24,7 @@ void Player::reset()
 
 Player::~Player()
 {
-    // Free any allocated assets
-    for (int i = 0; i < 3; i++)
-    {
-        UnloadTexture(textures[i]);
-    }
+    // Free any allocated objects
 }
 
 void Player::handleInput()

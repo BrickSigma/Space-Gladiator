@@ -65,6 +65,10 @@ SceneState GameScene::update()
     // Render all the entities
     for (Entity *entity : entities)
     {
+        if (entity == nullptr) {
+            TraceLog(LOG_ERROR, "Entity is set to NULL! That should not happen!");
+            continue;
+        }
         entity->draw();
     }
     EndTextureMode();
@@ -77,4 +81,8 @@ void GameScene::onEnter(SceneState previous_state) {
         // Reset the game if we're entering from the start screen
         reset();
     }
+}
+
+void GameScene::spawnEntity(Entity * entity) {
+    new_entities.push_back(entity);
 }
