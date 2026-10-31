@@ -5,7 +5,7 @@
 
 #define PLAYER_BASE_SPEED (1)
 #define PLAYER_MAX_PROJECTILES (2) // Maximum number of projectiles the player can shoot
-#define SHOOT_DELAY (20)           // Shoot every .333 seconds
+#define SHOOT_DELAY (15)           // Shoot every .333 seconds
 #define PROJECTILE_SPEED (2)       // Speed of projectiles shot
 
 class Player : public Entity
@@ -59,7 +59,7 @@ private:
     // Projectiles currently shot by the player
     int projectiles_shot = 0;
     bool is_shooting = false;
-    unsigned long shooting_timer = 0; // Timer used to prevent shooting instantly
+    int shooting_timer = 0; // Timer tracking time since last shot
 };
 
 #endif // PLAYER_HPP

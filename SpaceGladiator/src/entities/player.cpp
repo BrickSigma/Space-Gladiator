@@ -89,12 +89,13 @@ void Player::handleShooting(GameScene *scene)
                                     { return e->type == EntityType::PLAYER_PROJECTILE; });
 
     // Spawn a bullet if all conditions are met
-    if (is_shooting && projectiles < 2 && (shooting_timer % SHOOT_DELAY == 0))
+    if (is_shooting && projectiles < 2 && shooting_timer >= SHOOT_DELAY)
     {
         scene->spawnEntity(new Projectile(
             EntityType::PLAYER_PROJECTILE,
             {pos.x + width, pos.y + height / 2},
             8, 3, {PROJECTILE_SPEED, 0}));
+        shooting_timer = 0;  // Reset the timer
     }
 
     // Increment the shoot timer
