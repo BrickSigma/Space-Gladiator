@@ -37,14 +37,14 @@ if(MSVC)
   target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX /fsanitize=address)
   target_link_libraries(${PROJECT_NAME} PRIVATE /fsanitize=address)
   else()
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -fsanitize=address)
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -fsanitize=address -Wunused-variable)
   target_link_libraries(${PROJECT_NAME} PRIVATE -fsanitize=address)
 endif()
 
 # Web Configurations
 if (${PLATFORM} STREQUAL "Web")
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html") # Tell Emscripten to build an example.html file.
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY --preload-file assets")
 endif()
 
 # Checks if OSX and links appropriate frameworks (Only required on MacOS)

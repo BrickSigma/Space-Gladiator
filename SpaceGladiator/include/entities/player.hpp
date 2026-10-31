@@ -57,7 +57,6 @@ private:
     Texture textures[3] = {};
 
     // Projectiles currently shot by the player
-    int projectiles_shot = 0;
     bool is_shooting = false;
     int shooting_timer = 0; // Timer tracking time since last shot
 };
