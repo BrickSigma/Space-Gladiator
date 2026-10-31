@@ -5,9 +5,9 @@
 
 #include "constants.hpp"
 #include "scene_manager.hpp"
-#include "start_scene.hpp"
-#include "game_scene.hpp"
-#include "credits_scene.hpp"
+#include "scenes/start_scene.hpp"
+#include "scenes/game_scene.hpp"
+#include "scenes/credits_scene.hpp"
 #include "texture_manager.hpp"
 
 // Global scene manager

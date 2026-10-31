@@ -1,4 +1,4 @@
-#include "start_scene.hpp"
+#include "scenes/start_scene.hpp"
 #include <raylib.h>
 
 StartScene::StartScene(RenderTexture *screen) : Scene(screen) {}

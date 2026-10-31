@@ -1,5 +1,5 @@
 #include "entities/player.hpp"
-#include "game_scene.hpp"
+#include "scenes/game_scene.hpp"
 
 #include "constants.hpp"
 #include "texture_manager.hpp"
@@ -85,17 +85,16 @@ void Player::handlePhysics()
 void Player::handleShooting(GameScene *scene)
 {
     // First iterate through the entities in the game to find any that are the player's projectile type
-    int projectiles = std::count_if(scene->entities.begin(), scene->entities.end(), [](Entity *e) {
-        return e->type == EntityType::PLAYER_PROJECTILE;
-    });
+    int projectiles = std::count_if(scene->entities.begin(), scene->entities.end(), [](Entity *e)
+                                    { return e->type == EntityType::PLAYER_PROJECTILE; });
 
     // Spawn a bullet if all conditions are met
-    if (is_shooting && projectiles < 2 && (shooting_timer % SHOOT_DELAY == 0)) {
+    if (is_shooting && projectiles < 2 && (shooting_timer % SHOOT_DELAY == 0))
+    {
         scene->spawnEntity(new Projectile(
-            EntityType::PLAYER_PROJECTILE, 
-            {pos.x+width, pos.y + height/2},
-            8, 3, {PROJECTILE_SPEED, 0}
-        ));
+            EntityType::PLAYER_PROJECTILE,
+            {pos.x + width, pos.y + height / 2},
+            8, 3, {PROJECTILE_SPEED, 0}));
     }
 
     // Increment the shoot timer

@@ -1,4 +1,4 @@
-#include "credits_scene.hpp"
+#include "scenes/credits_scene.hpp"
 #include <raylib.h>
 
 CreditsScene::CreditsScene(RenderTexture *screen) : Scene(screen) {}

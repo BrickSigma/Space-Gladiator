@@ -1,4 +1,4 @@
-#include "game_scene.hpp"
+#include "scenes/game_scene.hpp"
 #include <raylib.h>
 
 GameScene::GameScene(RenderTexture *screen) : Scene(screen)
