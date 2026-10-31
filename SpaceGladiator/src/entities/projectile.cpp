@@ -18,3 +18,7 @@ bool Projectile::isOffScreen() {
     Rectangle screen{0, 0, CANVAS_WIDTH, CANVAS_HEIGHT};
     return !CheckCollisionRecs(screen, getRect());
 }
+
+void Projectile::draw() {
+    DrawRectangle(pos.x, pos.y, width, height, RED);
+}

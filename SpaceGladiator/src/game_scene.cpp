@@ -65,7 +65,8 @@ SceneState GameScene::update()
     // Render all the entities
     for (Entity *entity : entities)
     {
-        if (entity == nullptr) {
+        if (entity == nullptr)
+        {
             TraceLog(LOG_ERROR, "Entity is set to NULL! That should not happen!");
             continue;
         }
@@ -73,16 +74,35 @@ SceneState GameScene::update()
     }
     EndTextureMode();
 
+    // Once done with rendering, let's remove any entities marked for deletion
+    for (long i = entities.size() - 1; i >= 0; i--)
+    {
+        Entity *entity = entities[i];
+        if (entity->delete_entity)
+        {
+            entities.erase(entities.begin() + i);
+            delete entity; // Free the allocated memory for the entity
+        }
+    }
+
+    // We can now push any entities that where spawned into the entities list
+    entities.reserve(entities.size() + new_entities.size());
+    entities.insert(entities.end(), new_entities.begin(), new_entities.end());
+    new_entities.clear();  // Don't forget to clear the queue!
+
     return next_state;
 }
 
-void GameScene::onEnter(SceneState previous_state) {
-    if (previous_state == SceneState::START_SCREEN) {
+void GameScene::onEnter(SceneState previous_state)
+{
+    if (previous_state == SceneState::START_SCREEN)
+    {
         // Reset the game if we're entering from the start screen
         reset();
     }
 }
 
-void GameScene::spawnEntity(Entity * entity) {
+void GameScene::spawnEntity(Entity *entity)
+{
     new_entities.push_back(entity);
 }

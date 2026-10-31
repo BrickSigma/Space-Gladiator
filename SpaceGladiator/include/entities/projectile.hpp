@@ -18,7 +18,7 @@ class Projectile : public Entity
 {
 public:
     Projectile(EntityType type, Vector2 pos, int width, int height, Vector2 velocity);
-    ~Projectile() = 0;
+    virtual ~Projectile() = default;
 
     // Move the projectile based on it's velocity. Also marks it for deletion if it goes off screen
     void update(GameScene *scene) override;
@@ -26,7 +26,8 @@ public:
     // Check if the projectile is off screen. Ruturns true if it is
     virtual bool isOffScreen();
 
-    void draw() override = 0;
+    // Draw the projectile to the screen. By default this will render a rectangle of the projectile
+    void draw() override;
 
     Vector2 velocity;
 };

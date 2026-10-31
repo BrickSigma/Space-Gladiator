@@ -37,13 +37,12 @@ public:
     // Last level succesfully reached
     unsigned int level = 1;
 
-private:
     // Pointer to player object for quick access by other entities
     Player *player = nullptr;
 
     // List of all entities in the system;
     std::vector<Entity *> entities{};
-
+private:
     // Queue for any entities to add at the end of the game loop
     std::vector<Entity *> new_entities{};
 };

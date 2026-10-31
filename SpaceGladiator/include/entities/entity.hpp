@@ -5,11 +5,13 @@
 
 class GameScene;
 
-enum class EntityType {
-    PLAYER,
-    ENEMY,
-    PLAYER_PROJECTILE,
-    ENEMY_PROJECTILE
+enum class EntityType
+{
+    PLAYER,            // The main player entity
+    ENEMY,             // Used for any enemies
+    PLAYER_PROJECTILE, // Used for any projectiles fired by the player
+    ENEMY_PROJECTILE,  // Used for any projectiles fired by the enemy
+    BLOCK              // Used for any kind of block like a wall or baricade (blocks all projectiles, and will destroy the player if hit)
 };
 
 class Entity
@@ -33,8 +35,8 @@ public:
     // Used to indicate if the entity should be deleted from the system
     bool delete_entity = false;
 
-protected:
     EntityType type;
+protected:
     Vector2 pos;
     int width;
     int height;

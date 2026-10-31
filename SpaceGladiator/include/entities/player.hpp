@@ -4,6 +4,9 @@
 #include "entities/entity.hpp"
 
 #define PLAYER_BASE_SPEED (1)
+#define PLAYER_MAX_PROJECTILES (2) // Maximum number of projectiles the player can shoot
+#define SHOOT_DELAY (20)           // Shoot every .333 seconds
+#define PROJECTILE_SPEED (2)       // Speed of projectiles shot
 
 class Player : public Entity
 {
@@ -20,13 +23,15 @@ public:
 private:
     // Handle user input to move the player or shoot
     void handleInput();
-
     // Handle the physics of moving
     void handlePhysics();
+    // Handle the player shooting
+    void handleShooting(GameScene *scene);
 
     // Draw the space ship to the screen
     void draw() override;
 
+    // Player movement related data
     enum PlayerMovement
     {
         PLAYER_UP,
@@ -41,6 +46,7 @@ private:
     // Player move speed
     unsigned int speed = PLAYER_BASE_SPEED;
 
+    // Texture related items for the player
     enum PlayerTextureDirection
     {
         PLAYER_TEXTURE_NORMAL,
@@ -49,6 +55,11 @@ private:
     };
 
     Texture textures[3] = {};
+
+    // Projectiles currently shot by the player
+    int projectiles_shot = 0;
+    bool is_shooting = false;
+    unsigned long shooting_timer = 0; // Timer used to prevent shooting instantly
 };
 
 #endif // PLAYER_HPP
