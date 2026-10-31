@@ -21,6 +21,8 @@ public:
     Texture player_normal;
     Texture player_up;
     Texture player_down;
+
+    Texture player_bullet;
 };
 
 #endif // TEXTURES_MANAGER_HPP

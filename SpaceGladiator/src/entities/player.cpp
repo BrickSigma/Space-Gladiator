@@ -3,7 +3,7 @@
 
 #include "constants.hpp"
 #include "texture_manager.hpp"
-#include "entities/projectile.hpp"
+#include "entities/player_bullet.hpp"
 
 #include <algorithm>
 
@@ -91,11 +91,9 @@ void Player::handleShooting(GameScene *scene)
     // Spawn a bullet if all conditions are met
     if (is_shooting && projectiles < 2 && shooting_timer >= SHOOT_DELAY)
     {
-        scene->spawnEntity(new Projectile(
-            EntityType::PLAYER_PROJECTILE,
-            {pos.x + width, pos.y + height / 2},
-            8, 3, {PROJECTILE_SPEED, 0}));
-        shooting_timer = 0;  // Reset the timer
+        scene->spawnEntity(new PlayerBullet(
+            {pos.x + width, pos.y + height / 2}, {PROJECTILE_SPEED, 0}));
+        shooting_timer = 0; // Reset the timer
     }
 
     // Increment the shoot timer

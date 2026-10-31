@@ -10,6 +10,7 @@ target_sources(${PROJECT_NAME}
         src/entities/entity.cpp
         src/entities/player.cpp
         src/entities/projectile.cpp
+        src/entities/player_bullet.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -21,6 +22,7 @@ target_sources(${PROJECT_NAME}
         include/entities/entity.hpp
         include/entities/player.hpp
         include/entities/projectile.hpp
+        include/entities/player_bullet.hpp
 )
 
 #set(raylib_VERBOSE 1)
