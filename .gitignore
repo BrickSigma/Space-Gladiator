@@ -55,6 +55,7 @@ CMakeUserPresets.json
 build/
 Build/
 build-*/
+out/
 
 # CMake generated files
 CMakeFiles/
@@ -79,3 +80,6 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# Visual Studio Folders
+.vs/

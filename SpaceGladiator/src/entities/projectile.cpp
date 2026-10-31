@@ -20,5 +20,5 @@ bool Projectile::isOffScreen() {
 }
 
 void Projectile::draw() {
-    DrawRectangle(pos.x, pos.y, width, height, RED);
+    DrawRectangle(static_cast<int>(pos.x), static_cast<int>(pos.y), width, height, RED);
 }

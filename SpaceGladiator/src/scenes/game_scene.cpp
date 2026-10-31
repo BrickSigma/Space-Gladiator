@@ -75,12 +75,12 @@ SceneState GameScene::update()
     EndTextureMode();
 
     // Once done with rendering, let's remove any entities marked for deletion
-    for (long i = entities.size() - 1; i >= 0; i--)
+    for (size_t i = entities.size(); i > 0; i--)
     {
-        Entity *entity = entities[i];
+        Entity *entity = entities[i-1];
         if (entity->delete_entity)
         {
-            entities.erase(entities.begin() + i);
+            entities.erase(entities.begin() + (i-1));
             delete entity; // Free the allocated memory for the entity
         }
     }

@@ -5,6 +5,9 @@ project(SpaceGladiator CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
+# Enable ASAN (default is ON)
+option(ASAN_ENABLED "Build the project with AddressSanitizer" ON)
+
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

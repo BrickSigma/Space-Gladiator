@@ -75,17 +75,17 @@ void Player::handlePhysics()
     if (pos.x < 16)
         pos.x = 16;
     if (pos.x >= CANVAS_WIDTH - (16 + width))
-        pos.x = CANVAS_WIDTH - (16 + width);
+        pos.x = static_cast<float>(CANVAS_WIDTH - (16 + width));
     if (pos.y < 16)
         pos.y = 16;
     if (pos.y >= CANVAS_HEIGHT - (16 + height))
-        pos.y = CANVAS_HEIGHT - (16 + height);
+        pos.y = static_cast<float>(CANVAS_HEIGHT - (16 + height));
 }
 
 void Player::handleShooting(GameScene *scene)
 {
     // First iterate through the entities in the game to find any that are the player's projectile type
-    int projectiles = std::count_if(scene->entities.begin(), scene->entities.end(), [](Entity *e)
+    size_t projectiles = std::count_if(scene->entities.begin(), scene->entities.end(), [](Entity *e)
                                     { return e->type == EntityType::PLAYER_PROJECTILE; });
 
     // Spawn a bullet if all conditions are met
@@ -120,5 +120,5 @@ void Player::draw()
     {
         texture = PLAYER_TEXTURE_DOWN;
     }
-    DrawTexture(textures[texture], pos.x, pos.y, WHITE);
+    DrawTexture(textures[texture], static_cast<int>(pos.x), static_cast<int>(pos.y), WHITE);
 }

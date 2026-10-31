@@ -5,5 +5,5 @@ PlayerBullet::PlayerBullet(Vector2 pos, Vector2 velocity) : Projectile(EntityTyp
 
 void PlayerBullet::draw() {
     TextureManager &texture_manager = TextureManager::getInstance();
-    DrawTexture(texture_manager.player_bullet, pos.x, pos.y, WHITE);
+    DrawTexture(texture_manager.player_bullet, static_cast<int>(pos.x), static_cast<int>(pos.y), WHITE);
 }

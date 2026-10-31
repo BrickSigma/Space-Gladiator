@@ -34,11 +34,18 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 if(MSVC)
-  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX /fsanitize=address)
-  target_link_libraries(${PROJECT_NAME} PRIVATE /fsanitize=address)
-  else()
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -fsanitize=address -Wunused-variable)
-  target_link_libraries(${PROJECT_NAME} PRIVATE -fsanitize=address)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+else()
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wunused-variable)
+endif()
+
+if (ASAN_ENABLED)
+   if(MSVC)
+      target_compile_options(${PROJECT_NAME} PRIVATE /fsanitize=address /Zi)
+   else()
+      target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
+      target_link_libraries(${PROJECT_NAME} PRIVATE -fsanitize=address)
+    endif()
 endif()
 
 # Web Configurations
