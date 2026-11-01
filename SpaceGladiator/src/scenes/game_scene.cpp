@@ -4,8 +4,11 @@
 #include "entities/asteroid.hpp"
 #include "constants.hpp"
 
+#include <string>
+
 GameScene::GameScene(RenderTexture *screen) : Scene(screen)
 {
+    canvas = LoadRenderTexture(SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT);
     reset();
 }
 
@@ -47,6 +50,8 @@ GameScene::~GameScene()
     {
         delete entity;
     }
+
+    UnloadRenderTexture(canvas);
 }
 
 SceneState GameScene::update()
@@ -70,9 +75,8 @@ SceneState GameScene::update()
     }
 
     // Handle rendering here
-    BeginTextureMode(*screen);
+    BeginTextureMode(canvas);
     ClearBackground(BLACK);
-
     // Render all the entities
     for (Entity *entity : entities)
     {
@@ -85,6 +89,22 @@ SceneState GameScene::update()
     }
     EndTextureMode();
 
+    // Update the actual screen here
+    BeginTextureMode(*screen);
+    ClearBackground(WHITE);
+    DrawTextureRec(canvas.texture, {0, 0, SPACE_CANVAS_WIDTH, -SPACE_CANVAS_HEIGHT}, {0, 0}, WHITE);
+
+    // Render the current distance for debugging
+    std::string distance_str = std::to_string(distance);
+    DrawText(distance_str.c_str(), 8, SPACE_CANVAS_HEIGHT + 4, 12, BLACK);
+
+    EndTextureMode();
+
+    // Update the distance as well
+    if (frame_counter % distance_update == 0)
+        distance++;
+    frame_counter++;
+
     // We can now try handle collision detection between the entities.
     for (Entity *entity_1 : entities)
     {
@@ -94,7 +114,7 @@ SceneState GameScene::update()
         for (Entity *entity_2 : entities)
         {
             if (entity_1->delete_entity)
-                break;  // Incase the entity was marked for deletion during this loop
+                break; // Incase the entity was marked for deletion during this loop
             if (entity_2->delete_entity)
                 continue; // Skip entities marked for deletion
             if (entity_1 == entity_2)

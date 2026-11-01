@@ -4,8 +4,14 @@
 #include "scene_manager.hpp"
 #include "entities/entity.hpp"
 #include "entities/player.hpp"
+#include "constants.hpp"
 
 #include <vector>
+#include <raylib.h>
+
+#define SCORE_BOARD_HEIGHT (24)
+#define SPACE_CANVAS_WIDTH (CANVAS_WIDTH)
+#define SPACE_CANVAS_HEIGHT (CANVAS_HEIGHT - SCORE_BOARD_HEIGHT)
 
 class GameScene : public Scene
 {
@@ -42,9 +48,17 @@ public:
 
     // List of all entities in the system;
     std::vector<Entity *> entities{};
+
 private:
     // Queue for any entities to add at the end of the game loop
     std::vector<Entity *> new_entities{};
+
+    // Render texture used for showing all the entities and separating the view from the score board
+    RenderTexture canvas;
+
+    // Internal frame counter used to adjust the distance
+    int frame_counter = 0;
+    const int distance_update = 15;
 };
 
 #endif // GAME_SCENE_HPP

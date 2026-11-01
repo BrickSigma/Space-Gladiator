@@ -74,12 +74,12 @@ void Player::handlePhysics()
     // Make sure the player can't go off screen
     if (pos.x < 16)
         pos.x = 16;
-    if (pos.x >= CANVAS_WIDTH - (16 + width))
-        pos.x = static_cast<float>(CANVAS_WIDTH - (16 + width));
+    if (pos.x >= SPACE_CANVAS_WIDTH - (16 + width))
+        pos.x = static_cast<float>(SPACE_CANVAS_WIDTH - (16 + width));
     if (pos.y < 16)
         pos.y = 16;
-    if (pos.y >= CANVAS_HEIGHT - (16 + height))
-        pos.y = static_cast<float>(CANVAS_HEIGHT - (16 + height));
+    if (pos.y >= SPACE_CANVAS_HEIGHT - (16 + height))
+        pos.y = static_cast<float>(SPACE_CANVAS_HEIGHT - (16 + height));
 }
 
 void Player::handleShooting(GameScene *scene)
