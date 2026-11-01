@@ -19,6 +19,9 @@ class Entity
 public:
     // Create a new entity with a position, width, and height.
     Entity(EntityType type, Vector2 pos, int width, int height);
+    // Create a new entity with all attributes set to 0
+    Entity(EntityType type);
+
     virtual ~Entity() = default;
 
     // Update loop for the entity
@@ -28,18 +31,24 @@ public:
     virtual void draw() = 0;
 
     // Used to check if this entity is colliding with another
-    bool checkCollision(Entity &entity);
+    bool checkCollision(const Entity &entity) const;
 
-    Rectangle getRect();
+    // Used to handle collisions between entities
+    virtual void handleCollision(Entity *other);
+
+    // Check if the entity is off screen and returns true if it is.
+    bool isOffScreen();
+
+    Rectangle getRect() const;
 
     // Used to indicate if the entity should be deleted from the system
-    bool delete_entity = false;
+    bool delete_entity{false};
 
     EntityType type;
 protected:
-    Vector2 pos;
-    int width;
-    int height;
+    Vector2 pos{0, 0};
+    int width{0};
+    int height{0};
 };
 
 #endif // ENTITY_HPP

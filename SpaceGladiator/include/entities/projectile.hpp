@@ -23,9 +23,6 @@ public:
     // Move the projectile based on it's velocity. Also marks it for deletion if it goes off screen
     void update(GameScene *scene) override;
 
-    // Check if the projectile is off screen. Ruturns true if it is
-    virtual bool isOffScreen();
-
     // Draw the projectile to the screen. By default this will render a rectangle of the projectile
     void draw() override;
 
