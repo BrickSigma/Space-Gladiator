@@ -35,11 +35,11 @@ void GameScene::resetFromCheckpoint()
     entities.push_back(player);
 
     // Some test asteroids
-    Asteroid *asteroid = new Asteroid(AsteroidSize::LARGE, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 - 64}, {-1, 0});
+    Asteroid *asteroid = new Asteroid(AsteroidSize::LARGE, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 - 64}, 0);
     entities.push_back(asteroid);
-    asteroid = new Asteroid(AsteroidSize::MEDIUM, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 - 16}, {-1, 0});
+    asteroid = new Asteroid(AsteroidSize::MEDIUM, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 - 16}, 0);
     entities.push_back(asteroid);
-    asteroid = new Asteroid(AsteroidSize::SMALL, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 + 64}, {-1, 0});
+    asteroid = new Asteroid(AsteroidSize::SMALL, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 + 64}, 0);
     entities.push_back(asteroid);
 }
 

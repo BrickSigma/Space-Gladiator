@@ -5,8 +5,8 @@
 
 #define PLAYER_BASE_SPEED (1)
 #define PLAYER_MAX_PROJECTILES (2) // Maximum number of projectiles the player can shoot
-#define SHOOT_DELAY (15)           // Shoot every .333 seconds
-#define PROJECTILE_SPEED (2)       // Speed of projectiles shot
+#define SHOOT_DELAY (10)           // Shoot every .166 seconds
+#define PROJECTILE_SPEED (3)       // Speed of projectiles shot
 
 class Player : public Entity
 {

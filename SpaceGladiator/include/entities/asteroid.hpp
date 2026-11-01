@@ -13,7 +13,7 @@ enum class AsteroidSize : int
 class Asteroid : public Entity
 {
 public:
-    Asteroid(AsteroidSize size, Vector2 pos, Vector2 velocity);
+    Asteroid(AsteroidSize size, Vector2 pos, float direction);
     ~Asteroid() = default;
 
     void update(GameScene *scene) override;
@@ -22,12 +22,6 @@ public:
 
     AsteroidSize size;
     Vector2 velocity;
-
-private:
-    // Internal frame counter
-    int frame_counter = 0;
-    // Update step for moving the asteroid
-    int update_step = 0;
 };
 
 #endif // ASTEROID_HPP

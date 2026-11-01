@@ -3,21 +3,20 @@
 #include "entities/player_bullet.hpp"
 #include "scenes/game_scene.hpp"
 
-Asteroid::Asteroid(AsteroidSize size, Vector2 pos, Vector2 velocity)
+Asteroid::Asteroid(AsteroidSize size, Vector2 pos, float direction)
     : Entity(EntityType::ENEMY, pos, static_cast<int>(size), static_cast<int>(size)),
-      size(size),
-      velocity(velocity)
+      size(size)
 {
     switch (size)
     {
     case AsteroidSize::SMALL:
-        update_step = 1;
+        velocity = {-0.75, direction};
         break;
     case AsteroidSize::MEDIUM:
-        update_step = 2;
+        velocity = {-0.5, direction};
         break;
     case AsteroidSize::LARGE:
-        update_step = 4;
+        velocity = {-0.25, direction};
         break;
     }
 }
@@ -25,12 +24,8 @@ Asteroid::Asteroid(AsteroidSize size, Vector2 pos, Vector2 velocity)
 void Asteroid::update(GameScene *scene)
 {
     (void)scene;
-    if (frame_counter % update_step == 0)
-    {
-        pos.x += velocity.x;
-        pos.y += velocity.y;
-    }
-    frame_counter++;
+    pos.x += velocity.x;
+    pos.y += velocity.y;
 
     // Check if the asteroid is off screen and automatically mark it for deletion
     if (isOffScreen())
@@ -57,16 +52,18 @@ void Asteroid::handleCollision(GameScene *scene, Entity *entity)
     entity->delete_entity = true;
 
     AsteroidSize next_size{AsteroidSize::MEDIUM};
-    switch (size) {
-        case AsteroidSize::LARGE:
-            next_size = AsteroidSize::MEDIUM;
-            break;
-        case AsteroidSize::MEDIUM:
-            next_size = AsteroidSize::SMALL;
-            break;
-        default: return;
+    switch (size)
+    {
+    case AsteroidSize::LARGE:
+        next_size = AsteroidSize::MEDIUM;
+        break;
+    case AsteroidSize::MEDIUM:
+        next_size = AsteroidSize::SMALL;
+        break;
+    default:
+        return;
     }
 
-    scene->spawnEntity(new Asteroid(next_size, {pos.x, pos.y + height/2 - static_cast<int>(next_size)/2}, {-1, 0.5}));
-    scene->spawnEntity(new Asteroid(next_size, {pos.x, pos.y + height/2 - static_cast<int>(next_size)/2}, {-1, -0.5}));
+    scene->spawnEntity(new Asteroid(next_size, {pos.x, pos.y + height / 2 - static_cast<int>(next_size) / 2}, 0.25));
+    scene->spawnEntity(new Asteroid(next_size, {pos.x, pos.y + height / 2 - static_cast<int>(next_size) / 2}, -0.25));
 }
