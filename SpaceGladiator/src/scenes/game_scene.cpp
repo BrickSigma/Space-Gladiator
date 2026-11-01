@@ -120,7 +120,7 @@ SceneState GameScene::update()
             if (entity_1 == entity_2)
                 continue; // Skip collision detection for the same entity
 
-            entity_2->handleCollision(entity_1);
+            entity_2->handleCollision(this, entity_1);
         }
     }
 

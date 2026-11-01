@@ -34,7 +34,7 @@ public:
     bool checkCollision(const Entity &entity) const;
 
     // Used to handle collisions between entities
-    virtual void handleCollision(Entity *other);
+    virtual void handleCollision(GameScene *scene, Entity *other);
 
     // Check if the entity is off screen and returns true if it is.
     bool isOffScreen();

@@ -18,10 +18,16 @@ public:
 
     void update(GameScene *scene) override;
     void draw() override;
-    void handleCollision(Entity *entity) override;
+    void handleCollision(GameScene *scene, Entity *entity) override;
 
     AsteroidSize size;
     Vector2 velocity;
+
+private:
+    // Internal frame counter
+    int frame_counter = 0;
+    // Update step for moving the asteroid
+    int update_step = 0;
 };
 
 #endif // ASTEROID_HPP

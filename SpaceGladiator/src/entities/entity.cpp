@@ -15,9 +15,10 @@ bool Entity::checkCollision(const Entity &entity) const
     return CheckCollisionRecs(getRect(), entity.getRect());
 }
 
-void Entity::handleCollision(Entity *entity)
+void Entity::handleCollision(GameScene *scene, Entity *entity)
 {
     // Does nothing by default
+    (void)scene;
     (void)entity;
 }
 

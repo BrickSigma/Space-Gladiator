@@ -102,8 +102,6 @@ void Player::handleShooting(GameScene *scene)
 
 void Player::update(GameScene *scene)
 {
-    (void)scene;
-
     handleInput();
     handlePhysics();
     handleShooting(scene);
