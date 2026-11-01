@@ -23,6 +23,9 @@ public:
     // Main update function for the scene manager
     void update();
 
+    // Used to render the scene manager
+    void draw();
+
     // Pointer to the screen canvas (should be 256x224)
     RenderTexture *screen = nullptr;
 
@@ -32,6 +35,12 @@ private:
 
     // The current scene being run
     SceneState current_state = SceneState::START_SCREEN;
+
+    // CRT Shader applied to all scenes
+    Shader crt_shader;
+
+    int colDiffuseLoc;
+    int time;
 };
 
 #endif // SCENE_MANAGER_HPP

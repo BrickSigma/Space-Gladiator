@@ -1,4 +1,5 @@
 #include "scene_manager.hpp"
+#include "constants.hpp"
 
 SceneManager::SceneManager(RenderTexture *screen, Scene *start_scene, Scene *game_scene, Scene *credits_scene) : screen(screen)
 {
@@ -6,9 +7,20 @@ SceneManager::SceneManager(RenderTexture *screen, Scene *start_scene, Scene *gam
     scenes[0] = start_scene;
     scenes[1] = game_scene;
     scenes[2] = credits_scene;
+
+    // Load the CRT shader
+    crt_shader = LoadShader(0, "assets/shaders/crt.frag");
+    colDiffuseLoc = GetShaderLocation(crt_shader, "colDiffuse");
+    time = GetShaderLocation(crt_shader, "time");
+
+    float colDiffuse[4] = {1, 1, 1, 0};
+    SetShaderValue(crt_shader, colDiffuseLoc, colDiffuse, SHADER_UNIFORM_VEC4);
 }
 
-SceneManager::~SceneManager() {}
+SceneManager::~SceneManager()
+{
+    UnloadShader(crt_shader);
+}
 
 void SceneManager::update()
 {
@@ -23,5 +35,16 @@ void SceneManager::update()
     int next_scene = static_cast<int>(next_state);
     scenes[next_scene]->onEnter(this->current_state);
 
+    // Update the shader time value
+    float timeLoc = GetTime();
+    SetShaderValue(crt_shader, timeLoc, &time, SHADER_UNIFORM_FLOAT);
+
     this->current_state = next_state;
+}
+
+void SceneManager::draw()
+{
+    BeginShaderMode(crt_shader);
+        DrawTexturePro(screen->texture, {0, 0, CANVAS_WIDTH, -CANVAS_HEIGHT}, {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT}, {0, 0}, 0, WHITE);
+    EndShaderMode();
 }

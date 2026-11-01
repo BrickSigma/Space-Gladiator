@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <rlgl.h>
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
 #endif
@@ -72,6 +73,6 @@ void UpdateDrawFrame(void)
     scene_manager->update();
 
     BeginDrawing();
-    DrawTexturePro(scene_manager->screen->texture, {0, 0, CANVAS_WIDTH, -CANVAS_HEIGHT}, {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT}, {0, 0}, 0, WHITE);
+    scene_manager->draw();
     EndDrawing();
 }

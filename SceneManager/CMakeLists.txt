@@ -11,7 +11,7 @@ target_sources(SceneManager
             include/scene.hpp
 )
 
-target_link_libraries(SceneManager PRIVATE raylib)
+target_link_libraries(SceneManager PRIVATE raylib Config)
 
 if(MSVC)
   target_compile_options(SceneManager PRIVATE /W4 /WX)
