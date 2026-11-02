@@ -59,7 +59,9 @@ private:
 
     // Internal frame counter used to adjust the distance
     int frame_counter = 0;
-    const int distance_update = 15;
+    const int DISTANCE_UPDATE_DURATION = 15;
+
+    bool is_paused = false;
 };
 
 #endif // GAME_SCENE_HPP

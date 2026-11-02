@@ -16,7 +16,7 @@ void GameScene::reset()
 {
     distance = 0;
     score = 0;
-    level_manager.loadLevel(0);  // Used to reload the entire level
+    level_manager.loadLevel(0); // Used to reload the entire level
     resetFromCheckpoint();
 }
 
@@ -53,10 +53,14 @@ SceneState GameScene::update()
 {
     SceneState next_state = SceneState::NO_CHANGE;
 
-    // Handle the entities update method
-    for (Entity *entity : entities)
+    if (IsKeyPressed(KEY_P))
     {
-        entity->update(this);
+        is_paused = !is_paused;
+    }
+
+    if (is_paused)
+    {
+        goto game_scene_render; // Ohh, scary GOTO statement. This shouldn't be an issue though
     }
 
     // Handle user input
@@ -68,6 +72,14 @@ SceneState GameScene::update()
     {
         next_state = SceneState::CREDITS;
     }
+
+    // Handle the entities update method
+    for (Entity *entity : entities)
+    {
+        entity->update(this);
+    }
+
+game_scene_render:
 
     // Handle rendering here
     BeginTextureMode(canvas);
@@ -92,6 +104,12 @@ SceneState GameScene::update()
     // Render the current distance for debugging
     std::string distance_str = std::to_string(distance);
     DrawText(distance_str.c_str(), 8, SPACE_CANVAS_HEIGHT + 4, 12, BLACK);
+
+    if (is_paused)
+    {
+        int text_width = MeasureText("Game Paused", 8);
+        DrawText("Game Paused", CANVAS_WIDTH / 2 - text_width/2, CANVAS_HEIGHT / 2 - 4, 8, WHITE);
+    }
 
     EndTextureMode();
 
@@ -126,9 +144,12 @@ SceneState GameScene::update()
     }
 
     // Update the distance as well
-    if (frame_counter % distance_update == 0)
-        distance++;
-    frame_counter++;
+    if (!is_paused)
+    {
+        if (frame_counter % DISTANCE_UPDATE_DURATION == 0)
+            distance++;
+        frame_counter++;
+    }
 
     // Update the level as well so new entities can spawn in
     level_manager.updateLevel(this);
@@ -139,7 +160,8 @@ SceneState GameScene::update()
     new_entities.clear(); // Don't forget to clear the queue!
 
     // If the player died and their death timer is 0, reset the level to the checkpoint
-    if (player->isDead()) {
+    if (player->isDead())
+    {
         resetFromCheckpoint();
     }
 
