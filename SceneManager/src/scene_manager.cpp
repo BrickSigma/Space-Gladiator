@@ -7,7 +7,7 @@
 #define GLSL_VERSION 100
 #endif
 
-SceneManager::SceneManager(RenderTexture *screen, Scene *start_scene, Scene *game_scene, Scene *credits_scene) : screen(screen)
+SceneManager::SceneManager(RenderTexture *screenTexture, Scene *start_scene, Scene *game_scene, Scene *credits_scene) : screen(screenTexture)
 {
     // Setup the scenes
     scenes[0] = start_scene;

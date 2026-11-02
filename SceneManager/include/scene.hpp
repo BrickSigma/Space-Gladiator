@@ -8,7 +8,7 @@ enum class SceneState : int;
 class Scene
 {
 public:
-    Scene(RenderTexture *screen) : screen(screen) {};
+    Scene(RenderTexture *screenTexture) : screen(screenTexture) {};
     virtual ~Scene() = default;
 
     /**

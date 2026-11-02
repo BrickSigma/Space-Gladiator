@@ -86,7 +86,7 @@ void Player::handleShooting(GameScene *scene)
 {
     // First iterate through the entities in the game to find any that are the player's projectile type
     size_t projectiles = std::count_if(scene->entities.begin(), scene->entities.end(), [](Entity *e)
-                                    { return e->type == EntityType::PLAYER_PROJECTILE; });
+                                       { return e->type == EntityType::PLAYER_PROJECTILE; });
 
     // Spawn a bullet if all conditions are met
     if (is_shooting && projectiles < 2 && shooting_timer >= SHOOT_DELAY)
