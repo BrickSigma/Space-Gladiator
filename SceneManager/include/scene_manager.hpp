@@ -40,7 +40,7 @@ private:
     Shader crt_shader;
 
     int colDiffuseLoc;
-    int time;
+    int timeLoc;
 
     // Used to toggle if the shader should be shown or not
     bool useShader = false;

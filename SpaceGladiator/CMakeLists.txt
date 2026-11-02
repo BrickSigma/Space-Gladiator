@@ -42,7 +42,14 @@ target_link_libraries(${PROJECT_NAME}
 if(MSVC)
   target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
 else()
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wunused-variable)
+  target_compile_options(SceneManager PRIVATE
+    -Wall -Wextra -Wpedantic -Werror
+    -Wconversion
+    -Wsign-conversion
+    -Wshadow
+    -Wdouble-promotion
+    -Wunused-variable
+  )
 endif()
 
 if (ASAN_ENABLED)

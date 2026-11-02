@@ -28,6 +28,6 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
   endif()
 endif()
 
-add_subdirectory(${PROJECT_NAME})
 add_subdirectory(Config)
 add_subdirectory(SceneManager)
+add_subdirectory(${PROJECT_NAME})

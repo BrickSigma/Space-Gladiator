@@ -35,7 +35,7 @@ public:
     // The current level we're in
     size_t current_level = 0;
     // Last checkpoint reached (between 0 and 3)
-    unsigned long last_checkpoint = 0;
+    size_t last_checkpoint = 0;
     // Index of next spawner to check in the level data
     size_t next_spawner = 0;
     // The size of the level
