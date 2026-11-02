@@ -31,9 +31,8 @@ public:
     // Handle collisions with the space ship
     void handleCollision(GameScene *scene, Entity *entity) override;
 
-    // Check if the player has died
-    bool isDead();
-
+    bool is_dead = false;
+    int death_timer = 60 * 5; // Countdown for how long the player is dead for (roughly 5 seconds)
 private:
     // Handle user input to move the player or shoot
     void handleInput();
@@ -70,9 +69,6 @@ private:
     // Projectiles currently shot by the player
     bool is_shooting = false;
     int shooting_timer = 0; // Timer tracking time since last shot
-
-    bool is_dead = false;
-    int death_timer = 60 * 5; // Countdown for how long the player is dead for (roughly 5 seconds)
 };
 
 #endif // PLAYER_HPP

@@ -108,7 +108,7 @@ game_scene_render:
     if (is_paused)
     {
         int text_width = MeasureText("Game Paused", 8);
-        DrawText("Game Paused", CANVAS_WIDTH / 2 - text_width/2, CANVAS_HEIGHT / 2 - 4, 8, WHITE);
+        DrawText("Game Paused", CANVAS_WIDTH / 2 - text_width / 2, CANVAS_HEIGHT / 2 - 4, 8, WHITE);
     }
 
     EndTextureMode();
@@ -160,7 +160,7 @@ game_scene_render:
     new_entities.clear(); // Don't forget to clear the queue!
 
     // If the player died and their death timer is 0, reset the level to the checkpoint
-    if (player->isDead())
+    if (player->is_dead && player->death_timer == 0)
     {
         resetFromCheckpoint();
     }

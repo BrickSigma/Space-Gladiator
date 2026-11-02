@@ -147,8 +147,3 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
 
     is_dead = true;
 }
-
-bool Player::isDead()
-{
-    return is_dead && death_timer == 0;
-}

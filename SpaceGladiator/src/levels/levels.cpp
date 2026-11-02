@@ -102,6 +102,10 @@ void LevelManager::updateLevel(GameScene *scene)
         }
     }
 
+    // The last step is to update the checkpoint for the player, however we can skip this if the player may have died
+    // if (scene->player->is_dead)
+    // return;  // Though it's not a bad idea for a good bug honestly... I'll keep the check disabled for now
+
     // Also update the last checkpoint based on the distance
     LevelCheckpoints checkpoints = level_checkpoints[current_level];
     for (size_t i = MAX_CHECKPOINTS; i > 0; i--)
