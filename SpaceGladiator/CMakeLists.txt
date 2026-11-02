@@ -13,6 +13,7 @@ target_sources(${PROJECT_NAME}
         src/entities/player_bullet.cpp
         src/entities/asteroid.cpp
         src/levels/spawner.cpp
+        src/levels/levels.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -27,6 +28,7 @@ target_sources(${PROJECT_NAME}
         include/entities/player_bullet.hpp
         include/entities/asteroid.hpp
         include/levels/spawner.hpp
+        include/levels/levels.hpp
 )
 
 #set(raylib_VERBOSE 1)

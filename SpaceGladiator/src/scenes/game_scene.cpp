@@ -1,8 +1,8 @@
 #include "scenes/game_scene.hpp"
-#include <raylib.h>
 
 #include "entities/asteroid.hpp"
 #include "constants.hpp"
+#include "levels/levels.hpp"
 
 #include <string>
 
@@ -16,7 +16,7 @@ void GameScene::reset()
 {
     distance = 0;
     score = 0;
-    level = 1;
+    level_manager.loadLevel(0);  // Used to reload the entire level
     resetFromCheckpoint();
 }
 
@@ -34,13 +34,8 @@ void GameScene::resetFromCheckpoint()
     player = new Player();
     entities.push_back(player);
 
-    // Some test asteroids
-    Asteroid *asteroid = new Asteroid(AsteroidSize::LARGE, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 - 64}, 0);
-    entities.push_back(asteroid);
-    asteroid = new Asteroid(AsteroidSize::MEDIUM, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 - 16}, 0);
-    entities.push_back(asteroid);
-    asteroid = new Asteroid(AsteroidSize::SMALL, {CANVAS_WIDTH, CANVAS_HEIGHT / 2 + 64}, 0);
-    entities.push_back(asteroid);
+    // Load the level from the last checkpoint
+    level_manager.returnToCheckpoint(this);
 }
 
 GameScene::~GameScene()
@@ -100,11 +95,6 @@ SceneState GameScene::update()
 
     EndTextureMode();
 
-    // Update the distance as well
-    if (frame_counter % distance_update == 0)
-        distance++;
-    frame_counter++;
-
     // We can now try handle collision detection between the entities.
     for (Entity *entity_1 : entities)
     {
@@ -134,6 +124,14 @@ SceneState GameScene::update()
             delete entity; // Free the allocated memory for the entity
         }
     }
+
+    // Update the distance as well
+    if (frame_counter % distance_update == 0)
+        distance++;
+    frame_counter++;
+
+    // Update the level as well so new entities can spawn in
+    level_manager.updateLevel(this);
 
     // We can now push any entities that where spawned into the entities list
     entities.reserve(entities.size() + new_entities.size());

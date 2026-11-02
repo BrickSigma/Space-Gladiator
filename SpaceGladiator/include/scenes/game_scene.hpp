@@ -5,6 +5,7 @@
 #include "entities/entity.hpp"
 #include "entities/player.hpp"
 #include "constants.hpp"
+#include "levels/levels.hpp"
 
 #include <vector>
 #include <raylib.h>
@@ -40,8 +41,8 @@ public:
     // Current score
     unsigned long score = 0;
 
-    // Last level succesfully reached
-    unsigned int level = 1;
+    // Internal level manager
+    LevelManager level_manager{};
 
     // Pointer to player object for quick access by other entities
     Player *player = nullptr;

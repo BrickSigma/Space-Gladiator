@@ -2,9 +2,9 @@
 #include "constants.hpp"
 
 #if defined(PLATFORM_DESKTOP)
-    #define GLSL_VERSION 330
+#define GLSL_VERSION 330
 #else
-    #define GLSL_VERVSION 100
+#define GLSL_VERSION 100
 #endif
 
 SceneManager::SceneManager(RenderTexture *screen, Scene *start_scene, Scene *game_scene, Scene *credits_scene) : screen(screen)
@@ -15,7 +15,7 @@ SceneManager::SceneManager(RenderTexture *screen, Scene *start_scene, Scene *gam
     scenes[2] = credits_scene;
 
     // Load the CRT shader
-    crt_shader = LoadShader(0, TextFormat("assets/shaders/glsl%i/crt.frag", GLSL_VERVSION));
+    crt_shader = LoadShader(0, TextFormat("assets/shaders/glsl%i/crt.frag", GLSL_VERSION));
     colDiffuseLoc = GetShaderLocation(crt_shader, "colDiffuse");
     time = GetShaderLocation(crt_shader, "time");
 
@@ -51,6 +51,6 @@ void SceneManager::update()
 void SceneManager::draw()
 {
     BeginShaderMode(crt_shader);
-        DrawTexturePro(screen->texture, {0, 0, CANVAS_WIDTH, -CANVAS_HEIGHT}, {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT}, {0, 0}, 0, WHITE);
+    DrawTexturePro(screen->texture, {0, 0, CANVAS_WIDTH, -CANVAS_HEIGHT}, {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT}, {0, 0}, 0, WHITE);
     EndShaderMode();
 }
