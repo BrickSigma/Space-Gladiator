@@ -41,6 +41,9 @@ private:
 
     int colDiffuseLoc;
     int time;
+
+    // Used to toggle if the shader should be shown or not
+    bool useShader = false;
 };
 
 #endif // SCENE_MANAGER_HPP

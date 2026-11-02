@@ -33,6 +33,11 @@ void SceneManager::update()
     int current_scene = static_cast<int>(this->current_state);
     SceneState next_state = scenes[current_scene]->update();
 
+    // If the C-key is pressed, toggle the shader
+    if (IsKeyPressed(KEY_C)) {
+        useShader = !useShader;
+    }
+
     if (next_state == SceneState::NO_CHANGE)
         return;
 
@@ -50,7 +55,11 @@ void SceneManager::update()
 
 void SceneManager::draw()
 {
-    BeginShaderMode(crt_shader);
+    if (useShader)
+        BeginShaderMode(crt_shader);
+
     DrawTexturePro(screen->texture, {0, 0, CANVAS_WIDTH, -CANVAS_HEIGHT}, {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT}, {0, 0}, 0, WHITE);
-    EndShaderMode();
+
+    if (useShader)
+        EndShaderMode();
 }
