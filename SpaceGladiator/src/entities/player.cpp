@@ -7,7 +7,7 @@
 
 #include <algorithm>
 
-Player::Player() : Entity(EntityType::PLAYER, {24, (CANVAS_HEIGHT / 2) - 6}, 26, 12)
+Player::Player() : Entity(EntityType::PLAYER, {30, (CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT/2)}, PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT)
 {
     reset();
 
@@ -22,7 +22,11 @@ Player::Player() : Entity(EntityType::PLAYER, {24, (CANVAS_HEIGHT / 2) - 6}, 26,
 void Player::reset()
 {
     // Anything to do with the player's state can be reset here
+    pos.x = 30;
+    pos.y = static_cast<float>((CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT/2));
     speed = PLAYER_BASE_SPEED; // Reset the speed back to normal
+    is_dead = false;
+    death_timer = 60 * 5;
 }
 
 Player::~Player()
@@ -102,9 +106,16 @@ void Player::handleShooting(GameScene *scene)
 
 void Player::update(GameScene *scene)
 {
-    handleInput();
-    handlePhysics();
-    handleShooting(scene);
+    if (is_dead)
+    {
+        death_timer--;
+    }
+    else
+    {
+        handleInput();
+        handlePhysics();
+        handleShooting(scene);
+    }
 }
 
 void Player::draw()
@@ -118,5 +129,26 @@ void Player::draw()
     {
         texture = PLAYER_TEXTURE_DOWN;
     }
-    DrawTexture(textures[texture], static_cast<int>(pos.x), static_cast<int>(pos.y), WHITE);
+
+    Color tint = is_dead ? RED : WHITE;
+
+    DrawTexture(textures[texture], static_cast<int>(pos.x - 6), static_cast<int>(pos.y - 3), tint);
+}
+
+void Player::handleCollision(GameScene *scene, Entity *entity)
+{
+    (void)scene;
+
+    if ((entity->type == EntityType::PLAYER_PROJECTILE) || (entity->type == EntityType::PLAYER))
+        return;
+
+    if (!checkCollision(*entity))
+        return;
+
+    is_dead = true;
+}
+
+bool Player::isDead()
+{
+    return is_dead && death_timer == 0;
 }

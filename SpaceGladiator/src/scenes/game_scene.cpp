@@ -138,6 +138,11 @@ SceneState GameScene::update()
     entities.insert(entities.end(), new_entities.begin(), new_entities.end());
     new_entities.clear(); // Don't forget to clear the queue!
 
+    // If the player died and their death timer is 0, reset the level to the checkpoint
+    if (player->isDead()) {
+        resetFromCheckpoint();
+    }
+
     return next_state;
 }
 

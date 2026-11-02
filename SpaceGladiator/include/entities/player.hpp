@@ -3,10 +3,15 @@
 
 #include "entities/entity.hpp"
 
-#define PLAYER_BASE_SPEED (1)
-#define PLAYER_MAX_PROJECTILES (2) // Maximum number of projectiles the player can shoot
-#define SHOOT_DELAY (10)           // Shoot every .166 seconds
-#define PROJECTILE_SPEED (3)       // Speed of projectiles shot
+constexpr int PLAYER_BASE_SPEED = 1;
+constexpr int PLAYER_MAX_PROJECTILES = 2; // Maximum number of projectiles the player can shoot
+constexpr int SHOOT_DELAY = 10;           // Shoot every .166 seconds
+constexpr int PROJECTILE_SPEED = 3;       // Speed of projectiles shot
+
+constexpr int PLAYER_SPRITE_WIDTH = 26;
+constexpr int PLAYER_SPRITE_HEIGHT = 12;
+constexpr int PLAYER_HITBOX_WIDTH = 16;
+constexpr int PLAYER_HITBOX_HEIGHT = 6;
 
 class Player : public Entity
 {
@@ -20,6 +25,15 @@ public:
     // Update the player
     void update(GameScene *scene) override;
 
+    // Draw the space ship to the screen
+    void draw() override;
+
+    // Handle collisions with the space ship
+    void handleCollision(GameScene *scene, Entity *entity) override;
+
+    // Check if the player has died
+    bool isDead();
+
 private:
     // Handle user input to move the player or shoot
     void handleInput();
@@ -27,9 +41,6 @@ private:
     void handlePhysics();
     // Handle the player shooting
     void handleShooting(GameScene *scene);
-
-    // Draw the space ship to the screen
-    void draw() override;
 
     // Player movement related data
     enum PlayerMovement
@@ -59,6 +70,9 @@ private:
     // Projectiles currently shot by the player
     bool is_shooting = false;
     int shooting_timer = 0; // Timer tracking time since last shot
+
+    bool is_dead = false;
+    int death_timer = 60 * 5; // Countdown for how long the player is dead for (roughly 5 seconds)
 };
 
 #endif // PLAYER_HPP
