@@ -1,5 +1,16 @@
 add_executable(${PROJECT_NAME})
 
+if(WIN32)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        WIN32_EXECUTABLE $<NOT:$<CONFIG:Debug>>
+    )
+    if(MSVC)
+        target_link_options(${PROJECT_NAME} PRIVATE
+            $<$<NOT:$<CONFIG:Debug>>:/ENTRY:mainCRTStartup>
+        )
+    endif()
+endif()
+
 target_sources(${PROJECT_NAME}
     PRIVATE
         src/main.cpp
@@ -38,6 +49,9 @@ target_link_libraries(${PROJECT_NAME}
         SceneManager
         raylib
 )
+
+# Set build type as a compile definition
+target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:DEBUG>)
 
 if(MSVC)
   target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)

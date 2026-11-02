@@ -25,6 +25,10 @@ int main(int argc, char *argv[])
     (void)argc;
     (void)argv;
 
+#if defined(DEBUG)
+    TraceLog(LOG_INFO, "Running in debug mode!");
+#endif
+
     // Initialize the window
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Space Gladiator");
 
