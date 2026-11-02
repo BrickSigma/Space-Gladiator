@@ -1,6 +1,12 @@
 #include "scene_manager.hpp"
 #include "constants.hpp"
 
+#if defined(PLATFORM_DESKTOP)
+    #define GLSL_VERSION 330
+#else
+    #define GLSL_VERVSION 100
+#endif
+
 SceneManager::SceneManager(RenderTexture *screen, Scene *start_scene, Scene *game_scene, Scene *credits_scene) : screen(screen)
 {
     // Setup the scenes
@@ -9,7 +15,7 @@ SceneManager::SceneManager(RenderTexture *screen, Scene *start_scene, Scene *gam
     scenes[2] = credits_scene;
 
     // Load the CRT shader
-    crt_shader = LoadShader(0, "assets/shaders/crt.frag");
+    crt_shader = LoadShader(0, TextFormat("assets/shaders/glsl%i/crt.frag", GLSL_VERVSION));
     colDiffuseLoc = GetShaderLocation(crt_shader, "colDiffuse");
     time = GetShaderLocation(crt_shader, "time");
 
