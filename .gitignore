@@ -86,3 +86,6 @@ Testing/
 
 # Visual Studio Folders
 .vs/
+
+# VS Code folder
+.vscode
