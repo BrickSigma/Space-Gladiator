@@ -39,7 +39,7 @@ public:
     void transitionToNextLevel();
 
     // Current distance into the level
-    unsigned long scroll_distance = 0;
+    int scroll_distance = 0;
 
     // Current score
     unsigned long score = 0;
@@ -66,7 +66,6 @@ private:
 
     bool is_paused = false;
     bool stop_scrolling = false;
-    bool transitioning = false; // Marker used to check if we're in the transition state between levels
 };
 
 #endif // GAME_SCENE_HPP

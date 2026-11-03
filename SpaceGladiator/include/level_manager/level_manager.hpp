@@ -34,8 +34,18 @@ public:
     // This will load any new entities based on the distance in the game scene, and update the checkpoint marker
     void updateLevel(GameScene *scene);
 
+    /**
+     * Used to draw the background for the current level.
+     * 
+     * This also handles the special (but common) case where when transitioning
+     * between levels, the old level can still be seen to transition away:
+     * This is triggered by the GameScene's scroll_distance being negative to indicate
+     * that the transition has started.
+     */
+    void drawLevel(GameScene *scene);
+
     // List of all the levels loaded into memory
-    std::vector<Level> levels{};
+    std::vector<Level *> levels{};
     // The current level we're in
     size_t current_level = 0;
 };

@@ -86,12 +86,14 @@ game_scene_render:
 
     // Handle rendering here for all entities and the level
     BeginTextureMode(canvas);
+    ClearBackground(BLACK);
 
     // Render the scrolling background
-    DrawTexture(texture_manager.background, -(scroll_distance % 256), 0, WHITE);
-    DrawTexture(texture_manager.background, SPACE_CANVAS_WIDTH - (scroll_distance % 256), 0, WHITE);
+    // DrawTexture(texture_manager.background, -(scroll_distance % 256), 0, WHITE);
+    // DrawTexture(texture_manager.background, SPACE_CANVAS_WIDTH - (scroll_distance % 256), 0, WHITE);
 
     // Render the level tiles here when it's implemented
+    level_manager.drawLevel(this);
 
     // Render all the entities
     for (Entity *entity : entities)
@@ -165,6 +167,14 @@ game_scene_render:
         }
     }
 
+    if (stop_scrolling)
+    {
+        if (IsKeyPressed(KEY_T))
+        {
+            transitionToNextLevel();
+        }
+    }
+
     // Update the level as well so new entities can spawn in
     level_manager.updateLevel(this);
 
@@ -198,4 +208,9 @@ void GameScene::spawnEntity(Entity *entity)
 
 void GameScene::transitionToNextLevel()
 {
+    if (level_manager.nextLevel())
+    {
+        scroll_distance = -SPACE_CANVAS_WIDTH;
+        stop_scrolling = false;
+    }
 }
