@@ -1,0 +1,29 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 11
+    },
+    "configurePresets": [
+        {
+            "name": "debug",
+            "description": "Debug build",
+            "binaryDir": "${sourceDir}/build",
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ASAN_ENABLED": "ON"
+            }
+        },
+        {
+            "name": "release",
+            "description": "Release build",
+            "binaryDir": "${sourceDir}/release",
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "ASAN_ENABLED": "OFF"
+            }
+        }
+    ]
+}

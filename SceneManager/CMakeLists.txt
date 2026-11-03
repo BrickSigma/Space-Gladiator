@@ -13,6 +13,14 @@ target_sources(SceneManager
 
 target_link_libraries(SceneManager PRIVATE raylib Config)
 
+# Set build flags as well
+if(NOT MSVC)
+    target_compile_options(SceneManager PRIVATE
+        $<$<CONFIG:Debug>:-g -O0>
+        $<$<NOT:$<CONFIG:Debug>>:-O2>
+    )
+endif()
+
 if(MSVC)
   target_compile_options(SceneManager PRIVATE /W4 /WX)
   else()

@@ -53,6 +53,14 @@ target_link_libraries(${PROJECT_NAME}
 # Set build type as a compile definition
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:DEBUG>)
 
+# Set build flags as well
+if(NOT MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Debug>:-g -O0>
+        $<$<NOT:$<CONFIG:Debug>>:-O2>
+    )
+endif()
+
 if(MSVC)
   target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
 else()
