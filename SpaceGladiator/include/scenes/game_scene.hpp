@@ -10,7 +10,7 @@
 #include <vector>
 #include <raylib.h>
 
-#define SCORE_BOARD_HEIGHT (24)
+#define SCORE_BOARD_HEIGHT (16)
 #define SPACE_CANVAS_WIDTH (CANVAS_WIDTH)
 #define SPACE_CANVAS_HEIGHT (CANVAS_HEIGHT - SCORE_BOARD_HEIGHT)
 
