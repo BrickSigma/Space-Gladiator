@@ -5,7 +5,7 @@
 #include "entities/entity.hpp"
 #include "entities/player.hpp"
 #include "constants.hpp"
-#include "levels/levels.hpp"
+#include "level_manager/levels.hpp"
 
 #include <vector>
 #include <raylib.h>

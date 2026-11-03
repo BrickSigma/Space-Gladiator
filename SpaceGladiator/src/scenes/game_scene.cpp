@@ -2,7 +2,7 @@
 
 #include "entities/asteroid.hpp"
 #include "constants.hpp"
-#include "levels/levels.hpp"
+#include "level_manager/levels.hpp"
 #include "texture_manager.hpp"
 
 #include <string>

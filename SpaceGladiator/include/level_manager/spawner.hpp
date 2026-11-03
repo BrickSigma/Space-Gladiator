@@ -9,6 +9,9 @@ enum class SpawnerType
     ASTEROID
 };
 
+// Convert a string to a spawner type, or throw an error on failure
+SpawnerType spawnerStringToType(const char *str);
+
 // Data struct used for representing the spawner callback function to call
 struct SpawnerData
 {

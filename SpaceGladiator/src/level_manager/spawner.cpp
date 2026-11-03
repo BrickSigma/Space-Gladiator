@@ -1,6 +1,16 @@
-#include "levels/spawner.hpp"
+#include "level_manager/spawner.hpp"
 #include "entities/asteroid.hpp"
 #include "scenes/game_scene.hpp"
+
+#include <cstring>
+
+SpawnerType spawnerStringToType(const char *str)
+{
+    if (!strcmp(str, "ASTEROID"))
+        return SpawnerType::ASTEROID;
+    else
+        throw "Invalid spawner type string passed!";
+}
 
 static void spawnAsteroid(SpawnerData data, GameScene *scene);
 
