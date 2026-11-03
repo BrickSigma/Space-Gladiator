@@ -19,6 +19,9 @@ public:
     Level(unsigned int no);
     ~Level();
 
+    // Reset the level to start at the beginning again
+    void reset();
+
     // Return the level to the last checkpoint reached
     void returnToCheckpoint(GameScene *scene);
 

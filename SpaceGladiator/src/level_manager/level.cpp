@@ -1,7 +1,7 @@
 #include "level_manager/level.hpp"
 
-#include <fstream>
 #include <format>
+#include <fstream>
 #include <iostream>
 
 #include "level_manager/spawner.hpp"
@@ -11,17 +11,16 @@
 
 Level::Level(unsigned int no)
 {
-    std::ifstream data_file{std::format("assets/levels/level_{}_data.txt", no)};
+    std::ifstream data_file{TextFormat("assets/levels/level_%d_data.txt", no)};
 
     if (!data_file)
-        throw "Could not open level data file";
+        throw std::runtime_error(std::format("Could not open level data file for level {}", no));
 
     std::string buffer{};
 
     // Read the checkpoints first
     // Skip the first line
     std::getline(data_file, buffer);
-    std::cout << buffer << "\n";
 
     checkpoints.push_back(0); // Add zero as the default checkpoint
     while (std::getline(data_file, buffer))
@@ -33,7 +32,6 @@ Level::Level(unsigned int no)
     }
 
     std::getline(data_file, buffer);
-    std::cout << buffer << "\n";
     while (std::getline(data_file, buffer))
     {
         int x, y, flags;
@@ -47,6 +45,11 @@ Level::Level(unsigned int no)
 
 Level::~Level() {
     UnloadTexture(background);
+}
+
+void Level::reset() {
+    last_checkpoint = 0;
+    next_spawner = 0;
 }
 
 void Level::returnToCheckpoint(GameScene *scene)

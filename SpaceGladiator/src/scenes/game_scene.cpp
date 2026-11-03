@@ -2,7 +2,7 @@
 
 #include "entities/asteroid.hpp"
 #include "constants.hpp"
-#include "level_manager/levels.hpp"
+#include "level_manager/level_manager.hpp"
 #include "texture_manager.hpp"
 
 #include <string>
@@ -17,7 +17,7 @@ void GameScene::reset()
 {
     scroll_distance = 0;
     score = 0;
-    level_manager.loadLevel(0); // Used to reload the entire level
+    level_manager.reset();
     resetFromCheckpoint();
 }
 

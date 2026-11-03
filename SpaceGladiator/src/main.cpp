@@ -1,5 +1,4 @@
 #include <raylib.h>
-#include <rlgl.h>
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
 #endif
@@ -10,6 +9,8 @@
 #include "scenes/game_scene.hpp"
 #include "scenes/credits_scene.hpp"
 #include "texture_manager.hpp"
+
+#include <iostream>
 
 // Global scene manager
 SceneManager *scene_manager = nullptr;
@@ -43,15 +44,31 @@ int main(int argc, char *argv[])
     // Render texture used to draw to
     RenderTexture screen = LoadRenderTexture(CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // Setup the main scene manager
-    StartScene *start = new StartScene(&screen);
-    GameScene *game = new GameScene(&screen);
-    CreditsScene *credits = new CreditsScene(&screen);
-    scene_manager = new SceneManager(
-        &screen,
-        static_cast<Scene *>(start),
-        static_cast<Scene *>(game),
-        static_cast<Scene *>(credits));
+    StartScene *start = nullptr;
+    GameScene *game = nullptr;
+    CreditsScene *credits = nullptr;
+    try
+    {
+        // Setup the main scene manager
+        start = new StartScene(&screen);
+        game = new GameScene(&screen);
+        credits = new CreditsScene(&screen);
+        scene_manager = new SceneManager(
+            &screen,
+            static_cast<Scene *>(start),
+            static_cast<Scene *>(game),
+            static_cast<Scene *>(credits));
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << "\n";
+        exit(-1);
+    }
+    catch (...)
+    {
+        std::cerr << "Unknown error caught!\n";
+        exit(-1);
+    }
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -82,7 +99,20 @@ int main(int argc, char *argv[])
 
 void UpdateDrawFrame(void)
 {
-    scene_manager->update();
+    try
+    {
+        scene_manager->update();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << "\n";
+        exit(-1);
+    }
+    catch (...)
+    {
+        std::cerr << "Unknown error caught!\n";
+        exit(-1);
+    }
 
     // Handle rendering to the window.
     BeginTextureMode(window);
@@ -90,7 +120,8 @@ void UpdateDrawFrame(void)
     EndTextureMode();
 
     // Toggle the full screen state if the F-key is pressed
-    if (IsKeyPressed(KEY_F)) {
+    if (IsKeyPressed(KEY_F))
+    {
         ToggleFullscreen();
     }
 
@@ -103,21 +134,21 @@ void UpdateDrawFrame(void)
 
     float drawn_width = width;
     float drawn_height = height;
-    float x = 0;  // X position of screen
-    float y = 0;  // Y position of screen
+    float x = 0; // X position of screen
+    float y = 0; // Y position of screen
 
     if (window_aspect_ratio > aspect_ratio)
     {
         // Window width is greater than height, so we need to scale canvas width drawn
         drawn_height = height;                                 // Height stays as it is
         drawn_width = (height * WINDOW_WIDTH) / WINDOW_HEIGHT; // Width is scaled properly
-        x = width/2 - drawn_width/2;
+        x = width / 2 - drawn_width / 2;
     }
     else if (window_aspect_ratio < aspect_ratio)
     {
         drawn_width = width;
         drawn_height = (width * WINDOW_HEIGHT) / WINDOW_WIDTH;
-        y = height/2 - drawn_height/2;
+        y = height / 2 - drawn_height / 2;
     }
 
     BeginDrawing();

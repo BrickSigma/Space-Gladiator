@@ -2,15 +2,18 @@
 #define LEVELS_HPP
 
 #include <cstddef>
+#include <vector>
 
-#define TILE_SIZE (16)
-#define LEVEL_GRID_WIDTH (208) // Width of the level, where a grid is a 16x16 tile
-#define LEVEL_GRID_HEIGHT (13) // Height of the level, where a grid is a 16x16 tile
-#define MAX_CHECKPOINTS (4)
+#include "level_manager/level.hpp"
 
 class GameScene;
 
-// Class used to keep track of the level we're in and managing it
+/**
+ * Level manager class:
+ * 
+ * Used to load all the levels into memory and handle their event loops,
+ * drawing the transitions between levels, and making the tiling system accessible.
+ */
 class LevelManager
 {
 public:
@@ -18,8 +21,8 @@ public:
     LevelManager();
     ~LevelManager();
 
-    // Load a specified level, this also resets the level to the beginning
-    void loadLevel(size_t level_no);
+    // Used to reset the level manager and all the levels in it
+    void reset();
 
     // Move to the next level. If we're at the last level, this will return `false`
     bool nextLevel();
@@ -31,14 +34,10 @@ public:
     // This will load any new entities based on the distance in the game scene, and update the checkpoint marker
     void updateLevel(GameScene *scene);
 
+    // List of all the levels loaded into memory
+    std::vector<Level> levels{};
     // The current level we're in
     size_t current_level = 0;
-    // Last checkpoint reached (between 0 and 3)
-    size_t last_checkpoint = 0;
-    // Index of next spawner to check in the level data
-    size_t next_spawner = 0;
-    // The size of the level
-    size_t current_level_size = 0;
 };
 
 #endif // LEVELS_HPP

@@ -24,7 +24,7 @@ target_sources(${PROJECT_NAME}
         src/entities/player_bullet.cpp
         src/entities/asteroid.cpp
         src/level_manager/spawner.cpp
-        src/level_manager/levels.cpp
+        src/level_manager/level_manager.cpp
         src/level_manager/level.cpp        
     PUBLIC
         FILE_SET HEADERS
@@ -40,7 +40,7 @@ target_sources(${PROJECT_NAME}
         include/entities/player_bullet.hpp
         include/entities/asteroid.hpp
         include/level_manager/spawner.hpp
-        include/level_manager/levels.hpp
+        include/level_manager/level_manager.hpp
         include/level_manager/level.hpp
 )
 

@@ -2,6 +2,7 @@
 #include "entities/asteroid.hpp"
 #include "scenes/game_scene.hpp"
 
+#include <format>
 #include <cstring>
 
 SpawnerType spawnerStringToType(const char *str)
@@ -9,7 +10,7 @@ SpawnerType spawnerStringToType(const char *str)
     if (!strcmp(str, "ASTEROID"))
         return SpawnerType::ASTEROID;
     else
-        throw "Invalid spawner type string passed!";
+        throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
 
 static void spawnAsteroid(SpawnerData data, GameScene *scene);
@@ -26,7 +27,22 @@ static void spawnAsteroid(SpawnerData data, GameScene *scene)
 {
     int x_pos = (data.x_tile_pos * TILE_SIZE) - scene->scroll_distance;
     int y_pos = data.y_tile_pos * TILE_SIZE;
-    AsteroidSize size = static_cast<AsteroidSize>(data.flags);
+    AsteroidSize size;
+
+    switch (data.flags) {
+        case 0:
+            size = AsteroidSize::SMALL;
+            break;
+        case 1:
+            size = AsteroidSize::MEDIUM;
+            break;
+        case 2:
+            size = AsteroidSize::LARGE;
+            break;
+        default:
+            throw std::runtime_error(std::format("Invalid asteroid flag passed in: {}", data.flags));
+    }
+
     float vel_y = (static_cast<float>(y_pos) - ((float)SPACE_CANVAS_HEIGHT / 2.0f)) / ((float)SPACE_CANVAS_HEIGHT / 2.0f);
     scene->spawnEntity(new Asteroid(size, {static_cast<float>(x_pos), static_cast<float>(y_pos)}, -vel_y * 0.5f));
 }
