@@ -36,7 +36,7 @@ public:
     void spawnEntity(Entity *entity);
 
     // Current distance into the level
-    unsigned long distance = 0;
+    unsigned long scroll_distance = 0;
 
     // Current score
     unsigned long score = 0;
@@ -59,7 +59,7 @@ private:
 
     // Internal frame counter used to adjust the distance
     int frame_counter = 0;
-    const int DISTANCE_UPDATE_DURATION = 15;
+    const int DISTANCE_UPDATE_DURATION = 2;  // Advance the scroll at 1 pixel every 2 frames (30 pixels/second)
 
     bool is_paused = false;
 };

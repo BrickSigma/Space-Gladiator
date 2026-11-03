@@ -14,7 +14,7 @@ GameScene::GameScene(RenderTexture *screen) : Scene(screen)
 
 void GameScene::reset()
 {
-    distance = 0;
+    scroll_distance = 0;
     score = 0;
     level_manager.loadLevel(0); // Used to reload the entire level
     resetFromCheckpoint();
@@ -102,7 +102,7 @@ game_scene_render:
     DrawTextureRec(canvas.texture, {0, 0, SPACE_CANVAS_WIDTH, -SPACE_CANVAS_HEIGHT}, {0, 0}, WHITE);
 
     // Render the current distance for debugging
-    std::string distance_str = std::to_string(distance);
+    std::string distance_str = std::to_string(scroll_distance);
     DrawText(distance_str.c_str(), 8, SPACE_CANVAS_HEIGHT + 4, 12, BLACK);
 
     if (is_paused)
@@ -147,7 +147,7 @@ game_scene_render:
     if (!is_paused)
     {
         if (frame_counter % DISTANCE_UPDATE_DURATION == 0)
-            distance++;
+            scroll_distance++;
         frame_counter++;
     }
 

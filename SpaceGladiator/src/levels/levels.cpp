@@ -66,12 +66,12 @@ void LevelManager::loadLevel(size_t level_no)
 void LevelManager::returnToCheckpoint(GameScene *scene)
 {
     // Set the game scene's distance to match the checkpoint
-    scene->distance = level_checkpoints[current_level].checkpoints[last_checkpoint];
+    scene->scroll_distance = level_checkpoints[current_level].checkpoints[last_checkpoint];
 
     // Loop through the spawner data to figure out where to set the next_spawner value to
     for (size_t i = 0; i < current_level_size; i++)
     {
-        if (levels[current_level][i].location >= scene->distance)
+        if (levels[current_level][i].location >= scene->scroll_distance)
         {
             next_spawner = i;
             break;
@@ -85,7 +85,7 @@ void LevelManager::updateLevel(GameScene *scene)
     for (size_t i = next_spawner; i < current_level_size; i++)
     {
         // Exit the loop if the spawner is out of reach
-        if (levels[current_level][i].location > scene->distance)
+        if (levels[current_level][i].location > scene->scroll_distance)
         {
             // Set the next_spawner value to this index
             next_spawner = i;
@@ -110,7 +110,7 @@ void LevelManager::updateLevel(GameScene *scene)
     LevelCheckpoints checkpoints = level_checkpoints[current_level];
     for (size_t i = MAX_CHECKPOINTS; i > 0; i--)
     {
-        if (checkpoints.checkpoints[i - 1] <= scene->distance)
+        if (checkpoints.checkpoints[i - 1] <= scene->scroll_distance)
         {
             last_checkpoint = i - 1;
             break;
