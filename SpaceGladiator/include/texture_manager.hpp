@@ -17,6 +17,8 @@ public:
     static TextureManager &getInstance();
 
     // Textures which are part of the texture manager
+
+    Texture background;
     
     Texture player_normal;
     Texture player_up;

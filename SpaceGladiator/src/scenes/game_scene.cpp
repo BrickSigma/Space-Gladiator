@@ -3,6 +3,7 @@
 #include "entities/asteroid.hpp"
 #include "constants.hpp"
 #include "levels/levels.hpp"
+#include "texture_manager.hpp"
 
 #include <string>
 
@@ -80,10 +81,16 @@ SceneState GameScene::update()
     }
 
 game_scene_render:
+    
+    TextureManager &texture_manager = TextureManager::getInstance();
 
     // Handle rendering here
     BeginTextureMode(canvas);
-    ClearBackground(BLACK);
+    
+    // Render the scrolling background
+    DrawTexture(texture_manager.background, -(scroll_distance%256), 0, WHITE);
+    DrawTexture(texture_manager.background, SPACE_CANVAS_WIDTH - (scroll_distance%256), 0, WHITE);
+
     // Render all the entities
     for (Entity *entity : entities)
     {
