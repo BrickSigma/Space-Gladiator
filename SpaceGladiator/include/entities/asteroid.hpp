@@ -22,6 +22,12 @@ public:
 
     AsteroidSize size;
     Vector2 velocity;
+
+private:
+    // Frame-based timing variables
+
+    int frame_counter = 0;
+    int update_time = 1;  // Time indicating when to actually move the asteroid
 };
 
 #endif // ASTEROID_HPP

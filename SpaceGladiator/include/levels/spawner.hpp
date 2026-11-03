@@ -10,10 +10,10 @@ typedef void (*SpawnerCB)(SpawnerData data, GameScene *scene);
 // Data struct used for representing the spawner callback function to call
 struct SpawnerData
 {
-    unsigned long location; // The point at which to spawn the entity, based on the scene's scroll distance
-    SpawnerCB cb;           // Callback function for the spawner
-    int height;             // Height of the entity to spawn
-    int flags;              // Extra flags carrying information for the spawner
+    int x_tile_pos; // X position of entity in terms of tiles
+    int y_tile_pos;           // Y position of entity in terms of tiles
+    SpawnerCB cb;             // Callback function for the spawner
+    int flags;                // Extra flags carrying information for the spawner
 };
 
 /**

@@ -1,10 +1,9 @@
 #ifndef LEVELS_HPP
 #define LEVELS_HPP
 
-#include "levels/spawner.hpp"
 #include <cstddef>
 
-#define GRID_SIZE (16)
+#define TILE_SIZE (16)
 #define LEVEL_GRID_WIDTH (208) // Width of the level, where a grid is a 16x16 tile
 #define LEVEL_GRID_HEIGHT (13) // Height of the level, where a grid is a 16x16 tile
 #define MAX_CHECKPOINTS (4)

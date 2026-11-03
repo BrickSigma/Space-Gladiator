@@ -10,13 +10,16 @@ Asteroid::Asteroid(AsteroidSize size, Vector2 pos, float direction)
     switch (size)
     {
     case AsteroidSize::SMALL:
-        velocity = {-0.75, direction};
+        velocity = {-1, direction};
+        update_time = 2;
         break;
     case AsteroidSize::MEDIUM:
-        velocity = {-0.5, direction};
+        velocity = {-1, direction};
+        update_time = 4;
         break;
     case AsteroidSize::LARGE:
-        velocity = {-0.25, direction};
+        velocity = {-1, direction};
+        update_time = 8;
         break;
     }
 }

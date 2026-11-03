@@ -1,4 +1,5 @@
 #include "levels/levels.hpp"
+#include "levels/spawner.hpp"
 #include "entities/asteroid.hpp"
 
 #include "scenes/game_scene.hpp"
@@ -10,21 +11,17 @@
 // =================================================================
 
 static const SpawnerData level_1[] = {
-    {1, spawnAsteroid, 16, static_cast<int>(AsteroidSize::MEDIUM)},
-    {12, spawnAsteroid, SPACE_CANVAS_HEIGHT - 64, static_cast<int>(AsteroidSize::SMALL)},
-    {16, spawnAsteroid, 64, static_cast<int>(AsteroidSize::MEDIUM)},
-    {24, spawnAsteroid, SPACE_CANVAS_HEIGHT - 128, static_cast<int>(AsteroidSize::MEDIUM)},
-    {24, spawnAsteroid, 100, static_cast<int>(AsteroidSize::MEDIUM)},
-    {35, spawnAsteroid, 16, static_cast<int>(AsteroidSize::LARGE)},
-    {40, spawnAsteroid, SPACE_CANVAS_HEIGHT - 64, static_cast<int>(AsteroidSize::SMALL)},
-    {42, spawnAsteroid, 64, static_cast<int>(AsteroidSize::SMALL)},
-    {50, spawnAsteroid, SPACE_CANVAS_HEIGHT - 128, static_cast<int>(AsteroidSize::MEDIUM)},
-    {50, spawnAsteroid, 100, static_cast<int>(AsteroidSize::LARGE)},
-    {55, spawnAsteroid, 16, static_cast<int>(AsteroidSize::MEDIUM)},
-    {59, spawnAsteroid, SPACE_CANVAS_HEIGHT - 64, static_cast<int>(AsteroidSize::SMALL)},
-    {62, spawnAsteroid, 64, static_cast<int>(AsteroidSize::MEDIUM)},
-    {65, spawnAsteroid, SPACE_CANVAS_HEIGHT - 128, static_cast<int>(AsteroidSize::MEDIUM)},
-    {65, spawnAsteroid, 100, static_cast<int>(AsteroidSize::MEDIUM)}};
+    {17, 1, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
+    {20, 12, spawnAsteroid, static_cast<int>(AsteroidSize::SMALL)},
+    {23, 1, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
+    {27, 10, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
+    {27, 2, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
+    {35, 1, spawnAsteroid, static_cast<int>(AsteroidSize::LARGE)},
+    {40, 12, spawnAsteroid, static_cast<int>(AsteroidSize::SMALL)},
+    {50, 6, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
+    {50, 3, spawnAsteroid, static_cast<int>(AsteroidSize::LARGE)},
+    {62, 1, spawnAsteroid, static_cast<int>(AsteroidSize::LARGE)},
+    {65, 4, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)}};
 
 static const LevelCheckpoints level_1_checkpoints = {
     {0, 50, 100, 150}};
@@ -71,7 +68,7 @@ void LevelManager::returnToCheckpoint(GameScene *scene)
     // Loop through the spawner data to figure out where to set the next_spawner value to
     for (size_t i = 0; i < current_level_size; i++)
     {
-        if (levels[current_level][i].location >= scene->scroll_distance)
+        if ((levels[current_level][i].x_tile_pos * TILE_SIZE) >= (scene->scroll_distance + SPACE_CANVAS_WIDTH))
         {
             next_spawner = i;
             break;
@@ -85,7 +82,7 @@ void LevelManager::updateLevel(GameScene *scene)
     for (size_t i = next_spawner; i < current_level_size; i++)
     {
         // Exit the loop if the spawner is out of reach
-        if (levels[current_level][i].location > scene->scroll_distance)
+        if ((levels[current_level][i].x_tile_pos * TILE_SIZE) > (scene->scroll_distance + SPACE_CANVAS_WIDTH))
         {
             // Set the next_spawner value to this index
             next_spawner = i;
