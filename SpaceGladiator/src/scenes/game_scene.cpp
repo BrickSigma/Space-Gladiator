@@ -31,7 +31,7 @@ void GameScene::resetFromCheckpoint()
     }
     entities.clear();
 
-    // Reset the player and it to the entities list
+    // Reset the player and add it to the entities list
     player = new Player();
     entities.push_back(player);
 
@@ -81,15 +81,17 @@ SceneState GameScene::update()
     }
 
 game_scene_render:
-    
+
     TextureManager &texture_manager = TextureManager::getInstance();
 
-    // Handle rendering here
+    // Handle rendering here for all entities and the level
     BeginTextureMode(canvas);
-    
+
     // Render the scrolling background
-    DrawTexture(texture_manager.background, -(scroll_distance%256), 0, WHITE);
-    DrawTexture(texture_manager.background, SPACE_CANVAS_WIDTH - (scroll_distance%256), 0, WHITE);
+    DrawTexture(texture_manager.background, -(scroll_distance % 256), 0, WHITE);
+    DrawTexture(texture_manager.background, SPACE_CANVAS_WIDTH - (scroll_distance % 256), 0, WHITE);
+
+    // Render the level tiles here when it's implemented
 
     // Render all the entities
     for (Entity *entity : entities)
@@ -151,11 +153,16 @@ game_scene_render:
     }
 
     // Update the distance as well
-    if (!is_paused)
+    if (!is_paused && !stop_scrolling)
     {
         if (frame_counter % DISTANCE_UPDATE_DURATION == 0)
             scroll_distance++;
         frame_counter++;
+
+        if (scroll_distance >= (LEVEL_GRID_WIDTH * TILE_SIZE - SPACE_CANVAS_WIDTH))
+        {
+            stop_scrolling = true; // Stop scrolling when we hit the end of the level
+        }
     }
 
     // Update the level as well so new entities can spawn in
@@ -187,4 +194,8 @@ void GameScene::onEnter(SceneState previous_state)
 void GameScene::spawnEntity(Entity *entity)
 {
     new_entities.push_back(entity);
+}
+
+void GameScene::transitionToNextLevel()
+{
 }

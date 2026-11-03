@@ -10,12 +10,6 @@
 
 class GameScene;
 
-// Used to indicate all the checkpoints in a level
-typedef struct LevelCheckpoints
-{
-    unsigned long checkpoints[MAX_CHECKPOINTS];
-} LevelCheckpoints;
-
 // Class used to keep track of the level we're in and managing it
 class LevelManager
 {
@@ -26,6 +20,9 @@ public:
 
     // Load a specified level, this also resets the level to the beginning
     void loadLevel(size_t level_no);
+
+    // Move to the next level. If we're at the last level, this will return `false`
+    bool nextLevel();
 
     // Return the level back to the last checkpoint saved
     void returnToCheckpoint(GameScene *scene);

@@ -2,7 +2,17 @@
 #include "entities/asteroid.hpp"
 #include "scenes/game_scene.hpp"
 
-void spawnAsteroid(SpawnerData data, GameScene *scene)
+static void spawnAsteroid(SpawnerData data, GameScene *scene);
+
+static SpawnerCB spawner_cb_table[] {
+    spawnAsteroid,
+};
+
+void spawnerDispatch(SpawnerData data, GameScene *scene) {
+    spawner_cb_table[static_cast<int>(data.type)](data, scene);
+}
+
+static void spawnAsteroid(SpawnerData data, GameScene *scene)
 {
     int x_pos = (data.x_tile_pos * TILE_SIZE) - scene->scroll_distance;
     int y_pos = data.y_tile_pos * TILE_SIZE;

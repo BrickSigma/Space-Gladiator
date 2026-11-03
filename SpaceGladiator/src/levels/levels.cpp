@@ -11,20 +11,19 @@
 // =================================================================
 
 static const SpawnerData level_1[] = {
-    {17, 1, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
-    {20, 12, spawnAsteroid, static_cast<int>(AsteroidSize::SMALL)},
-    {23, 1, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
-    {27, 10, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
-    {27, 2, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
-    {35, 1, spawnAsteroid, static_cast<int>(AsteroidSize::LARGE)},
-    {40, 12, spawnAsteroid, static_cast<int>(AsteroidSize::SMALL)},
-    {50, 6, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)},
-    {50, 3, spawnAsteroid, static_cast<int>(AsteroidSize::LARGE)},
-    {62, 1, spawnAsteroid, static_cast<int>(AsteroidSize::LARGE)},
-    {65, 4, spawnAsteroid, static_cast<int>(AsteroidSize::MEDIUM)}};
+    {17, 1, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::MEDIUM)},
+    {20, 12, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::SMALL)},
+    {23, 1, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::MEDIUM)},
+    {27, 10, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::MEDIUM)},
+    {27, 2, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::MEDIUM)},
+    {35, 1, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::LARGE)},
+    {40, 12, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::SMALL)},
+    {50, 6, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::MEDIUM)},
+    {50, 3, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::LARGE)},
+    {62, 1, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::LARGE)},
+    {65, 4, SpawnerType::ASTEROID, static_cast<int>(AsteroidSize::MEDIUM)}};
 
-static const LevelCheckpoints level_1_checkpoints = {
-    {0, 50, 100, 150}};
+static const int level_1_checkpoints[MAX_CHECKPOINTS] = {0, 25, 50, 150};
 
 // =================================================================
 
@@ -34,7 +33,7 @@ static const LevelCheckpoints level_1_checkpoints = {
 static const SpawnerData *levels[] = {
     level_1};
 
-static const LevelCheckpoints level_checkpoints[] = {
+static const int *level_checkpoints[] = {
     level_1_checkpoints};
 
 static const size_t level_sizes[] = {
@@ -60,10 +59,22 @@ void LevelManager::loadLevel(size_t level_no)
     current_level_size = level_sizes[level_no];
 }
 
+bool LevelManager::nextLevel()
+{
+    if (current_level + 1 < no_levels)
+    {
+        return false; // We're at the last level
+    }
+
+    current_level++;
+    loadLevel(current_level);
+    return true;
+}
+
 void LevelManager::returnToCheckpoint(GameScene *scene)
 {
     // Set the game scene's distance to match the checkpoint
-    scene->scroll_distance = level_checkpoints[current_level].checkpoints[last_checkpoint];
+    scene->scroll_distance = level_checkpoints[current_level][last_checkpoint] * TILE_SIZE;
 
     // Loop through the spawner data to figure out where to set the next_spawner value to
     for (size_t i = 0; i < current_level_size; i++)
@@ -90,7 +101,7 @@ void LevelManager::updateLevel(GameScene *scene)
         }
 
         SpawnerData data = levels[current_level][i];
-        data.cb(data, scene); // Call the spawner callback function
+        spawnerDispatch(data, scene); // Call the spawner callback function
 
         // Incase we're at the last spawner, set the next_spawner to 1 above the level size to prevent an infinite loop
         if (i == current_level_size - 1)
@@ -104,10 +115,10 @@ void LevelManager::updateLevel(GameScene *scene)
     // return;  // Though it's not a bad idea for a good bug honestly... I'll keep the check disabled for now
 
     // Also update the last checkpoint based on the distance
-    LevelCheckpoints checkpoints = level_checkpoints[current_level];
+    const int *checkpoints = level_checkpoints[current_level];
     for (size_t i = MAX_CHECKPOINTS; i > 0; i--)
     {
-        if (checkpoints.checkpoints[i - 1] <= scene->scroll_distance)
+        if (checkpoints[i - 1] <= scene->scroll_distance)
         {
             last_checkpoint = i - 1;
             break;

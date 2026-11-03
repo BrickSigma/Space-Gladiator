@@ -35,6 +35,9 @@ public:
     // Used to spawn a new entity
     void spawnEntity(Entity *entity);
 
+    // Used to transition to the next level
+    void transitionToNextLevel();
+
     // Current distance into the level
     unsigned long scroll_distance = 0;
 
@@ -59,9 +62,11 @@ private:
 
     // Internal frame counter used to adjust the distance
     int frame_counter = 0;
-    const int DISTANCE_UPDATE_DURATION = 2;  // Advance the scroll at 1 pixel every 2 frames (30 pixels/second)
+    const int DISTANCE_UPDATE_DURATION = 2; // Advance the scroll at 1 pixel every 2 frames (30 pixels/second)
 
     bool is_paused = false;
+    bool stop_scrolling = false;
+    bool transitioning = false; // Marker used to check if we're in the transition state between levels
 };
 
 #endif // GAME_SCENE_HPP
