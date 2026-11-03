@@ -27,8 +27,8 @@ void main() {
   vec4 color = sampleSafe(uv);
 
   // CRT scanlines
-  float scrollSpeed = 0.02;
-  float scanline = sin((uv.y + time*scrollSpeed) * 672.0) * 0.04;
+  float scrollSpeed = 0.01;
+  float scanline = sin((uv.y + time * scrollSpeed) * 672.0 * 0.666) * 0.04;
   color.rgb -= scanline;
 
   // CRT curve (slight barrel distortion)
