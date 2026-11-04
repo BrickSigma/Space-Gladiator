@@ -59,6 +59,7 @@ out/
 release/
 Release/
 release-*/
+min-release/
 
 # CMake generated files
 CMakeFiles/

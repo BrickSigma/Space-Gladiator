@@ -9,21 +9,28 @@
             "name": "debug",
             "description": "Debug build",
             "binaryDir": "${sourceDir}/build",
-            "generator": "Unix Makefiles",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "ASAN_ENABLED": "ON"
             }
         },
-        {
-            "name": "release",
-            "description": "Release build",
-            "binaryDir": "${sourceDir}/release",
-            "generator": "Unix Makefiles",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "ASAN_ENABLED": "OFF"
-            }
+      {
+        "name": "release",
+        "description": "Release build",
+        "binaryDir": "${sourceDir}/release",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "ASAN_ENABLED": "OFF"
         }
+      },
+      {
+        "name": "min-release",
+        "description": "Minimum sized release build",
+        "binaryDir": "${sourceDir}/min-release",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "MinSizeRel",
+          "ASAN_ENABLED": "OFF"
+        }
+      }
     ]
 }
