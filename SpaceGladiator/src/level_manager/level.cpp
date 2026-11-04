@@ -3,6 +3,7 @@
 #include <format>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 #include "level_manager/spawner.hpp"
 #include "scenes/game_scene.hpp"
@@ -35,8 +36,12 @@ Level::Level(unsigned int no)
     while (std::getline(data_file, buffer))
     {
         int x, y, flags;
-        char type_str[256];
+        char type_str[TYPE_STR_MAX_LEN];
+#ifdef _WIN32
+        sscanf_s(buffer.c_str(), "%d,%d,%[^,],%d", &x, &y, type_str, TYPE_STR_MAX_LEN,&flags);
+#else
         sscanf(buffer.c_str(), "%d,%d,%255[^,],%d", &x, &y, type_str, &flags);
+#endif
         spawners.push_back({x, y, spawnerStringToType(type_str), flags});
     }
 

@@ -82,7 +82,7 @@ SceneState GameScene::update()
 
 game_scene_render:
 
-    TextureManager &texture_manager = TextureManager::getInstance();
+    // TextureManager &texture_manager = TextureManager::getInstance();
 
     // Handle rendering here for all entities and the level
     BeginTextureMode(canvas);

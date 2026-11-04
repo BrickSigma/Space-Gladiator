@@ -34,12 +34,12 @@ public:
     // List of checkpoints in the level
     std::vector<int> checkpoints{};
     // Index of the last checkpoint the player reached
-    int last_checkpoint = 0;
+    std::size_t last_checkpoint = 0;
 
     // List of all entitiy spawners
     std::vector<SpawnerData> spawners{};
     // Index of next spawner to load when reached
-    int next_spawner = 0;
+    std::size_t next_spawner = 0;
 
     // Background texture for the full level
     Texture background;
