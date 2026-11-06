@@ -199,7 +199,10 @@ SceneState GameScene::update()
                 scroll_distance++;
 
             if (scroll_distance >= (LEVEL_GRID_WIDTH * TILE_SIZE - SPACE_CANVAS_WIDTH))
+            {
                 stop_scrolling = true; // Stop scrolling when we hit the end of the level
+                scroll_distance = (LEVEL_GRID_WIDTH * TILE_SIZE - SPACE_CANVAS_WIDTH);
+            }
 
             // Update the level so new entities can spawn in as we scroll
             level_manager.updateLevel(this);
@@ -257,7 +260,7 @@ void GameScene::pushStateEvent(GameSceneState state)
 
 static bool state_cmp(const GameSceneState &lhs, const GameSceneState &rhs)
 {
-    return static_cast<int>(lhs) > static_cast<int>(rhs);
+    return static_cast<int>(lhs) < static_cast<int>(rhs);
 }
 
 void GameScene::handleStateChange()
@@ -265,7 +268,7 @@ void GameScene::handleStateChange()
     if (state_event_queue.size() == 0)
         return;
 
-    // Sort the event queue first in reverse order
+    // Sort the event queue first
     std::sort(state_event_queue.begin(), state_event_queue.end(), state_cmp);
 
     // We only care about the event at the very beginning of the queue, as it has the highest priority
@@ -291,6 +294,7 @@ void GameScene::handleStateChange()
             frame_counter = 0;
             break;
         case GameSceneState::PLAYER_KILLED:
+            stop_scrolling = false; // Make sure to enable scrolling again
             if (player.lives < 0)
             {
                 reset(); // Reset the entire game if the player completely died

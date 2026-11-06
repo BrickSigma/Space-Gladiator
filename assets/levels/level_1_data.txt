@@ -1,7 +1,7 @@
 [checkpoints]
 25
 50
-150
+175
 
 [entities]
 17,1,ASTEROID,1
