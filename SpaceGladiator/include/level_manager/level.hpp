@@ -4,11 +4,13 @@
 #include "level_manager/spawner.hpp"
 
 #include <raylib.h>
+#include <bitset>
 #include <vector>
 
 #define TILE_SIZE (16)
-#define LEVEL_GRID_WIDTH (208) // Width of the level, where a grid is a 16x16 tile
-#define LEVEL_GRID_HEIGHT (13) // Height of the level, where a grid is a 16x16 tile
+#define LEVEL_GRID_WIDTH (208)  // Width of the level, where a grid is a 16x16 tile
+#define LEVEL_GRID_HEIGHT (13)  // Height of the level, where a grid is a 16x16 tile
+#define VISIBLE_GRID_WIDTH (16) // The visible number of tiles we can see on screen
 
 class GameScene;
 
@@ -40,6 +42,8 @@ public:
     std::vector<SpawnerData> spawners{};
     // Index of next spawner to load when reached
     std::size_t next_spawner = 0;
+
+    std::bitset<LEVEL_GRID_HEIGHT * LEVEL_GRID_WIDTH> tilemap;
 
     // Background texture for the full level
     Texture background;

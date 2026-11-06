@@ -12,7 +12,8 @@
 
 Level::Level(unsigned int no)
 {
-    std::ifstream data_file{TextFormat("assets/levels/level_%d_data.txt", no)};
+    // Read the data file containing the checkpoints and entities first
+    std::ifstream data_file(TextFormat("assets/levels/level_%d_data.txt", no));
 
     if (!data_file)
         throw std::runtime_error(std::format("Could not open level data file for level {}", no));
@@ -45,6 +46,27 @@ Level::Level(unsigned int no)
         spawners.push_back({x, y, spawnerStringToType(type_str), flags});
     }
 
+    // Next load up the tilemap data file needed
+    std::ifstream tilemap_file(TextFormat("assets/levels/level_%d_tilemap.txt", no));
+    if (!tilemap_file)
+        throw std::runtime_error(std::format("Could not open level tilemap file for level {}", no));
+
+    char c;
+    int x = 0;
+    int y = 0;
+    while (tilemap_file.get(c))
+    {
+        if (c == '\n')
+        {
+            y++;
+            x = 0;
+            continue;
+        }
+        bool tile_present = c - '0';
+        tilemap[y * LEVEL_GRID_WIDTH + x] = tile_present;
+        x++;
+    }
+
     background = LoadTexture(TextFormat("assets/levels/level_%d_background.png", no));
 
     reset();
@@ -57,7 +79,7 @@ Level::~Level()
 
 void Level::reset()
 {
-    last_checkpoint = 0; // Change this to skip to a checkpoint in a level
+    last_checkpoint = 2; // Change this to skip to a checkpoint in a level
     next_spawner = 0;
 }
 

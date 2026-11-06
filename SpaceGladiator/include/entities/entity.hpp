@@ -45,7 +45,6 @@ public:
     bool delete_entity{false};
 
     EntityType type;
-protected:
     Vector2 pos{0, 0};
     int width{0};
     int height{0};
