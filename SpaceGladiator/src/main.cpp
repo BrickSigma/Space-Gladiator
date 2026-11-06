@@ -11,6 +11,7 @@
 #include "texture_manager.hpp"
 
 #include <iostream>
+#include <ctime>
 
 // Global scene manager
 SceneManager *scene_manager = nullptr;
@@ -34,6 +35,9 @@ int main(int argc, char *argv[])
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Space Gladiator");
 
     SetWindowState(FLAG_WINDOW_RESIZABLE);
+
+    // Seed Raylib's random number generator
+    SetRandomSeed(static_cast<unsigned long>(time(NULL)));
 
     // Initialize the texture manager
     TextureManager::getInstance();

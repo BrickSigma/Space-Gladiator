@@ -6,6 +6,7 @@
 #include "entities/player.hpp"
 #include "constants.hpp"
 #include "level_manager/level_manager.hpp"
+#include "utils/camera_shake.hpp"
 
 #include <vector>
 #include <raylib.h>
@@ -47,6 +48,9 @@ public:
     // Push a new game scene state to the event queue for processing
     void pushStateEvent(GameSceneState state);
 
+    // Change the camera shake instance.
+    void setCameraShake(CameraShake camera);
+
     // Current distance into the level
     int scroll_distance = 0;
 
@@ -83,6 +87,9 @@ private:
 
     const int transition_duration = 180;    // Make the transition last ~3 seconds
     const int player_killed_timer = 60 * 5; // Player death timer
+
+    // Camera shake object
+    CameraShake camera{0, 0};
 
     // Used to update all the entities
     void updateEntities();

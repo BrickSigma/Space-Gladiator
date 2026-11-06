@@ -140,12 +140,12 @@ SceneState GameScene::update()
 
     // Update the actual screen here
     BeginTextureMode(*screen);
-    ClearBackground(WHITE);
-    DrawTextureRec(canvas.texture, {0, 0, SPACE_CANVAS_WIDTH, -SPACE_CANVAS_HEIGHT}, {0, 0}, WHITE);
+    ClearBackground(BLACK);
+    DrawTextureRec(canvas.texture, {0, 0, SPACE_CANVAS_WIDTH, -SPACE_CANVAS_HEIGHT}, camera.offset, WHITE);
 
     // Render the current distance for debugging
     std::string distance_str = std::to_string(scroll_distance);
-    DrawText(distance_str.c_str(), 8, SPACE_CANVAS_HEIGHT + 4, 12, BLACK);
+    DrawText(distance_str.c_str(), 8, SPACE_CANVAS_HEIGHT + 4, 12, WHITE);
 
     EndTextureMode();
 
@@ -232,6 +232,9 @@ SceneState GameScene::update()
     entities.reserve(entities.size() + new_entities.size());
     entities.insert(entities.end(), new_entities.begin(), new_entities.end());
     new_entities.clear(); // Don't forget to clear the queue!
+
+    // Update the camera at the end
+    camera.update();
 
     // Update the scene state
     handleStateChange();
@@ -340,4 +343,9 @@ void GameScene::handleStateChange()
 
     // Once done, clear the event queue so we don't get an infinite loop of events
     state_event_queue.clear();
+}
+
+void GameScene::setCameraShake(CameraShake camera)
+{
+    this->camera = camera;
 }

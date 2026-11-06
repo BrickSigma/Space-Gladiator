@@ -179,4 +179,7 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
 
     // Tell the game scene that the player has died
     scene->pushStateEvent(GameSceneState::PLAYER_KILLED);
+
+    // Also shake the camera a bit
+    scene->setCameraShake(CameraShake(2, 120));
 }
