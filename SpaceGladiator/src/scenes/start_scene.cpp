@@ -10,7 +10,7 @@ SceneState StartScene::update()
     SceneState next_state = SceneState::NO_CHANGE;
 
     // Handle user input
-    if (IsKeyPressed(KEY_ENTER))
+    if (IsKeyPressed(KEY_ENTER) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
     {
         next_state = SceneState::GAME;
     }

@@ -7,6 +7,8 @@
 
 #include <algorithm>
 
+const float GAMEPAD_DEADZONE = 0.5f;
+
 Player::Player() : Entity(EntityType::PLAYER, {30, (CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT / 2)}, PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT)
 {
     reset(true);
@@ -36,15 +38,21 @@ Player::~Player()
     // Free any allocated objects
 }
 
-void Player::handleInput()
+void Player::clearMovementArray()
 {
-    // Reset any input states to false
     movement[0] = false;
     movement[1] = false;
     movement[2] = false;
     movement[3] = false;
+}
+
+void Player::handleInput()
+{
+    // Reset any input states to false
+    clearMovementArray();
     is_shooting = false;
 
+    // Keyboard input controls
     if (IsKeyDown(KEY_UP))
         movement[PLAYER_UP] = true;
     if (IsKeyDown(KEY_DOWN))
@@ -55,6 +63,25 @@ void Player::handleInput()
         movement[PLAYER_RIGHT] = true;
     if (IsKeyDown(KEY_SPACE) || IsKeyDown(KEY_S))
         is_shooting = true;
+
+    // Gamepad controls
+    if (IsGamepadAvailable(0))
+    {
+        float x_axis = GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_X);
+        float y_axis = GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_Y);
+
+        if (y_axis < -GAMEPAD_DEADZONE)
+            movement[PLAYER_UP] = true;
+        if (y_axis > GAMEPAD_DEADZONE)
+            movement[PLAYER_DOWN] = true;
+        if (x_axis < -GAMEPAD_DEADZONE)
+            movement[PLAYER_LEFT] = true;
+        if (x_axis > GAMEPAD_DEADZONE)
+            movement[PLAYER_RIGHT] = true;
+
+        if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
+            is_shooting = true;
+    }
 }
 
 void Player::handlePhysics()
@@ -148,6 +175,7 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
 
     is_dead = true;
     lives--;
+    clearMovementArray();
 
     // Tell the game scene that the player has died
     scene->pushStateEvent(GameSceneState::PLAYER_KILLED);

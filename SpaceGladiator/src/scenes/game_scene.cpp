@@ -73,7 +73,7 @@ SceneState GameScene::update()
 {
     SceneState next_state = SceneState::NO_CHANGE;
     // Handle pausing the game
-    if (IsKeyPressed(KEY_P))
+    if (IsKeyPressed(KEY_P) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))
     {
         if (state == GameSceneState::LEVEL)
             pushStateEvent(GameSceneState::PAUSED);
@@ -128,12 +128,12 @@ SceneState GameScene::update()
     if (state == GameSceneState::PAUSED)
     {
         int text_width = MeasureText("Paused", 8);
-        DrawText("Paused", CANVAS_WIDTH / 2 - text_width / 2, CANVAS_HEIGHT / 2 - 4, 8, WHITE);
+        DrawText("Paused", CANVAS_WIDTH / 2 - text_width / 2, SPACE_CANVAS_HEIGHT / 2 - 4, 8, WHITE);
     }
     else if (state == GameSceneState::PLAYER_KILLED && player.lives < 0)
     {
         int text_width = MeasureText("Game Over!", 8);
-        DrawText("Game Over!", CANVAS_WIDTH / 2 - text_width / 2, CANVAS_HEIGHT / 2 - 4, 8, WHITE);
+        DrawText("Game Over!", CANVAS_WIDTH / 2 - text_width / 2, SPACE_CANVAS_HEIGHT / 2 - 4, 8, WHITE);
     }
 
     EndTextureMode();

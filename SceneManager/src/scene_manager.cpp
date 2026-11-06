@@ -33,8 +33,8 @@ void SceneManager::update()
     int current_scene = static_cast<int>(this->current_state);
     SceneState next_state = scenes[current_scene]->update();
 
-    // If the C-key is pressed, toggle the shader
-    if (IsKeyPressed(KEY_C))
+    // If the C-key or gamepad middle-left button is pressed, toggle the shader
+    if (IsKeyPressed(KEY_C) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_LEFT))
     {
         useShader = !useShader;
     }

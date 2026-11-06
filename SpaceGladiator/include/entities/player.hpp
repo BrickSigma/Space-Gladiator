@@ -44,6 +44,9 @@ private:
     // Handle the player shooting
     void handleShooting(GameScene *scene);
 
+    // Set the movement array to false for all entries
+    void clearMovementArray();
+
     // Player movement related data
     enum PlayerMovement
     {
