@@ -38,7 +38,7 @@ Level::Level(unsigned int no)
         int x, y, flags;
         char type_str[TYPE_STR_MAX_LEN];
 #ifdef _WIN32
-        sscanf_s(buffer.c_str(), "%d,%d,%[^,],%d", &x, &y, type_str, TYPE_STR_MAX_LEN,&flags);
+        sscanf_s(buffer.c_str(), "%d,%d,%[^,],%d", &x, &y, type_str, TYPE_STR_MAX_LEN, &flags);
 #else
         sscanf(buffer.c_str(), "%d,%d,%255[^,],%d", &x, &y, type_str, &flags);
 #endif
@@ -46,14 +46,18 @@ Level::Level(unsigned int no)
     }
 
     background = LoadTexture(TextFormat("assets/levels/level_%d_background.png", no));
+
+    reset();
 }
 
-Level::~Level() {
+Level::~Level()
+{
     UnloadTexture(background);
 }
 
-void Level::reset() {
-    last_checkpoint = 0;
+void Level::reset()
+{
+    last_checkpoint = 0; // Change this to skip to a checkpoint in a level
     next_spawner = 0;
 }
 

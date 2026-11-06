@@ -7,9 +7,9 @@
 
 #include <algorithm>
 
-Player::Player() : Entity(EntityType::PLAYER, {30, (CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT/2)}, PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT)
+Player::Player() : Entity(EntityType::PLAYER, {30, (CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT / 2)}, PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT)
 {
-    reset();
+    reset(true);
 
     // Load up the player's assets and other components needed
     TextureManager &texture_manager = TextureManager::getInstance();
@@ -19,14 +19,16 @@ Player::Player() : Entity(EntityType::PLAYER, {30, (CANVAS_HEIGHT / 2) - (PLAYER
     textures[2] = texture_manager.player_up;
 }
 
-void Player::reset()
+void Player::reset(bool restore_health)
 {
     // Anything to do with the player's state can be reset here
     pos.x = 30;
-    pos.y = static_cast<float>((CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT/2));
+    pos.y = static_cast<float>((CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT / 2));
     speed = PLAYER_BASE_SPEED; // Reset the speed back to normal
     is_dead = false;
-    death_timer = 60 * 5;
+
+    if (restore_health)
+        lives = PLAYER_MAX_LIVES;
 }
 
 Player::~Player()
@@ -106,11 +108,7 @@ void Player::handleShooting(GameScene *scene)
 
 void Player::update(GameScene *scene)
 {
-    if (is_dead)
-    {
-        death_timer--;
-    }
-    else
+    if (!is_dead)
     {
         handleInput();
         handlePhysics();
@@ -139,6 +137,9 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
 {
     (void)scene;
 
+    if (is_dead)
+        return;
+
     if ((entity->type == EntityType::PLAYER_PROJECTILE) || (entity->type == EntityType::PLAYER))
         return;
 
@@ -146,4 +147,8 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
         return;
 
     is_dead = true;
+    lives--;
+
+    // Tell the game scene that the player has died
+    scene->pushStateEvent(GameSceneState::PLAYER_KILLED);
 }

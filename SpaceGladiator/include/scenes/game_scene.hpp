@@ -14,6 +14,15 @@
 #define SPACE_CANVAS_WIDTH (CANVAS_WIDTH)
 #define SPACE_CANVAS_HEIGHT (CANVAS_HEIGHT - SCORE_BOARD_HEIGHT)
 
+enum class GameSceneState : int
+{
+    PAUSED,        // The game is paused
+    LEVEL,         // Currently in a level
+    PLAYER_KILLED, // The player has been killed
+    TRANSITION,    // Moving between levels
+    COMPLETED      // The last level was completed
+};
+
 class GameScene : public Scene
 {
 public:
@@ -35,8 +44,8 @@ public:
     // Used to spawn a new entity
     void spawnEntity(Entity *entity);
 
-    // Used to transition to the next level
-    void transitionToNextLevel();
+    // Push a new game scene state to the event queue for processing
+    void pushStateEvent(GameSceneState state);
 
     // Current distance into the level
     int scroll_distance = 0;
@@ -48,7 +57,7 @@ public:
     LevelManager level_manager{};
 
     // Pointer to player object for quick access by other entities
-    Player *player = nullptr;
+    Player player{};
 
     // List of all entities in the system;
     std::vector<Entity *> entities{};
@@ -64,8 +73,27 @@ private:
     int frame_counter = 0;
     const int DISTANCE_UPDATE_DURATION = 2; // Advance the scroll at 1 pixel every 2 frames (30 pixels/second)
 
-    bool is_paused = false;
     bool stop_scrolling = false;
+
+    // The current state of the game scene
+    GameSceneState state{GameSceneState::LEVEL};
+
+    // Event queue for the state transitions
+    std::vector<GameSceneState> state_event_queue{};
+
+    const int transition_duration = 180;    // Make the transition last ~3 seconds
+    const int player_killed_timer = 60 * 5; // Player death timer
+
+    // Used to update all the entities
+    void updateEntities();
+
+    /**
+     * Handle the state transitions here.
+     *
+     * This also looks at an internal state queue for entities
+     * and should resolve two entities trying to update the state simultaneously.
+     */
+    void handleStateChange();
 };
 
 #endif // GAME_SCENE_HPP

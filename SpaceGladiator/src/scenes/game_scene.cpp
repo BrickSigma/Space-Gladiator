@@ -5,6 +5,7 @@
 #include "level_manager/level_manager.hpp"
 #include "texture_manager.hpp"
 
+#include <algorithm>
 #include <string>
 
 GameScene::GameScene(RenderTexture *screen) : Scene(screen)
@@ -17,7 +18,9 @@ void GameScene::reset()
 {
     scroll_distance = 0;
     score = 0;
+    frame_counter = 0;
     level_manager.reset();
+    player.reset(true);
     resetFromCheckpoint();
 }
 
@@ -32,11 +35,15 @@ void GameScene::resetFromCheckpoint()
     entities.clear();
 
     // Reset the player and add it to the entities list
-    player = new Player();
-    entities.push_back(player);
+    player.reset(false);
 
     // Load the level from the last checkpoint
     level_manager.returnToCheckpoint(this);
+
+    frame_counter = 0;
+
+    // Reset the game state
+    state = GameSceneState::LEVEL;
 }
 
 GameScene::~GameScene()
@@ -50,18 +57,33 @@ GameScene::~GameScene()
     UnloadRenderTexture(canvas);
 }
 
+void GameScene::updateEntities()
+{
+    // Update the player
+    player.update(this);
+
+    // Handle the entities update method
+    for (Entity *entity : entities)
+    {
+        entity->update(this);
+    }
+}
+
 SceneState GameScene::update()
 {
     SceneState next_state = SceneState::NO_CHANGE;
-
+    // Handle pausing the game
     if (IsKeyPressed(KEY_P))
     {
-        is_paused = !is_paused;
+        if (state == GameSceneState::LEVEL)
+            pushStateEvent(GameSceneState::PAUSED);
+        else if (state == GameSceneState::PAUSED)
+            pushStateEvent(GameSceneState::LEVEL);
     }
 
-    if (is_paused)
+    if (state != GameSceneState::PAUSED)
     {
-        goto game_scene_render; // Ohh, scary GOTO statement. This shouldn't be an issue though
+        updateEntities();
     }
 
     // Handle user input
@@ -74,28 +96,24 @@ SceneState GameScene::update()
         next_state = SceneState::CREDITS;
     }
 
-    // Handle the entities update method
-    for (Entity *entity : entities)
-    {
-        entity->update(this);
-    }
-
-game_scene_render:
-
-    // TextureManager &texture_manager = TextureManager::getInstance();
-
     // Handle rendering here for all entities and the level
     BeginTextureMode(canvas);
     ClearBackground(BLACK);
 
-    // Render the scrolling background
-    // DrawTexture(texture_manager.background, -(scroll_distance % 256), 0, WHITE);
-    // DrawTexture(texture_manager.background, SPACE_CANVAS_WIDTH - (scroll_distance % 256), 0, WHITE);
+    if (state == GameSceneState::TRANSITION)
+    {
+        // Handle drawing cool transition background here
+        ClearBackground(PURPLE);
+    }
+    else
+    {
+        // Render the level tiles here when it's implemented
+        level_manager.drawLevel(this);
+    }
 
-    // Render the level tiles here when it's implemented
-    level_manager.drawLevel(this);
+    player.draw();
 
-    // Render all the entities
+    // Render all other entities
     for (Entity *entity : entities)
     {
         if (entity == nullptr)
@@ -105,6 +123,19 @@ game_scene_render:
         }
         entity->draw();
     }
+
+    // Render any overlays
+    if (state == GameSceneState::PAUSED)
+    {
+        int text_width = MeasureText("Paused", 8);
+        DrawText("Paused", CANVAS_WIDTH / 2 - text_width / 2, CANVAS_HEIGHT / 2 - 4, 8, WHITE);
+    }
+    else if (state == GameSceneState::PLAYER_KILLED && player.lives < 0)
+    {
+        int text_width = MeasureText("Game Over!", 8);
+        DrawText("Game Over!", CANVAS_WIDTH / 2 - text_width / 2, CANVAS_HEIGHT / 2 - 4, 8, WHITE);
+    }
+
     EndTextureMode();
 
     // Update the actual screen here
@@ -116,15 +147,20 @@ game_scene_render:
     std::string distance_str = std::to_string(scroll_distance);
     DrawText(distance_str.c_str(), 8, SPACE_CANVAS_HEIGHT + 4, 12, BLACK);
 
-    if (is_paused)
-    {
-        int text_width = MeasureText("Game Paused", 8);
-        DrawText("Game Paused", CANVAS_WIDTH / 2 - text_width / 2, CANVAS_HEIGHT / 2 - 4, 8, WHITE);
-    }
-
     EndTextureMode();
 
     // We can now try handle collision detection between the entities.
+
+    // The first case is checking each enemy-type entity against the player
+    for (Entity *entity : entities)
+    {
+        if (entity->type == EntityType::PLAYER_PROJECTILE)
+            continue; // Skip player bullets as they shouldn't harm a player
+
+        player.handleCollision(this, entity);
+    }
+
+    // The next case is handling all enemies against the player bullets
     for (Entity *entity_1 : entities)
     {
         if (entity_1->delete_entity)
@@ -154,40 +190,48 @@ game_scene_render:
         }
     }
 
-    // Update the distance as well
-    if (!is_paused && !stop_scrolling)
+    // Update any timers or state-specific counters
+    if (state == GameSceneState::LEVEL || state == GameSceneState::PLAYER_KILLED)
     {
-        if (frame_counter % DISTANCE_UPDATE_DURATION == 0)
-            scroll_distance++;
-        frame_counter++;
-
-        if (scroll_distance >= (LEVEL_GRID_WIDTH * TILE_SIZE - SPACE_CANVAS_WIDTH))
+        if (!stop_scrolling)
         {
-            stop_scrolling = true; // Stop scrolling when we hit the end of the level
+            if (frame_counter % DISTANCE_UPDATE_DURATION == 0)
+                scroll_distance++;
+
+            if (scroll_distance >= (LEVEL_GRID_WIDTH * TILE_SIZE - SPACE_CANVAS_WIDTH))
+                stop_scrolling = true; // Stop scrolling when we hit the end of the level
+
+            // Update the level so new entities can spawn in as we scroll
+            level_manager.updateLevel(this);
         }
+
+        if (state == GameSceneState::PLAYER_KILLED)
+            if (frame_counter >= player_killed_timer)
+                pushStateEvent(GameSceneState::LEVEL);
     }
+
+    if (state == GameSceneState::TRANSITION)
+        if (frame_counter >= transition_duration)
+            pushStateEvent(GameSceneState::LEVEL);
+
+    // Update the frame counter
+    frame_counter++;
 
     if (stop_scrolling)
     {
         if (IsKeyPressed(KEY_T))
         {
-            transitionToNextLevel();
+            pushStateEvent(GameSceneState::TRANSITION);
         }
     }
-
-    // Update the level as well so new entities can spawn in
-    level_manager.updateLevel(this);
 
     // We can now push any entities that where spawned into the entities list
     entities.reserve(entities.size() + new_entities.size());
     entities.insert(entities.end(), new_entities.begin(), new_entities.end());
     new_entities.clear(); // Don't forget to clear the queue!
 
-    // If the player died and their death timer is 0, reset the level to the checkpoint
-    if (player->is_dead && player->death_timer == 0)
-    {
-        resetFromCheckpoint();
-    }
+    // Update the scene state
+    handleStateChange();
 
     return next_state;
 }
@@ -206,11 +250,90 @@ void GameScene::spawnEntity(Entity *entity)
     new_entities.push_back(entity);
 }
 
-void GameScene::transitionToNextLevel()
+void GameScene::pushStateEvent(GameSceneState state)
 {
-    if (level_manager.nextLevel())
+    state_event_queue.push_back(state);
+}
+
+static bool state_cmp(const GameSceneState &lhs, const GameSceneState &rhs)
+{
+    return static_cast<int>(lhs) > static_cast<int>(rhs);
+}
+
+void GameScene::handleStateChange()
+{
+    if (state_event_queue.size() == 0)
+        return;
+
+    // Sort the event queue first in reverse order
+    std::sort(state_event_queue.begin(), state_event_queue.end(), state_cmp);
+
+    // We only care about the event at the very beginning of the queue, as it has the highest priority
+    GameSceneState next_state = state_event_queue[0];
+
+    // Now we can use a transition table to help move between the scenes
+    switch (next_state)
     {
-        scroll_distance = -SPACE_CANVAS_WIDTH;
-        stop_scrolling = false;
+    case GameSceneState::PAUSED:
+        // No need to check if the previous state was a level since it's done earlier on
+        state = next_state;
+        break;
+    case GameSceneState::LEVEL:
+    {
+        // We need to check if we're coming from the PAUSED, TRANSITION, or PLAYER_KILLED states
+        switch (state)
+        {
+        case GameSceneState::PAUSED:
+            state = next_state;
+            break;
+        case GameSceneState::TRANSITION:
+            state = next_state;
+            frame_counter = 0;
+            break;
+        case GameSceneState::PLAYER_KILLED:
+            if (player.lives < 0)
+            {
+                reset(); // Reset the entire game if the player completely died
+            }
+            else
+            {
+                resetFromCheckpoint(); // Reset the game from the player's last checkpoint
+            }
+            break;
+        }
+        break;
     }
+
+    case GameSceneState::TRANSITION:
+    {
+        // Only move to the transition state if the player hasn't been killed
+        if (state == GameSceneState::LEVEL)
+        {
+            // Try tansition to the next level if there is one
+            if (level_manager.nextLevel())
+            {
+                stop_scrolling = false;
+                scroll_distance = 0;
+                frame_counter = 0;
+                state = next_state;
+            }
+            else
+            {
+                state = GameSceneState::COMPLETED;
+            }
+        }
+        break;
+    }
+
+    case GameSceneState::PLAYER_KILLED:
+        state = next_state;
+        frame_counter = 0;
+        break;
+
+    default:
+        break;
+    }
+
+    // Once done, clear the event queue so we don't get an infinite loop of events
+    state_event_queue.clear();
 }

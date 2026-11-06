@@ -13,14 +13,16 @@ constexpr int PLAYER_SPRITE_HEIGHT = 12;
 constexpr int PLAYER_HITBOX_WIDTH = 16;
 constexpr int PLAYER_HITBOX_HEIGHT = 6;
 
+constexpr int PLAYER_MAX_LIVES = 3;
+
 class Player : public Entity
 {
 public:
     Player();
     ~Player();
 
-    // Reset the player's state
-    void reset();
+    // Reset the player's state. `restore_health` indicates whether we should set the lives back to max.
+    void reset(bool restore_health);
 
     // Update the player
     void update(GameScene *scene) override;
@@ -31,8 +33,9 @@ public:
     // Handle collisions with the space ship
     void handleCollision(GameScene *scene, Entity *entity) override;
 
+    int lives = PLAYER_MAX_LIVES; // The amount of lives the player has remaining
     bool is_dead = false;
-    int death_timer = 60 * 5; // Countdown for how long the player is dead for (roughly 5 seconds)
+
 private:
     // Handle user input to move the player or shoot
     void handleInput();

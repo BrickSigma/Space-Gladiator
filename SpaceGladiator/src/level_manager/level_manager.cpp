@@ -53,10 +53,4 @@ void LevelManager::updateLevel(GameScene *scene)
 void LevelManager::drawLevel(GameScene *scene)
 {
     DrawTexture(levels[current_level]->background, -scene->scroll_distance, 0, WHITE);
-
-    if (current_level > 0 && scene->scroll_distance < 0)
-    {
-        // Render the previous level's background edge as it scrolls away
-        DrawTexture(levels[current_level - 1]->background, -(LEVEL_GRID_WIDTH * TILE_SIZE) - scene->scroll_distance, 0, WHITE);
-    }
 }

@@ -35,12 +35,7 @@ public:
     void updateLevel(GameScene *scene);
 
     /**
-     * Used to draw the background for the current level.
-     * 
-     * This also handles the special (but common) case where when transitioning
-     * between levels, the old level can still be seen to transition away:
-     * This is triggered by the GameScene's scroll_distance being negative to indicate
-     * that the transition has started.
+     * Used to draw the background for the current level
      */
     void drawLevel(GameScene *scene);
 
