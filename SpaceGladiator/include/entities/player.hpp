@@ -2,6 +2,7 @@
 #define PLAYER_HPP
 
 #include "entities/entity.hpp"
+#include "utils/animation.hpp"
 
 constexpr int PLAYER_BASE_SPEED = 1;
 constexpr int PLAYER_MAX_PROJECTILES = 2; // Maximum number of projectiles the player can shoot
@@ -37,7 +38,7 @@ public:
     void handleTilemapCollision(GameScene *scene) override;
 
     int lives = PLAYER_MAX_LIVES; // The amount of lives the player has remaining
-    
+
 private:
     // Handle user input to move the player or shoot
     void handleInput();
@@ -75,8 +76,10 @@ private:
     Texture textures[3] = {};
 
     // Projectiles currently shot by the player
-    bool is_shooting = false;
-    int shooting_timer = 0; // Timer tracking time since last shot
+    bool is_shooting{false};
+    int shooting_timer{0}; // Timer tracking time since last shot
+
+    Animation *explosion{nullptr};
 };
 
 #endif // PLAYER_HPP

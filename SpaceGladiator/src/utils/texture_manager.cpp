@@ -1,10 +1,10 @@
 #include "utils/texture_manager.hpp"
 
-static char *getImageAssetFile(const char *file) {
+static char *getImageAssetFile(const char *file)
+{
     const char *strings[] = {
         "assets/images/",
-        file
-    };
+        file};
     return TextJoin(const_cast<char **>(strings), 2, "");
 }
 
@@ -23,6 +23,8 @@ TextureManager::TextureManager()
     player_normal = LoadTexture(getImageAssetFile("player-normal.png"));
     player_down = LoadTexture(getImageAssetFile("player-down.png"));
     player_up = LoadTexture(getImageAssetFile("player-up.png"));
+    player_explosion = LoadTexture(getImageAssetFile("player-explosion.png"));
+
     player_bullet = LoadTexture(getImageAssetFile("player-projectile.png"));
 
     // Asteroid textures
@@ -44,6 +46,8 @@ TextureManager::~TextureManager()
     UnloadTexture(player_normal);
     UnloadTexture(player_down);
     UnloadTexture(player_up);
+    UnloadTexture(player_explosion);
+
     UnloadTexture(player_bullet);
 
     // Asteroid textures

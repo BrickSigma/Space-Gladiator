@@ -11,14 +11,17 @@ const float GAMEPAD_DEADZONE = 0.5f;
 
 Player::Player() : Entity(EntityType::PLAYER, {30, (CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT / 2)}, PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT)
 {
-    reset(true);
-
     // Load up the player's assets and other components needed
     TextureManager &texture_manager = TextureManager::getInstance();
-
+    
     textures[0] = texture_manager.player_normal;
     textures[1] = texture_manager.player_down;
     textures[2] = texture_manager.player_up;
+    
+    // Setup the player explosion as well
+    explosion = new Animation(texture_manager.player_explosion, 28, 12, false);
+    
+    reset(true);
 }
 
 void Player::reset(bool restore_health)
@@ -28,6 +31,7 @@ void Player::reset(bool restore_health)
     pos.y = static_cast<float>((CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT / 2));
     speed = PLAYER_BASE_SPEED; // Reset the speed back to normal
     is_dead = false;
+    explosion->reset();
 
     if (restore_health)
         lives = PLAYER_MAX_LIVES;
@@ -36,6 +40,7 @@ void Player::reset(bool restore_health)
 Player::~Player()
 {
     // Free any allocated objects
+    delete explosion;
 }
 
 void Player::clearMovementArray()
@@ -155,9 +160,10 @@ void Player::draw()
         texture = PLAYER_TEXTURE_DOWN;
     }
 
-    Color tint = is_dead ? RED : WHITE;
-
-    DrawTexture(textures[texture], static_cast<int>(pos.x - 6), static_cast<int>(pos.y - 3), tint);
+    if (is_dead)
+        explosion->draw({pos.x - 7, pos.y - 5});
+    else
+        DrawTexture(textures[texture], static_cast<int>(pos.x - 6), static_cast<int>(pos.y - 3), WHITE);
 }
 
 void Player::handleCollision(GameScene *scene, Entity *entity)

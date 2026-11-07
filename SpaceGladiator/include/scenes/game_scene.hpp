@@ -52,10 +52,10 @@ public:
     void setCameraShake(CameraShake camera);
 
     // Current distance into the level
-    int scroll_distance = 0;
+    int scroll_distance{0};
 
     // Current score
-    unsigned long score = 0;
+    unsigned long score{0};
 
     // Internal level manager
     LevelManager level_manager{};
@@ -74,10 +74,10 @@ private:
     RenderTexture canvas;
 
     // Internal frame counter used to adjust the distance
-    int frame_counter = 0;
-    const int DISTANCE_UPDATE_DURATION = 2; // Advance the scroll at 1 pixel every 2 frames (30 pixels/second)
+    int frame_counter{0};
+    const int DISTANCE_UPDATE_DURATION{2}; // Advance the scroll at 1 pixel every 2 frames (30 pixels/second)
 
-    bool stop_scrolling = false;
+    bool stop_scrolling{false};
 
     // The current state of the game scene
     GameSceneState state{GameSceneState::LEVEL};
@@ -85,8 +85,8 @@ private:
     // Event queue for the state transitions
     std::vector<GameSceneState> state_event_queue{};
 
-    const int transition_duration = 180;    // Make the transition last ~3 seconds
-    const int player_killed_timer = 60 * 5; // Player death timer
+    const int transition_duration{180};    // Make the transition last ~3 seconds
+    const int player_killed_timer{60 * 3}; // Player death timer
 
     // Camera shake object
     CameraShake camera{0, 0};

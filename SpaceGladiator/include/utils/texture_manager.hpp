@@ -23,6 +23,7 @@ public:
     Texture player_normal;
     Texture player_up;
     Texture player_down;
+    Texture player_explosion;
 
     Texture player_bullet;
 
