@@ -14,7 +14,6 @@ endif()
 target_sources(${PROJECT_NAME}
     PRIVATE
         src/main.cpp
-        src/texture_manager.cpp
         src/scenes/start_scene.cpp
         src/scenes/game_scene.cpp
         src/scenes/credits_scene.cpp
@@ -27,11 +26,13 @@ target_sources(${PROJECT_NAME}
         src/level_manager/level_manager.cpp
         src/level_manager/level.cpp
         src/utils/camera_shake.cpp
+        src/utils/texture_manager.cpp
+        src/utils/animation.cpp
+        src/entities/explosion.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
         FILES
-        include/texture_manager.hpp
         include/scenes/start_scene.hpp
         include/scenes/game_scene.hpp
         include/scenes/credits_scene.hpp
@@ -44,6 +45,9 @@ target_sources(${PROJECT_NAME}
         include/level_manager/level_manager.hpp
         include/level_manager/level.hpp
         include/utils/camera_shake.hpp
+        include/utils/texture_manager.hpp
+        include/utils/animation.hpp
+        include/entities/explosion.hpp
 )
 
 #set(raylib_VERBOSE 1)

@@ -1,5 +1,5 @@
 #include "entities/player_bullet.hpp"
-#include "texture_manager.hpp"
+#include "utils/texture_manager.hpp"
 
 PlayerBullet::PlayerBullet(Vector2 pos, Vector2 velocity) : Projectile(EntityType::PLAYER_PROJECTILE, pos, 8, 3, velocity) {}
 

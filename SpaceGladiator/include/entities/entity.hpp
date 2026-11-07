@@ -14,7 +14,8 @@ enum class EntityType
     ENEMY,             // Used for any enemies
     PLAYER_PROJECTILE, // Used for any projectiles fired by the player
     ENEMY_PROJECTILE,  // Used for any projectiles fired by the enemy
-    BLOCK              // Used for any kind of block like a wall or baricade (blocks all projectiles, and will destroy the player if hit)
+    BLOCK,             // Used for any kind of block like a wall or baricade (blocks all projectiles, and will destroy the player if hit)
+    NONE               // A blank entity, such as an explision which doesn't need any collision mechanics or physics
 };
 
 class Entity
@@ -57,6 +58,7 @@ public:
     Vector2 pos{0, 0};
     int width{0};
     int height{0};
+    bool is_dead{false}; // Indicates whether the entity is dead or not
 };
 
 #endif // ENTITY_HPP

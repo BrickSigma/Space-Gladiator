@@ -37,8 +37,7 @@ public:
     void handleTilemapCollision(GameScene *scene) override;
 
     int lives = PLAYER_MAX_LIVES; // The amount of lives the player has remaining
-    bool is_dead = false;
-
+    
 private:
     // Handle user input to move the player or shoot
     void handleInput();

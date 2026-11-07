@@ -25,6 +25,12 @@ public:
     Texture player_down;
 
     Texture player_bullet;
+
+    Texture asteroid_small;
+    Texture asteroid_medium;
+    Texture asteroid_large;
+
+    Texture explosion_1_frames;
 };
 
 #endif // TEXTURES_MANAGER_HPP

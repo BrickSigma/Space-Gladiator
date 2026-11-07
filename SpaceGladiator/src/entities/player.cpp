@@ -2,7 +2,7 @@
 #include "scenes/game_scene.hpp"
 
 #include "constants.hpp"
-#include "texture_manager.hpp"
+#include "utils/texture_manager.hpp"
 #include "entities/player_bullet.hpp"
 
 #include <algorithm>

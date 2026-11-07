@@ -13,8 +13,8 @@ enum class AsteroidSize : int
 class Asteroid : public Entity
 {
 public:
-    Asteroid(AsteroidSize size, Vector2 pos, float direction);
-    ~Asteroid() = default;
+    Asteroid(AsteroidSize size, Vector2 pos, int direction);
+    ~Asteroid();
 
     void update(GameScene *scene) override;
     void draw() override;
@@ -25,9 +25,12 @@ public:
 
 private:
     // Frame-based timing variables
+    int frame_counter{0};
+    int update_x_time{1};
+    int update_y_time{0};
 
-    int frame_counter = 0;
-    int update_time = 1;  // Time indicating when to actually move the asteroid
+    // Asteroid texture
+    Texture texture;
 };
 
 #endif // ASTEROID_HPP

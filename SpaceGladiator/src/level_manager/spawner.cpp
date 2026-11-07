@@ -43,6 +43,6 @@ static void spawnAsteroid(SpawnerData data, GameScene *scene)
             throw std::runtime_error(std::format("Invalid asteroid flag passed in: {}", data.flags));
     }
 
-    float vel_y = (static_cast<float>(y_pos) - ((float)SPACE_CANVAS_HEIGHT / 2.0f)) / ((float)SPACE_CANVAS_HEIGHT / 2.0f);
-    scene->spawnEntity(new Asteroid(size, {static_cast<float>(x_pos), static_cast<float>(y_pos)}, -vel_y * 0.5f));
+    int direction = (y_pos > SPACE_CANVAS_HEIGHT/2) ? -1 : 1;
+    scene->spawnEntity(new Asteroid(size, {static_cast<float>(x_pos), static_cast<float>(y_pos)}, direction));
 }

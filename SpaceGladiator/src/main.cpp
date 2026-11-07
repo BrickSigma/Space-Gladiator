@@ -8,7 +8,7 @@
 #include "scenes/start_scene.hpp"
 #include "scenes/game_scene.hpp"
 #include "scenes/credits_scene.hpp"
-#include "texture_manager.hpp"
+#include "utils/texture_manager.hpp"
 
 #include <iostream>
 #include <ctime>

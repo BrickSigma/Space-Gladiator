@@ -3,7 +3,7 @@
 #include "entities/asteroid.hpp"
 #include "constants.hpp"
 #include "level_manager/level_manager.hpp"
-#include "texture_manager.hpp"
+#include "utils/texture_manager.hpp"
 
 #include <algorithm>
 #include <string>
