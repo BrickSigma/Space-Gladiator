@@ -26,6 +26,9 @@ public:
     // Draw the projectile to the screen. By default this will render a rectangle of the projectile
     void draw() override;
 
+    // Projectiles shot should be able to collide with the tilemap
+    void handleTilemapCollision(GameScene *scene) override;
+
     Vector2 velocity;
 };
 

@@ -6,6 +6,9 @@
 
 #define WINDOW_SCALE (3)
 
+#define TILEMAP_WIDTH (208)
+#define TILEMAP_HEIGHT (13)
+
 constexpr int WINDOW_WIDTH = CANVAS_WIDTH * WINDOW_SCALE;
 constexpr int WINDOW_HEIGHT = CANVAS_HEIGHT * WINDOW_SCALE;
 

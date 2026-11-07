@@ -162,8 +162,6 @@ void Player::draw()
 
 void Player::handleCollision(GameScene *scene, Entity *entity)
 {
-    (void)scene;
-
     if (is_dead)
         return;
 
@@ -181,5 +179,25 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
     scene->pushStateEvent(GameSceneState::PLAYER_KILLED);
 
     // Also shake the camera a bit
+    scene->setCameraShake(CameraShake(2, 120));
+}
+
+void Player::handleTilemapCollision(GameScene *scene)
+{
+    if (is_dead)
+        return;
+
+    if (!checkTilemapCollision(scene->level_manager.getTilemap(), scene->scroll_distance))
+        return;
+
+    is_dead = true;
+    lives--;
+    clearMovementArray();
+
+    is_dead = true;
+    lives--;
+    clearMovementArray();
+
+    scene->pushStateEvent(GameSceneState::PLAYER_KILLED);
     scene->setCameraShake(CameraShake(2, 120));
 }

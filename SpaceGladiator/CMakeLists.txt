@@ -27,7 +27,6 @@ target_sources(${PROJECT_NAME}
         src/level_manager/level_manager.cpp
         src/level_manager/level.cpp
         src/utils/camera_shake.cpp
-        src/utils/collision.cpp        
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -45,7 +44,6 @@ target_sources(${PROJECT_NAME}
         include/level_manager/level_manager.hpp
         include/level_manager/level.hpp
         include/utils/camera_shake.hpp
-        include/utils/collision.hpp
 )
 
 #set(raylib_VERBOSE 1)

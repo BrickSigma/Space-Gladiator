@@ -2,6 +2,9 @@
 #define ENTITY_HPP
 
 #include <raylib.h>
+#include <bitset>
+
+#include "constants.hpp"
 
 class GameScene;
 
@@ -35,6 +38,12 @@ public:
 
     // Used to handle collisions between entities
     virtual void handleCollision(GameScene *scene, Entity *other);
+
+    // Check collision between the tileset
+    virtual bool checkTilemapCollision(const std::bitset<TILEMAP_WIDTH * TILEMAP_HEIGHT> &tilemap, int scroll_distance) const;
+
+    // Handle collisions between the tileset and entity
+    virtual void handleTilemapCollision(GameScene *scene);
 
     // Check if the entity is off screen and returns true if it is.
     bool isOffScreen();

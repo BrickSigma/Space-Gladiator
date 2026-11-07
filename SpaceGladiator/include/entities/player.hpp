@@ -33,6 +33,9 @@ public:
     // Handle collisions with the space ship
     void handleCollision(GameScene *scene, Entity *entity) override;
 
+    // Handle collisions with the tilemap
+    void handleTilemapCollision(GameScene *scene) override;
+
     int lives = PLAYER_MAX_LIVES; // The amount of lives the player has remaining
     bool is_dead = false;
 

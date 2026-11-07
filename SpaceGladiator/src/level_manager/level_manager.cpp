@@ -83,3 +83,8 @@ void LevelManager::drawLevel(GameScene *scene)
     }
     */
 }
+
+std::bitset<LEVEL_GRID_WIDTH * LEVEL_GRID_HEIGHT> &LevelManager::getTilemap() const
+{
+    return levels[current_level]->tilemap;
+}

@@ -39,6 +39,9 @@ public:
      */
     void drawLevel(GameScene *scene);
 
+    // Get the current level tilemap
+    std::bitset<LEVEL_GRID_WIDTH*LEVEL_GRID_HEIGHT>& getTilemap() const;
+
     // List of all the levels loaded into memory
     std::vector<Level *> levels{};
     // The current level we're in

@@ -160,9 +160,15 @@ SceneState GameScene::update()
         player.handleCollision(this, entity);
     }
 
+    player.handleTilemapCollision(this);
+
     // The next case is handling all enemies against the player bullets
     for (Entity *entity_1 : entities)
     {
+        // Check if the entity has collided with the tilemap first
+        entity_1->handleTilemapCollision(this);
+
+        // If the player did hit the tilemap, or was deleted by another entity, skip it
         if (entity_1->delete_entity)
             continue; // Skip entities marked for deletion
 
