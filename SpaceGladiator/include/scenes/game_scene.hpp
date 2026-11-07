@@ -15,13 +15,17 @@
 #define SPACE_CANVAS_WIDTH (CANVAS_WIDTH)
 #define SPACE_CANVAS_HEIGHT (CANVAS_HEIGHT - SCORE_BOARD_HEIGHT)
 
+#define PLAYER_DEATH_TIME (150)
+#define GAME_OVER_TIME (300)
+
 enum class GameSceneState : int
 {
     PAUSED,        // The game is paused
     LEVEL,         // Currently in a level
     PLAYER_KILLED, // The player has been killed
     TRANSITION,    // Moving between levels
-    COMPLETED      // The last level was completed
+    COMPLETED,     // The last level was completed
+    GAME_OVER      // Used to indicate that the player lost all lives and we should return to the title screen
 };
 
 class GameScene : public Scene
@@ -85,8 +89,8 @@ private:
     // Event queue for the state transitions
     std::vector<GameSceneState> state_event_queue{};
 
-    const int transition_duration{180};    // Make the transition last ~3 seconds
-    const int player_killed_timer{60 * 3}; // Player death timer
+    const int transition_duration{180};          // Make the transition last ~3 seconds
+    int player_killed_timer{PLAYER_DEATH_TIME}; // Player death timer (~2.5 seconds or ~5 seconds on game over)
 
     // Camera shake object
     CameraShake camera{0, 0};

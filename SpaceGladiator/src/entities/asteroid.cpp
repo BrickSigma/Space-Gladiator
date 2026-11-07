@@ -75,7 +75,7 @@ void Asteroid::handleCollision(GameScene *scene, Entity *entity)
     scene->setCameraShake(CameraShake(2, 30));
 
     // Spawn an explosion
-    scene->spawnEntity(new Explosion(1, {pos.x + width / 2, pos.y + height / 2}));
+    scene->spawnEntity(new Explosion(2, {pos.x + width / 2, pos.y + height / 2}));
 
     AsteroidSize next_size{AsteroidSize::MEDIUM};
     switch (size)

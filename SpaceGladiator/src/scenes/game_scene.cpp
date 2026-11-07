@@ -21,6 +21,7 @@ void GameScene::reset()
     frame_counter = 0;
     level_manager.reset();
     player.reset(true);
+    player_killed_timer = PLAYER_DEATH_TIME;
     resetFromCheckpoint();
 }
 
@@ -72,6 +73,12 @@ void GameScene::updateEntities()
 SceneState GameScene::update()
 {
     SceneState next_state = SceneState::NO_CHANGE;
+
+    if (state == GameSceneState::COMPLETED)
+        return SceneState::CREDITS;
+    else if (state == GameSceneState::GAME_OVER)
+        return SceneState::START_SCREEN;
+
     // Handle pausing the game
     if (IsKeyPressed(KEY_P) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))
     {
@@ -88,13 +95,9 @@ SceneState GameScene::update()
 
     // Handle user input
     if (IsKeyPressed(KEY_BACKSPACE))
-    {
-        next_state = SceneState::START_SCREEN;
-    }
+        return SceneState::START_SCREEN;
     else if (IsKeyPressed(KEY_ENTER))
-    {
-        next_state = SceneState::CREDITS;
-    }
+        return SceneState::CREDITS;
 
     // Handle rendering here for all entities and the level
     BeginTextureMode(canvas);
@@ -306,12 +309,16 @@ void GameScene::handleStateChange()
             stop_scrolling = false; // Make sure to enable scrolling again
             if (player.lives < 0)
             {
-                reset(); // Reset the entire game if the player completely died
+                // reset(); // Reset the entire game if the player completely died
+                // Go back to the start screen
+                state = GameSceneState::GAME_OVER;
             }
             else
             {
                 resetFromCheckpoint(); // Reset the game from the player's last checkpoint
             }
+            break;
+        default:
             break;
         }
         break;
@@ -341,6 +348,10 @@ void GameScene::handleStateChange()
     case GameSceneState::PLAYER_KILLED:
         state = next_state;
         frame_counter = 0;
+        if (player.lives < 0)
+            player_killed_timer = GAME_OVER_TIME;
+        else
+            player_killed_timer = PLAYER_DEATH_TIME;
         break;
 
     default:

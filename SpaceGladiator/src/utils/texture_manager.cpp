@@ -34,6 +34,7 @@ TextureManager::TextureManager()
 
     // Explosion frames
     explosion_1_frames = LoadTexture(getImageAssetFile("explosion-1.png"));
+    explosion_2_frames = LoadTexture(getImageAssetFile("explosion-2.png"));
 }
 
 TextureManager::~TextureManager()
@@ -57,4 +58,5 @@ TextureManager::~TextureManager()
 
     // Explosion textures
     UnloadTexture(explosion_1_frames);
+    UnloadTexture(explosion_2_frames);
 }

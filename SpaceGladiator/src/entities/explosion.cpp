@@ -7,6 +7,11 @@ Explosion::Explosion(int type, Vector2 ceneter) : Entity(EntityType::NONE, cenet
     TextureManager &texture_manager = TextureManager::getInstance();
     switch (type)
     {
+    case 2:
+        animation = new Animation(texture_manager.explosion_2_frames, 16, 4, false);
+        pos.x -= 8;
+        pos.y -= 8;
+        break;
     default:
         animation = new Animation(texture_manager.explosion_1_frames, 16, 4, false);
         pos.x -= 8;
@@ -22,7 +27,8 @@ Explosion::~Explosion()
 
 void Explosion::update(GameScene *scene)
 {
-    if (animation->completed) {
+    if (animation->completed)
+    {
         delete_entity = true;
         return;
     }

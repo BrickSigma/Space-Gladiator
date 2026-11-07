@@ -32,6 +32,7 @@ public:
     Texture asteroid_large;
 
     Texture explosion_1_frames;
+    Texture explosion_2_frames;
 };
 
 #endif // TEXTURES_MANAGER_HPP
