@@ -23,7 +23,7 @@ endif()
 
 if(MSVC)
   target_compile_options(SceneManager PRIVATE /W4 /WX)
-  else()
+else()
   target_compile_options(SceneManager PRIVATE
     -Wall -Wextra -Wpedantic -Werror
     -Wconversion
@@ -37,7 +37,7 @@ endif()
 if (ASAN_ENABLED)
    if(MSVC)
       target_compile_options(SceneManager PRIVATE /fsanitize=address /Zi)
-   else()
+   elseif(NOT (${PLATFORM} STREQUAL "Web"))
       target_compile_options(SceneManager PRIVATE -fsanitize=address)
       target_link_libraries(SceneManager PRIVATE -fsanitize=address)
     endif()

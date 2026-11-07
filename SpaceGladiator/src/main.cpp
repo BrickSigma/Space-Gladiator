@@ -123,11 +123,13 @@ void UpdateDrawFrame(void)
     scene_manager->draw();
     EndTextureMode();
 
+#ifndef PLATFORM_WEB
     // Toggle the full screen state if the F-key is pressed
     if (IsKeyPressed(KEY_F))
     {
         ToggleFullscreen();
     }
+#endif
 
     float width = static_cast<float>(GetRenderWidth());
     float height = static_cast<float>(GetRenderHeight());
