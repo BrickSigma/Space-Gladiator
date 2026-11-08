@@ -28,7 +28,10 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
   endif()
 endif()
 
-add_subdirectory(TilemapTool)
+if(NOT ${PLATFORM} STREQUAL "Web")
+  add_subdirectory(TilemapTool)
+endif()
+
 add_subdirectory(Config)
 add_subdirectory(SceneManager)
 add_subdirectory(${PROJECT_NAME})
