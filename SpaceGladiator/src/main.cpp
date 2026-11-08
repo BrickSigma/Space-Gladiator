@@ -36,6 +36,10 @@ int main(int argc, char *argv[])
 
     SetWindowState(FLAG_WINDOW_RESIZABLE);
 
+#ifndef DEBUG
+    SetExitKey(0);
+#endif
+
     // Seed Raylib's random number generator
     SetRandomSeed(static_cast<unsigned long>(time(NULL)));
 
