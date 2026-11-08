@@ -33,6 +33,9 @@ public:
 
     Texture explosion_1_frames;
     Texture explosion_2_frames;
+
+    Texture regular_diagonal_flyer;
+    Texture special_diagonal_flyer;
 };
 
 #endif // TEXTURES_MANAGER_HPP

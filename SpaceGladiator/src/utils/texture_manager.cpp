@@ -32,6 +32,10 @@ TextureManager::TextureManager()
     asteroid_medium = LoadTexture(getImageAssetFile("asteroid-medium.png"));
     asteroid_large = LoadTexture(getImageAssetFile("asteroid-large.png"));
 
+    // Diagonal flyer textures
+    regular_diagonal_flyer = LoadTexture(getImageAssetFile("regular-diagonal-flyer.png"));
+    special_diagonal_flyer = LoadTexture(getImageAssetFile("special-diagonal-flyer.png"));
+
     // Explosion frames
     explosion_1_frames = LoadTexture(getImageAssetFile("explosion-1.png"));
     explosion_2_frames = LoadTexture(getImageAssetFile("explosion-2.png"));
@@ -55,6 +59,10 @@ TextureManager::~TextureManager()
     UnloadTexture(asteroid_small);
     UnloadTexture(asteroid_medium);
     UnloadTexture(asteroid_large);
+
+    // Diagonal flyer textures
+    UnloadTexture(regular_diagonal_flyer);
+    UnloadTexture(special_diagonal_flyer);
 
     // Explosion textures
     UnloadTexture(explosion_1_frames);

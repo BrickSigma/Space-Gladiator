@@ -29,6 +29,7 @@ target_sources(${PROJECT_NAME}
         src/utils/texture_manager.cpp
         src/utils/animation.cpp
         src/entities/explosion.cpp
+        src/entities/diagonal_flyer.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -48,6 +49,7 @@ target_sources(${PROJECT_NAME}
         include/utils/texture_manager.hpp
         include/utils/animation.hpp
         include/entities/explosion.hpp
+        include/entities/diagonal_flyer.hpp
 )
 
 #set(raylib_VERBOSE 1)

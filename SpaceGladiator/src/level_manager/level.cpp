@@ -112,7 +112,7 @@ void Level::update(GameScene *scene)
             break;
         }
 
-        SpawnerData data = spawners[i];
+        SpawnerData &data = spawners[i];
         spawnerDispatch(data, scene); // Call the spawner callback function
 
         // Incase we're at the last spawner, set the next_spawner to 1 above the level size to prevent an infinite loop

@@ -59,9 +59,6 @@ void Asteroid::draw()
 
 void Asteroid::handleCollision(GameScene *scene, Entity *entity)
 {
-    if (is_dead)
-        return;
-
     if (entity->type != EntityType::PLAYER_PROJECTILE)
         return;
 
@@ -77,6 +74,7 @@ void Asteroid::handleCollision(GameScene *scene, Entity *entity)
     // Spawn an explosion
     scene->spawnEntity(new Explosion(2, {pos.x + width / 2, pos.y + height / 2}));
 
+    // Create two smaller asteroids
     AsteroidSize next_size{AsteroidSize::MEDIUM};
     switch (size)
     {

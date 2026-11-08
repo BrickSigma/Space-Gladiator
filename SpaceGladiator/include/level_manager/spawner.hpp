@@ -6,7 +6,8 @@ class GameScene;
 // Spawner type, used for the spawner level data
 enum class SpawnerType
 {
-    ASTEROID
+    ASTEROID,
+    DIAGONAL_FLYER
 };
 
 // Convert a string to a spawner type, or throw an error on failure
@@ -22,11 +23,11 @@ struct SpawnerData
 };
 
 // Callback function type for spawning an entity
-typedef void (*SpawnerCB)(SpawnerData data, GameScene *scene);
+typedef void (*SpawnerCB)(const SpawnerData &data, GameScene *scene);
 
 /**
  * Used to call the correct spawner function based on the data type
  */
-void spawnerDispatch(SpawnerData data, GameScene *scene);
+void spawnerDispatch(const SpawnerData &data, GameScene *scene);
 
 #endif // SPAWNER_HPP
