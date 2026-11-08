@@ -253,7 +253,7 @@ SceneState GameScene::update()
 
 void GameScene::onEnter(SceneState previous_state)
 {
-    if (previous_state == SceneState::START_SCREEN)
+    if (previous_state != SceneState::GAME)
     {
         // Reset the game if we're entering from the start screen
         reset();

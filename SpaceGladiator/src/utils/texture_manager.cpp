@@ -36,6 +36,10 @@ TextureManager::TextureManager()
     regular_diagonal_flyer = LoadTexture(getImageAssetFile("regular-diagonal-flyer.png"));
     special_diagonal_flyer = LoadTexture(getImageAssetFile("special-diagonal-flyer.png"));
 
+    // Sine wave flyer textures
+    regular_sine_wave_flyer = LoadTexture(getImageAssetFile("regular-sine-wave-flyer.png"));
+    special_sine_wave_flyer = LoadTexture(getImageAssetFile("special-sine-wave-flyer.png"));
+
     // Explosion frames
     explosion_1_frames = LoadTexture(getImageAssetFile("explosion-1.png"));
     explosion_2_frames = LoadTexture(getImageAssetFile("explosion-2.png"));
@@ -63,6 +67,10 @@ TextureManager::~TextureManager()
     // Diagonal flyer textures
     UnloadTexture(regular_diagonal_flyer);
     UnloadTexture(special_diagonal_flyer);
+
+    // Sine wave flyer textures
+    UnloadTexture(regular_sine_wave_flyer);
+    UnloadTexture(special_sine_wave_flyer);
 
     // Explosion textures
     UnloadTexture(explosion_1_frames);

@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-DiagonalFlyer::DiagonalFlyer(Vector2 pos, bool special) : Entity(EntityType::ENEMY, pos, 16, 16)
+DiagonalFlyer::DiagonalFlyer(Vector2 pos, bool special) : Entity(EntityType::ENEMY, pos, 16, 16), special(special)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
 

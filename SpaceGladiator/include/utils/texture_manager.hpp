@@ -36,6 +36,9 @@ public:
 
     Texture regular_diagonal_flyer;
     Texture special_diagonal_flyer;
+
+    Texture regular_sine_wave_flyer;
+    Texture special_sine_wave_flyer;
 };
 
 #endif // TEXTURES_MANAGER_HPP

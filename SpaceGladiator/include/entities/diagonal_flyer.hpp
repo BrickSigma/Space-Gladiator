@@ -27,6 +27,8 @@ private:
         MOVING_STRAIGHT
     };
 
+    bool special{false};
+
     int frame_counter{0};
     int update_x_time{1};
     int update_y_time{1};

@@ -7,7 +7,8 @@ class GameScene;
 enum class SpawnerType
 {
     ASTEROID,
-    DIAGONAL_FLYER
+    DIAGONAL_FLYER,
+    SINE_WAVE_FLYER
 };
 
 // Convert a string to a spawner type, or throw an error on failure

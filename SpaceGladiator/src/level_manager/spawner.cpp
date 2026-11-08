@@ -3,6 +3,7 @@
 
 #include "entities/asteroid.hpp"
 #include "entities/diagonal_flyer.hpp"
+#include "entities/sine_wave_flyer.hpp"
 
 #include <format>
 #include <cstring>
@@ -13,6 +14,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::ASTEROID;
     else if (!(strcmp(str, "DIAGONAL_FLYER")))
         return SpawnerType::DIAGONAL_FLYER;
+    else if (!strcmp(str, "SINE_WAVE_FLYER"))
+        return SpawnerType::SINE_WAVE_FLYER;
     else
         throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
@@ -27,10 +30,12 @@ static Vector2 spawnPositionToVector(const SpawnerData &data, int scroll_distanc
 
 static void spawnAsteroid(const SpawnerData &data, GameScene *scene);
 static void spawnDiagonalFlyer(const SpawnerData &data, GameScene *scene);
+static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene);
 
 static SpawnerCB spawner_cb_table[]{
     spawnAsteroid,
-    spawnDiagonalFlyer};
+    spawnDiagonalFlyer,
+    spawnSineWaveFlyer};
 
 void spawnerDispatch(const SpawnerData &data, GameScene *scene)
 {
@@ -70,4 +75,12 @@ static void spawnDiagonalFlyer(const SpawnerData &data, GameScene *scene)
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
     bool special = data.flags != 0;
     scene->spawnEntity(new DiagonalFlyer(pos, special));
+}
+
+// Spawn a sine wave flyer
+static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene)
+{
+    Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
+    bool special = data.flags != 0;
+    scene->spawnEntity(new SineWaveFlyer(pos, special));
 }

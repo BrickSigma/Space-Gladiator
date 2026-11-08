@@ -30,6 +30,7 @@ target_sources(${PROJECT_NAME}
         src/utils/animation.cpp
         src/entities/explosion.cpp
         src/entities/diagonal_flyer.cpp
+        src/entities/sine_wave_flyer.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -50,6 +51,7 @@ target_sources(${PROJECT_NAME}
         include/utils/animation.hpp
         include/entities/explosion.hpp
         include/entities/diagonal_flyer.hpp
+        include/entities/sine_wave_flyer.hpp
 )
 
 #set(raylib_VERBOSE 1)
