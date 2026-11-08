@@ -265,9 +265,9 @@ void GameScene::spawnEntity(Entity *entity)
     new_entities.push_back(entity);
 }
 
-void GameScene::pushStateEvent(GameSceneState state)
+void GameScene::pushStateEvent(GameSceneState new_state)
 {
-    state_event_queue.push_back(state);
+    state_event_queue.push_back(new_state);
 }
 
 static bool state_cmp(const GameSceneState &lhs, const GameSceneState &rhs)
@@ -362,7 +362,7 @@ void GameScene::handleStateChange()
     state_event_queue.clear();
 }
 
-void GameScene::setCameraShake(CameraShake camera)
+void GameScene::setCameraShake(CameraShake camera_shake)
 {
-    this->camera = camera;
+    this->camera = camera_shake;
 }

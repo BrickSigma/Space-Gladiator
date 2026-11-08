@@ -28,6 +28,7 @@ SineWaveFlyer::~SineWaveFlyer()
 
 void SineWaveFlyer::update(GameScene *scene)
 {
+    (void)scene;
     frame_counter++;
     if (frame_counter % update_x_time == 0)
         pos.x += x_vel;

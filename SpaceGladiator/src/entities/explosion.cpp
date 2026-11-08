@@ -27,6 +27,7 @@ Explosion::~Explosion()
 
 void Explosion::update(GameScene *scene)
 {
+    (void)scene;
     if (animation->completed)
     {
         delete_entity = true;

@@ -50,7 +50,7 @@ public:
     void spawnEntity(Entity *entity);
 
     // Push a new game scene state to the event queue for processing
-    void pushStateEvent(GameSceneState state);
+    void pushStateEvent(GameSceneState new_state);
 
     // Change the camera shake instance.
     void setCameraShake(CameraShake camera);
