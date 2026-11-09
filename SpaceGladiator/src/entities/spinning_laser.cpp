@@ -104,6 +104,7 @@ void SpinningLaser::draw()
 
 void SpinningLaser::handleCollision(GameScene *scene, Entity *entity)
 {
+    (void)scene;
     if (!(entity->type == EntityType::PLAYER_PROJECTILE || entity->type == EntityType::ENEMY_PROJECTILE))
         return;
 
