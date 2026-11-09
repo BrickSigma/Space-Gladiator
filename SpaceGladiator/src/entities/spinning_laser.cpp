@@ -69,11 +69,8 @@ SpinningLaser::SpinningLaser(Vector2 pos, int no_lasers, SpinningLaserType type)
 
 SpinningLaser::~SpinningLaser()
 {
-    TraceLog(LOG_INFO, "Destroying spinning laser");
     for (LaserBall *laser_ball : laser_balls)
-    {
         delete laser_ball;
-    }
 }
 
 void SpinningLaser::update(GameScene *scene)
