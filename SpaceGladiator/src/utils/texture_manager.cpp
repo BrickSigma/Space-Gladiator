@@ -43,6 +43,12 @@ TextureManager::TextureManager()
     // Explosion frames
     explosion_1_frames = LoadTexture(getImageAssetFile("explosion-1.png"));
     explosion_2_frames = LoadTexture(getImageAssetFile("explosion-2.png"));
+
+    // Spining laser base texture
+    spinning_laser_base = LoadTexture(getImageAssetFile("spinning-laser-base.png"));
+
+    // Enemy bullet
+    enemy_bullet = LoadTexture(getImageAssetFile("enemy-bullet.png"));
 }
 
 TextureManager::~TextureManager()
@@ -75,4 +81,10 @@ TextureManager::~TextureManager()
     // Explosion textures
     UnloadTexture(explosion_1_frames);
     UnloadTexture(explosion_2_frames);
+
+    // Spinning laser base texture
+    UnloadTexture(spinning_laser_base);
+
+    // Enemy bullet
+    UnloadTexture(enemy_bullet);
 }

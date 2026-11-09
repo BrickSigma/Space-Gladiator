@@ -4,6 +4,7 @@
 #include "entities/asteroid.hpp"
 #include "entities/diagonal_flyer.hpp"
 #include "entities/sine_wave_flyer.hpp"
+#include "entities/spinning_laser.hpp"
 
 #include <format>
 #include <cstring>
@@ -16,6 +17,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::DIAGONAL_FLYER;
     else if (!strcmp(str, "SINE_WAVE_FLYER"))
         return SpawnerType::SINE_WAVE_FLYER;
+    else if (!strcmp(str, "SPINNING_LASER"))
+        return SpawnerType::SPINNING_LASER;
     else
         throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
@@ -31,11 +34,13 @@ static Vector2 spawnPositionToVector(const SpawnerData &data, int scroll_distanc
 static void spawnAsteroid(const SpawnerData &data, GameScene *scene);
 static void spawnDiagonalFlyer(const SpawnerData &data, GameScene *scene);
 static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene);
+static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene);
 
 static SpawnerCB spawner_cb_table[]{
     spawnAsteroid,
     spawnDiagonalFlyer,
-    spawnSineWaveFlyer};
+    spawnSineWaveFlyer,
+    spawnSpinningLaser};
 
 void spawnerDispatch(const SpawnerData &data, GameScene *scene)
 {
@@ -83,4 +88,31 @@ static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene)
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
     bool special = data.flags != 0;
     scene->spawnEntity(new SineWaveFlyer(pos, special));
+}
+
+// Spawn a spinning laser. The `data.flags` indicates the spinning type
+static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene)
+{
+    Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
+
+    SpinningLaserType type{SpinningLaserType::LEFT};
+    switch (data.flags)
+    {
+    case 0:
+        type = SpinningLaserType::LEFT;
+        break;
+    case 1:
+        type = SpinningLaserType::RIGHT;
+        break;
+    case 2:
+        type = SpinningLaserType::ALTERNATE_LEFT;
+        break;
+    case 3:
+        type = SpinningLaserType::ALTERNATE_RIGHT;
+        break;
+    default:
+        break;
+    }
+
+    scene->spawnEntity(new SpinningLaser(pos, 5, type));
 }

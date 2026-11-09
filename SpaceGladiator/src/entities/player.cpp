@@ -174,7 +174,8 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
     if ((entity->type == EntityType::PLAYER_PROJECTILE) || (entity->type == EntityType::PLAYER))
         return;
 
-    if (!checkCollision(*entity))
+    // The entity calls it's own checkCollision function in case it has it's own custom one (like the spinning laser)
+    if (!(entity->checkCollision(*this)))
         return;
 
     is_dead = true;

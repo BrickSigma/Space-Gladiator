@@ -35,7 +35,7 @@ public:
     virtual void draw() = 0;
 
     // Used to check if this entity is colliding with another
-    bool checkCollision(const Entity &entity) const;
+    virtual bool checkCollision(const Entity &entity) const;
 
     // Used to handle collisions between entities
     virtual void handleCollision(GameScene *scene, Entity *other);

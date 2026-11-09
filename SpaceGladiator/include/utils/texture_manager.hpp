@@ -39,6 +39,10 @@ public:
 
     Texture regular_sine_wave_flyer;
     Texture special_sine_wave_flyer;
+
+    Texture spinning_laser_base;
+
+    Texture enemy_bullet;
 };
 
 #endif // TEXTURES_MANAGER_HPP
