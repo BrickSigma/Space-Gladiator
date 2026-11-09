@@ -52,7 +52,7 @@ public:
     bool checkCollision(const Entity& entity) const override;
 
 private:
-    const float spacing{12.0f};
+    const float spacing{16.0f};
     std::vector<LaserBall *> laser_balls{};
     Texture texture;
 

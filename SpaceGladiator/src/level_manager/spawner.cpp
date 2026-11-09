@@ -96,7 +96,11 @@ static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene)
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
 
     SpinningLaserType type{SpinningLaserType::LEFT};
-    switch (data.flags)
+
+    int type_flag = data.flags >> 4;  // The type of spawner is stored in the upper 4 bits of the flag
+    int no_lasers = data.flags & 0xf;  // The number of lasers the entity has is in the lower 4 bits
+
+    switch (type_flag)
     {
     case 0:
         type = SpinningLaserType::LEFT;
@@ -114,5 +118,5 @@ static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene)
         break;
     }
 
-    scene->spawnEntity(new SpinningLaser(pos, 5, type));
+    scene->spawnEntity(new SpinningLaser(pos, no_lasers, type));
 }
