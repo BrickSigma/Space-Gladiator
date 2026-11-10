@@ -9,7 +9,8 @@ enum class SpawnerType
     ASTEROID,
     DIAGONAL_FLYER,
     SINE_WAVE_FLYER,
-    SPINNING_LASER
+    SPINNING_LASER,
+    MOVING_LASER
 };
 
 // Convert a string to a spawner type, or throw an error on failure

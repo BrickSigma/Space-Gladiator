@@ -49,6 +49,11 @@ TextureManager::TextureManager()
 
     // Enemy bullet
     enemy_bullet = LoadTexture(getImageAssetFile("enemy-bullet.png"));
+
+    // Moving laser textures
+    moving_laser = LoadTexture(getImageAssetFile("moving-laser.png"));
+    moving_laser_hole = LoadTexture(getImageAssetFile("moving-laser-hole.png"));
+    laser_loading = LoadTexture(getImageAssetFile("moving-laser-loading.png"));
 }
 
 TextureManager::~TextureManager()
@@ -87,4 +92,9 @@ TextureManager::~TextureManager()
 
     // Enemy bullet
     UnloadTexture(enemy_bullet);
+
+    // Moving laser textures
+    UnloadTexture(moving_laser);
+    UnloadTexture(moving_laser_hole);
+    UnloadTexture(laser_loading);
 }

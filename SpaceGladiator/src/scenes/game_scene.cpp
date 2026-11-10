@@ -114,8 +114,6 @@ SceneState GameScene::update()
         level_manager.drawLevel(this);
     }
 
-    player.draw();
-
     // Render all other entities
     for (Entity *entity : entities)
     {
@@ -126,6 +124,9 @@ SceneState GameScene::update()
         }
         entity->draw();
     }
+
+    // Player rendered on top of all entities
+    player.draw();
 
     // Render any overlays
     if (state == GameSceneState::PAUSED)

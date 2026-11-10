@@ -43,6 +43,10 @@ public:
     Texture spinning_laser_base;
 
     Texture enemy_bullet;
+
+    Texture moving_laser;
+    Texture moving_laser_hole;
+    Texture laser_loading;
 };
 
 #endif // TEXTURES_MANAGER_HPP

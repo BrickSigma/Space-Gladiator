@@ -5,6 +5,7 @@
 #include "entities/diagonal_flyer.hpp"
 #include "entities/sine_wave_flyer.hpp"
 #include "entities/spinning_laser.hpp"
+#include "entities/moving_laser.hpp"
 
 #include <format>
 #include <cstring>
@@ -19,6 +20,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::SINE_WAVE_FLYER;
     else if (!strcmp(str, "SPINNING_LASER"))
         return SpawnerType::SPINNING_LASER;
+    else if (!strcmp(str, "MOVING_LASER"))
+        return SpawnerType::MOVING_LASER;
     else
         throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
@@ -35,12 +38,14 @@ static void spawnAsteroid(const SpawnerData &data, GameScene *scene);
 static void spawnDiagonalFlyer(const SpawnerData &data, GameScene *scene);
 static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene);
 static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene);
+static void spawnMovingLaser(const SpawnerData &data, GameScene *scene);
 
 static SpawnerCB spawner_cb_table[]{
     spawnAsteroid,
     spawnDiagonalFlyer,
     spawnSineWaveFlyer,
-    spawnSpinningLaser};
+    spawnSpinningLaser,
+    spawnMovingLaser};
 
 void spawnerDispatch(const SpawnerData &data, GameScene *scene)
 {
@@ -119,4 +124,9 @@ static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene)
     }
 
     scene->spawnEntity(new SpinningLaser(pos, no_lasers, type));
+}
+
+static void spawnMovingLaser(const SpawnerData &data, GameScene *scene)
+{
+    scene->spawnEntity(new MovingLaser());
 }
