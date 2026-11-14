@@ -16,8 +16,8 @@ public:
     void handleCollision(GameScene *scene, Entity *entity) override;
 
 private:
-    int frame_counter{0};
-    const int fire_time{180};
+    int frame_counter{75};
+    const int fire_time{160};
 
     float target_angle{0}; // The current angular position of the player relative to the shooter
 

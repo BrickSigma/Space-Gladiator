@@ -165,7 +165,7 @@ static void spawnCanon(const SpawnerData &data, GameScene *scene)
 static void spawnGroundShooter(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    bool facing_up = (data.flags & 0b1) != 0;  // If bit 0 is set, then the shooter is facing up
+    bool facing_up = (data.flags & 0b1) != 0; // If bit 0 is set, then the shooter is facing up
     bool special = (data.flags & 0b10) != 0;  // If bit 1 is set, then the shooter is a special variant
     scene->spawnEntity(new GroundShooter(pos, facing_up, special));
 }
