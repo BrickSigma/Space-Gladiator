@@ -133,6 +133,7 @@ static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene)
 
 static void spawnMovingLaser(const SpawnerData &data, GameScene *scene)
 {
+    (void)data;
     scene->spawnEntity(new MovingLaser());
 }
 

@@ -3,9 +3,9 @@
 
 #include <cmath>
 
-Entity::Entity(EntityType type, Vector2 pos, int width, int height) : type(type), pos(pos), width(width), height(height) {}
+Entity::Entity(EntityType type_, Vector2 pos_, int width_, int height_) : type(type_), pos(pos_), width(width_), height(height_) {}
 
-Entity::Entity(EntityType type) : type(type) {}
+Entity::Entity(EntityType type_) : type(type_) {}
 
 Rectangle Entity::getRect() const
 {
@@ -50,7 +50,7 @@ bool Entity::checkTilemapCollision(const std::bitset<TILEMAP_WIDTH * TILEMAP_HEI
             if (w >= LEVEL_GRID_WIDTH)
                 continue; // Prevent a potential segfault when we reach the end of the level
 
-            if (tilemap[h * LEVEL_GRID_WIDTH + w])
+            if (tilemap[static_cast<size_t>(h * LEVEL_GRID_WIDTH + w)])
             {
                 Rectangle tile{static_cast<float>((w - grid_pos) * TILE_SIZE - scroll_offset), static_cast<float>(h * TILE_SIZE), (float)TILE_SIZE, (float)TILE_SIZE};
                 if (CheckCollisionRecs(entity_rect, tile))

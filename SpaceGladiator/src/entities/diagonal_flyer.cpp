@@ -6,11 +6,11 @@
 
 #include <cmath>
 
-DiagonalFlyer::DiagonalFlyer(Vector2 pos, bool special) : Entity(EntityType::ENEMY, pos, 16, 16), special(special)
+DiagonalFlyer::DiagonalFlyer(Vector2 pos_, bool special_) : Entity(EntityType::ENEMY, pos_, 16, 16), special(special_)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
 
-    if (special)
+    if (special_)
         textures = texture_manager.special_diagonal_flyer;
     else
         textures = texture_manager.regular_diagonal_flyer;
@@ -18,17 +18,17 @@ DiagonalFlyer::DiagonalFlyer(Vector2 pos, bool special) : Entity(EntityType::ENE
 
 void DiagonalFlyer::update(GameScene *scene)
 {
-    float player_y_pos = floor(scene->player.pos.y);
-    float flyer_y_pos = floor(pos.y);
+    float player_y_pos = floorf(scene->player.pos.y);
+    float flyer_y_pos = floorf(pos.y);
 
-    if ((flyer_y_pos + height) <= player_y_pos)
+    if ((flyer_y_pos + static_cast<float>(height)) <= player_y_pos)
     {
         state = DiagonalFlyerState::MOVING_DOWN;
         update_x_time = 1;
         update_y_time = 3;
         velocity = {-1, 1};
     }
-    else if (flyer_y_pos >= (player_y_pos + scene->player.height))
+    else if (flyer_y_pos >= (player_y_pos + static_cast<float>(scene->player.height)))
     {
         state = DiagonalFlyerState::MOVING_UP;
         update_x_time = 1;

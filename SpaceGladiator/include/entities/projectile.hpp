@@ -17,7 +17,7 @@
 class Projectile : public Entity
 {
 public:
-    Projectile(EntityType type, Vector2 pos, int width, int height, Vector2 velocity);
+    Projectile(EntityType type_, Vector2 pos_, int width_, int height_, Vector2 velocity_);
     virtual ~Projectile() = default;
 
     // Move the projectile based on it's velocity. Also marks it for deletion if it goes off screen

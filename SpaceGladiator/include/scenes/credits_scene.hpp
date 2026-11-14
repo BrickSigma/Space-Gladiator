@@ -5,7 +5,7 @@
 
 class CreditsScene : public Scene {
 public:
-    CreditsScene(RenderTexture *screen);
+    CreditsScene(RenderTexture *screen_);
     ~CreditsScene();
     SceneState update() override;
 };

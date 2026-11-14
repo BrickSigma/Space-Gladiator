@@ -22,9 +22,9 @@ class Entity
 {
 public:
     // Create a new entity with a position, width, and height.
-    Entity(EntityType type, Vector2 pos, int width, int height);
+    Entity(EntityType type_, Vector2 pos_, int width_, int height_);
     // Create a new entity with all attributes set to 0
-    Entity(EntityType type);
+    Entity(EntityType type_);
 
     virtual ~Entity() = default;
 

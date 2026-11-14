@@ -40,14 +40,14 @@ void MovingLaser::update(GameScene *scene)
         break;
 
     case MovingLaserState::MOVING:
-        pos.y = (SCENE_CENTER * 2.0f / 3.0f) * sin((static_cast<float>(frame_counter) / period) * 2 * std::numbers::pi_v<float>) + SCENE_CENTER - MOVING_LASER_HEIGHT / 2;
+        pos.y = (SCENE_CENTER * 2.0f / 3.0f) * sinf((static_cast<float>(frame_counter) / period) * 2 * std::numbers::pi_v<float>) + SCENE_CENTER - MOVING_LASER_HEIGHT / 2;
         frame_counter++;
         if (frame_counter >= move_duration)
         {
             state = MovingLaserState::TARGETING;
             // Lock onto the player's position
             const Player &player = scene->player;
-            player_target_y = (player.pos.y + player.height / 2.0f) - MOVING_LASER_HEIGHT / 2.0f;
+            player_target_y = (player.pos.y + static_cast<float>(player.height) / 2.0f) - MOVING_LASER_HEIGHT / 2.0f;
             if (player_target_y < pos.y)
                 target_direction = -1;
         }
@@ -55,7 +55,7 @@ void MovingLaser::update(GameScene *scene)
 
     case MovingLaserState::TARGETING:
     {
-        pos.y += target_direction * 2;
+        pos.y += static_cast<float>(target_direction * 2);
         // Check if we've reached or passed the player's last position
         bool reached_target = (target_direction < 0)
                                   ? (pos.y <= player_target_y)
@@ -73,7 +73,7 @@ void MovingLaser::update(GameScene *scene)
         if (frame_counter >= load_duration)
         {
             state = MovingLaserState::FIRING;
-            scene->setCameraShake(CameraShake(3, firing_duration));
+            scene->setCameraShake(CameraShake(3, static_cast<unsigned int>(firing_duration)));
             frame_counter = 0;
         }
         break;
@@ -100,7 +100,7 @@ void MovingLaser::update(GameScene *scene)
 
 void MovingLaser::draw()
 {
-    DrawTexture(moving_laser_hole, pos.x, pos.y + 8.0f, WHITE);
+    DrawTexture(moving_laser_hole, static_cast<int>(pos.x), static_cast<int>(pos.y) + 8, WHITE);
 
     if (state == MovingLaserState::LOADING)
     {
@@ -110,7 +110,7 @@ void MovingLaser::draw()
     {
         // Draw the laser beam here
         const Rectangle laser_rect = getLaserRect();
-        DrawRectangle(laser_rect.x, laser_rect.y, laser_rect.width, laser_rect.height, RED);
+        DrawRectangle(static_cast<int>(laser_rect.x), static_cast<int>(laser_rect.y), static_cast<int>(laser_rect.width), static_cast<int>(laser_rect.height), RED);
     }
 
     laser_animation->draw(pos);

@@ -12,7 +12,7 @@ public:
      * @param pos
      * @param special when `true`, the flyer can drop a powerup (yet to be implemented)
      */
-    DiagonalFlyer(Vector2 pos, bool special);
+    DiagonalFlyer(Vector2 pos_, bool special_);
     ~DiagonalFlyer() = default;
 
     void update(GameScene *scene) override;

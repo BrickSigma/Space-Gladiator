@@ -5,28 +5,29 @@
 #include "utils/texture_manager.hpp"
 #include "entities/explosion.hpp"
 
-Asteroid::Asteroid(AsteroidSize size, Vector2 pos, int direction)
-    : Entity(EntityType::ENEMY, pos, static_cast<int>(size), static_cast<int>(size)),
-      size(size)
+Asteroid::Asteroid(AsteroidSize size_, Vector2 pos_, int direction)
+    : Entity(EntityType::ENEMY, pos_, static_cast<int>(size_), static_cast<int>(size_)),
+      size(size_)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
 
-    switch (size)
+    float direction_f = static_cast<float>(direction);
+    switch (size_)
     {
     case AsteroidSize::SMALL:
-        velocity = {-1, direction * 1.0f};
+        velocity = {-1, direction_f * 1.0f};
         update_x_time = 1;
         update_y_time = 2;
         texture = texture_manager.asteroid_small;
         break;
     case AsteroidSize::MEDIUM:
-        velocity = {-1, direction * 1.0f};
+        velocity = {-1, direction_f * 1.0f};
         update_x_time = 1;
         update_y_time = 3;
         texture = texture_manager.asteroid_medium;
         break;
     case AsteroidSize::LARGE:
-        velocity = {-1, direction * 1.0f};
+        velocity = {-1, direction_f * 1.0f};
         update_x_time = 2;
         update_y_time = 4;
         texture = texture_manager.asteroid_large;
@@ -72,7 +73,7 @@ void Asteroid::handleCollision(GameScene *scene, Entity *entity)
     scene->setCameraShake(CameraShake(2, 30));
 
     // Spawn an explosion
-    scene->spawnEntity(new Explosion(2, {pos.x + width / 2, pos.y + height / 2}));
+    scene->spawnEntity(new Explosion(2, {pos.x + static_cast<float>(width) / 2, pos.y + static_cast<float>(height) / 2}));
 
     // Create two smaller asteroids
     AsteroidSize next_size{AsteroidSize::MEDIUM};

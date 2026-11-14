@@ -31,7 +31,7 @@ enum class GameSceneState : int
 class GameScene : public Scene
 {
 public:
-    GameScene(RenderTexture *screen);
+    GameScene(RenderTexture *screen_);
     ~GameScene();
 
     // Used to restart the game state from a fresh

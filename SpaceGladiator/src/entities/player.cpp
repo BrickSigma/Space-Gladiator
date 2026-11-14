@@ -13,14 +13,14 @@ Player::Player() : Entity(EntityType::PLAYER, {30, (CANVAS_HEIGHT / 2) - (PLAYER
 {
     // Load up the player's assets and other components needed
     TextureManager &texture_manager = TextureManager::getInstance();
-    
+
     textures[0] = texture_manager.player_normal;
     textures[1] = texture_manager.player_down;
     textures[2] = texture_manager.player_up;
-    
+
     // Setup the player explosion as well
     explosion = new Animation(texture_manager.player_explosion, 28, 12, false);
-    
+
     reset(true);
 }
 
@@ -112,25 +112,26 @@ void Player::handlePhysics()
     // Make sure the player can't go off screen
     if (pos.x < 16)
         pos.x = 16;
-    if (pos.x >= SPACE_CANVAS_WIDTH - (16 + width))
+    if (pos.x >= static_cast<float>(SPACE_CANVAS_WIDTH - (16 + width)))
         pos.x = static_cast<float>(SPACE_CANVAS_WIDTH - (16 + width));
     if (pos.y < 16)
         pos.y = 16;
-    if (pos.y >= SPACE_CANVAS_HEIGHT - (16 + height))
+    if (pos.y >= static_cast<float>(SPACE_CANVAS_HEIGHT - (16 + height)))
         pos.y = static_cast<float>(SPACE_CANVAS_HEIGHT - (16 + height));
 }
 
 void Player::handleShooting(GameScene *scene)
 {
     // First iterate through the entities in the game to find any that are the player's projectile type
-    size_t projectiles = std::count_if(scene->entities.begin(), scene->entities.end(), [](Entity *e)
-                                       { return e->type == EntityType::PLAYER_PROJECTILE; });
+    size_t projectiles = static_cast<size_t>(
+        std::count_if(scene->entities.begin(), scene->entities.end(), [](Entity *e)
+                      { return e->type == EntityType::PLAYER_PROJECTILE; }));
 
     // Spawn a bullet if all conditions are met
     if (is_shooting && projectiles < 2 && shooting_timer >= SHOOT_DELAY)
     {
         scene->spawnEntity(new PlayerBullet(
-            {pos.x + width, pos.y + height / 2}, {PROJECTILE_SPEED, 0}));
+            {pos.x + static_cast<float>(width), pos.y + static_cast<float>(height) / 2}, {PROJECTILE_SPEED, 0}));
         shooting_timer = 0; // Reset the timer
     }
 

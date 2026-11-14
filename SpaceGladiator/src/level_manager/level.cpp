@@ -63,7 +63,7 @@ Level::Level(unsigned int no)
             continue;
         }
         bool tile_present = c - '0';
-        tilemap[y * LEVEL_GRID_WIDTH + x] = tile_present;
+        tilemap[static_cast<size_t>(y * LEVEL_GRID_WIDTH + x)] = tile_present;
         x++;
     }
 

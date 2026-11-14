@@ -1,7 +1,7 @@
 #include "scenes/start_scene.hpp"
 #include <raylib.h>
 
-StartScene::StartScene(RenderTexture *screen) : Scene(screen) {}
+StartScene::StartScene(RenderTexture *screen_) : Scene(screen_) {}
 
 StartScene::~StartScene() {}
 

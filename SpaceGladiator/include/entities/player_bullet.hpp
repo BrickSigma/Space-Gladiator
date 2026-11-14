@@ -7,7 +7,7 @@
 class PlayerBullet : public Projectile
 {
 public:
-    PlayerBullet(Vector2 pos, Vector2 velocity);
+    PlayerBullet(Vector2 pos_, Vector2 velocity_);
     ~PlayerBullet() = default;
 
     void draw() override;

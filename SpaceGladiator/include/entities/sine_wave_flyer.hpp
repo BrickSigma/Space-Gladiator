@@ -13,7 +13,7 @@ public:
      * @param pos
      * @param speacial when `true`, the flyer can drop a powerup
      */
-    SineWaveFlyer(Vector2 pos, bool special);
+    SineWaveFlyer(Vector2 pos_, bool special_);
     ~SineWaveFlyer();
 
     void update(GameScene *scene) override;
@@ -24,7 +24,7 @@ private:
     bool special{false};
 
     float origin{0};          // Original y-coordinate of flyer when spawned to use as center of sine wave
-    const int max_height{20}; // Maximum height the flyer can go from its origin
+    const float max_height{20.0f}; // Maximum height the flyer can go from its origin
     int frame_counter{0};
     const float period{90.0f}; // Period of sine wave (in frames)
     const int update_x_time{2};

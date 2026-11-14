@@ -8,13 +8,13 @@ class Animation
 public:
     /**
      * Create an animation texture.
-     * 
-     * @param frames the texture containing the frames, aligned horizontally
-     * @param frame_width the width of a single frame
+     *
+     * @param frames_ the texture containing the frames, aligned horizontally
+     * @param frame_width_ the width of a single frame
      * @param speed controls the frame rate (a value of 1 means update every frame, a value of 5 means update every 5th frame)
-     * @param loop loop the animation indefinitely
+     * @param loop_ loop the animation indefinitely
      */
-    Animation(Texture frames, int frame_width, int speed, bool loop = false);
+    Animation(Texture frames_, int frame_width_, int speed, bool loop_ = false);
     ~Animation() = default;
 
     // Reset the animation

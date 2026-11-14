@@ -5,7 +5,7 @@
 
 class StartScene : public Scene {
 public:
-    StartScene(RenderTexture *screen);
+    StartScene(RenderTexture *screen_);
     ~StartScene();
     SceneState update() override;
 };

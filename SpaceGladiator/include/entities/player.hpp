@@ -4,7 +4,7 @@
 #include "entities/entity.hpp"
 #include "utils/animation.hpp"
 
-constexpr int PLAYER_BASE_SPEED = 1;
+constexpr float PLAYER_BASE_SPEED = 1.0f;
 constexpr int PLAYER_MAX_PROJECTILES = 2; // Maximum number of projectiles the player can shoot
 constexpr int SHOOT_DELAY = 10;           // Shoot every .166 seconds
 constexpr int PROJECTILE_SPEED = 3;       // Speed of projectiles shot
@@ -63,7 +63,7 @@ private:
     bool movement[4] = {0};
 
     // Player move speed
-    unsigned int speed = PLAYER_BASE_SPEED;
+    float speed = PLAYER_BASE_SPEED;
 
     // Texture related items for the player
     enum PlayerTextureDirection

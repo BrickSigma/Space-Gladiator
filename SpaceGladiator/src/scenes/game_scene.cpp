@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <string>
 
-GameScene::GameScene(RenderTexture *screen) : Scene(screen)
+GameScene::GameScene(RenderTexture *screen_) : Scene(screen_)
 {
     canvas = LoadRenderTexture(SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT);
     reset();
@@ -195,7 +195,7 @@ SceneState GameScene::update()
         Entity *entity = entities[i - 1];
         if (entity->delete_entity)
         {
-            entities.erase(entities.begin() + (i - 1));
+            entities.erase(entities.begin() + static_cast<long int>(i - 1));
             delete entity; // Free the allocated memory for the entity
         }
     }

@@ -7,13 +7,13 @@
 #include <cmath>
 #include <numbers>
 
-SineWaveFlyer::SineWaveFlyer(Vector2 pos, bool special) : Entity(EntityType::ENEMY, pos, 16, 16), special(special)
+SineWaveFlyer::SineWaveFlyer(Vector2 pos_, bool special_) : Entity(EntityType::ENEMY, pos_, 16, 16), special(special_)
 {
-    origin = pos.y;
+    origin = pos_.y;
 
     TextureManager &texture_manager = TextureManager::getInstance();
     Texture texture;
-    if (special)
+    if (special_)
         texture = texture_manager.special_sine_wave_flyer;
     else
         texture = texture_manager.regular_sine_wave_flyer;
@@ -33,7 +33,7 @@ void SineWaveFlyer::update(GameScene *scene)
     if (frame_counter % update_x_time == 0)
         pos.x += x_vel;
 
-    pos.y = origin + (max_height * sin((static_cast<float>(frame_counter) / period) * 2 * std::numbers::pi_v<float>));
+    pos.y = origin + (max_height * sinf((static_cast<float>(frame_counter) / period) * 2 * std::numbers::pi_v<float>));
 
     if (isOffScreen() && pos.x < SPACE_CANVAS_WIDTH)
         delete_entity = true;

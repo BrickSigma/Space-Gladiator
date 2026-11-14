@@ -5,7 +5,7 @@
 
 #include <raymath.h>
 
-LaserBall::LaserBall(Vector2 pos, Vector2 rotation_origin, int rotation_direction) : Entity(EntityType::ENEMY_PROJECTILE, pos, 6, 6), origin(rotation_origin), direction(rotation_direction)
+LaserBall::LaserBall(Vector2 pos_, Vector2 rotation_origin, int rotation_direction) : Entity(EntityType::ENEMY_PROJECTILE, pos_, 6, 6), origin(rotation_origin), direction(rotation_direction)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
     bullet = new Animation(texture_manager.enemy_bullet, 6, 6, true);
@@ -20,7 +20,7 @@ void LaserBall::update(GameScene *scene)
 {
     (void)scene;
     Vector2 center{pos.x + 3.0f, pos.y + 3.0f};
-    Vector2 new_center = Vector2Add(Vector2Rotate(Vector2Subtract(center, origin), angle * direction), origin);
+    Vector2 new_center = Vector2Add(Vector2Rotate(Vector2Subtract(center, origin), angle * static_cast<float>(direction)), origin);
     pos = {new_center.x - 3.0f, new_center.y - 3.0f};
 }
 
@@ -29,13 +29,13 @@ void LaserBall::draw()
     bullet->draw(pos);
 }
 
-SpinningLaser::SpinningLaser(Vector2 pos, int no_lasers, SpinningLaserType type)
-    : Entity(EntityType::ENEMY, pos, 16, 16)
+SpinningLaser::SpinningLaser(Vector2 pos_, int no_lasers, SpinningLaserType type_)
+    : Entity(EntityType::ENEMY, pos_, 16, 16)
 {
     int direction{1};
     int alternate{1};
 
-    switch (type)
+    switch (type_)
     {
     case SpinningLaserType::LEFT:
         direction = -1;
@@ -53,7 +53,7 @@ SpinningLaser::SpinningLaser(Vector2 pos, int no_lasers, SpinningLaserType type)
         break;
     }
 
-    Vector2 origin{pos.x + 8, pos.y + 8};
+    Vector2 origin{pos_.x + 8, pos_.y + 8};
     Vector2 ball_pos{origin.x - 3, origin.y - 3};
 
     for (int i = 0; i < no_lasers; i++)
@@ -90,7 +90,7 @@ void SpinningLaser::update(GameScene *scene)
     for (LaserBall *laser_ball : laser_balls)
         laser_ball->update(scene);
 
-    if (pos.x < -(spacing * (laser_balls.size() + 1)))
+    if (pos.x < -(spacing * static_cast<float>((laser_balls.size() + 1))))
         delete_entity = true;
 }
 

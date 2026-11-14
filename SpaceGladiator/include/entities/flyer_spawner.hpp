@@ -7,7 +7,7 @@
 class Flyer : public Entity
 {
 public:
-    Flyer(Vector2 pos, float target_y);
+    Flyer(Vector2 pos_, float target_y_);
     ~Flyer();
 
     void update(GameScene *scene) override;
@@ -30,7 +30,7 @@ private:
 class FlyerSpawner : public Entity
 {
 public:
-    FlyerSpawner(Vector2 pos, bool special);
+    FlyerSpawner(Vector2 pos_, bool special_);
     ~FlyerSpawner() = default;
 
     void update(GameScene *scene) override;

@@ -13,7 +13,7 @@ enum class AsteroidSize : int
 class Asteroid : public Entity
 {
 public:
-    Asteroid(AsteroidSize size, Vector2 pos, int direction);
+    Asteroid(AsteroidSize size_, Vector2 pos_, int direction);
     ~Asteroid();
 
     void update(GameScene *scene) override;

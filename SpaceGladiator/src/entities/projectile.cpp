@@ -2,7 +2,7 @@
 
 #include "scenes/game_scene.hpp"
 
-Projectile::Projectile(EntityType type, Vector2 pos, int width, int height, Vector2 velocity) : Entity(type, pos, width, height), velocity(velocity) {}
+Projectile::Projectile(EntityType type_, Vector2 pos_, int width_, int height_, Vector2 velocity_) : Entity(type_, pos_, width_, height_), velocity(velocity_) {}
 
 void Projectile::update(GameScene *scene)
 {

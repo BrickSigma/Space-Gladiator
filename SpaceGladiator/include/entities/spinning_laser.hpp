@@ -10,7 +10,7 @@
 class LaserBall : public Entity
 {
 public:
-    LaserBall(Vector2 pos, Vector2 rotation_origin, int rotation_direction);
+    LaserBall(Vector2 pos_, Vector2 rotation_origin, int rotation_direction);
     ~LaserBall();
 
     void update(GameScene *scene) override;
@@ -41,7 +41,7 @@ public:
      * @param no_lasers the number of "lasers" to add to the entity
      * @param type
      */
-    SpinningLaser(Vector2 pos, int no_lasers, SpinningLaserType type);
+    SpinningLaser(Vector2 pos_, int no_lasers, SpinningLaserType type_);
     ~SpinningLaser();
 
     void update(GameScene *scene) override;

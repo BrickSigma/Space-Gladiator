@@ -2,10 +2,10 @@
 
 #include "utils/texture_manager.hpp"
 
-Explosion::Explosion(int type, Vector2 ceneter) : Entity(EntityType::NONE, ceneter, 16, 16)
+Explosion::Explosion(int type_, Vector2 ceneter) : Entity(EntityType::NONE, ceneter, 16, 16)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
-    switch (type)
+    switch (type_)
     {
     case 2:
         animation = new Animation(texture_manager.explosion_2_frames, 16, 4, false);

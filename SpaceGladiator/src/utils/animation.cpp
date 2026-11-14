@@ -2,13 +2,13 @@
 
 #include <stdexcept>
 
-Animation::Animation(Texture frames, int frame_width, int speed, bool loop)
+Animation::Animation(Texture frames_, int frame_width_, int speed, bool loop_)
 {
-    this->frames = frames;
+    this->frames = frames_;
     this->update_time = speed;
-    this->loop = loop;
-    this->frame_width = frame_width;
-    this->total_frames = frames.width / frame_width;
+    this->loop = loop_;
+    this->frame_width = frame_width_;
+    this->total_frames = frames_.width / frame_width_;
 
     if (this->total_frames <= 0)
         throw std::runtime_error("Loaded animation frames has invalid frame width or texture!");

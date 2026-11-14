@@ -4,7 +4,7 @@
 #include "utils/texture_manager.hpp"
 #include "entities/explosion.hpp"
 
-Flyer::Flyer(Vector2 pos, float target_y) : Entity(EntityType::ENEMY, pos, 16, 16), target_y(target_y)
+Flyer::Flyer(Vector2 pos_, float target_y_) : Entity(EntityType::ENEMY, pos_, 16, 16), target_y(target_y_)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
     animation = new Animation(texture_manager.flyer, 16, 6, true);
@@ -40,6 +40,7 @@ void Flyer::handleCollision(GameScene *scene, Entity *entity)
 
 void Flyer::update(GameScene *scene)
 {
+    (void)scene;
     frame_counter++;
     switch (state)
     {
@@ -62,11 +63,11 @@ void Flyer::update(GameScene *scene)
     }
 }
 
-FlyerSpawner::FlyerSpawner(Vector2 pos, bool special) : Entity(EntityType::ENEMY, pos, FlyerSpawner::WIDTH, FlyerSpawner::HEIGHT), special(special)
+FlyerSpawner::FlyerSpawner(Vector2 pos_, bool special_) : Entity(EntityType::ENEMY, pos_, FlyerSpawner::WIDTH, FlyerSpawner::HEIGHT), special(special_)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
 
-    if (special)
+    if (special_)
         texture = texture_manager.special_flyer_spawner;
     else
         texture = texture_manager.regular_flyer_spawner;
@@ -94,8 +95,8 @@ void FlyerSpawner::update(GameScene *scene)
         {
             // Get the player's current y position
             float target_y = scene->player.pos.y;
-            Vector2 flyer_pos{pos.x + 24, pos.y - 24};
-            scene->spawnEntity(new Flyer(pos, target_y));
+            Vector2 flyer_pos{pos.x + 8, pos.y - 8};
+            scene->spawnEntity(new Flyer(flyer_pos, target_y));
             flyers_spawned++;
             if (flyers_spawned >= max_flyers)
             {

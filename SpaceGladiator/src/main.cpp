@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 #endif
 
     // Seed Raylib's random number generator
-    SetRandomSeed(static_cast<unsigned long>(time(NULL)));
+    SetRandomSeed(static_cast<unsigned int>(time(NULL)));
 
     // Initialize the texture manager
     TextureManager::getInstance();
