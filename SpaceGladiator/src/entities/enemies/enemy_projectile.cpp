@@ -7,7 +7,7 @@
 EnemyProjectile::EnemyProjectile(Vector2 pos_, float angle, float speed)
     : Projectile(EntityType::ENEMY_PROJECTILE, pos_, 6, 6, {0, 0})
 {
-    velocity.x = speed * cosf(angle);
+    velocity.x = (speed * cosf(angle)) - 0.5f;  // We need to subtract by the scroll speed so the bullets follow the level (it's a bit weird)
     velocity.y = speed * sinf(angle);
 
     TextureManager &texture_manager = TextureManager::getInstance();

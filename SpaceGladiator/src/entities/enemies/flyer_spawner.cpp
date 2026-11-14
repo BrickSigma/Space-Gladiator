@@ -124,14 +124,17 @@ void FlyerSpawner::draw()
 
 void FlyerSpawner::handleCollision(GameScene *scene, Entity *entity)
 {
-    if (entity->type != EntityType::PLAYER_PROJECTILE)
+    if (!(entity->type == EntityType::PLAYER_PROJECTILE || entity->type == EntityType::ENEMY_PROJECTILE))
         return;
 
     if (!checkCollision(*entity))
         return;
 
-    // The flyer spawner was hit by a player bullet, so let's delete the bullet first
+    // The flyer spawner was hit by a bullet, so let's delete the bullet first
     entity->delete_entity = true;
+
+    if (entity->type == EntityType::ENEMY_PROJECTILE)
+        return;  // No friendly-fire from other enemy projectiles!
 
     // Let's reduce the health
     health--;

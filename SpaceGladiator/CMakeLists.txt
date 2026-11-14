@@ -36,6 +36,8 @@ target_sources(${PROJECT_NAME}
         src/entities/enemies/moving_laser.cpp
         src/entities/enemies/flyer_spawner.cpp
         src/entities/enemies/enemy_projectile.cpp
+        src/entities/enemies/canon.cpp
+        src/utils/math.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -64,6 +66,8 @@ target_sources(${PROJECT_NAME}
         include/entities/enemies/moving_laser.hpp
         include/entities/enemies/flyer_spawner.hpp
         include/entities/enemies/enemy_projectile.hpp
+        include/entities/enemies/canon.hpp
+        include/utils/math.hpp
 )
 
 #set(raylib_VERBOSE 1)

@@ -7,6 +7,7 @@
 #include "entities/enemies/spinning_laser.hpp"
 #include "entities/enemies/moving_laser.hpp"
 #include "entities/enemies/flyer_spawner.hpp"
+#include "entities/enemies/canon.hpp"
 
 #include <format>
 #include <cstring>
@@ -25,6 +26,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::MOVING_LASER;
     else if (!strcmp(str, "FLYER_SPAWNER"))
         return SpawnerType::FLYER_SPAWNER;
+    else if (!strcmp(str, "CANON"))
+        return SpawnerType::CANON;
     else
         throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
@@ -43,6 +46,7 @@ static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene);
 static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene);
 static void spawnMovingLaser(const SpawnerData &data, GameScene *scene);
 static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene);
+static void spawnCanon(const SpawnerData &data, GameScene *scene);
 
 static SpawnerCB spawner_cb_table[]{
     spawnAsteroid,
@@ -50,7 +54,8 @@ static SpawnerCB spawner_cb_table[]{
     spawnSineWaveFlyer,
     spawnSpinningLaser,
     spawnMovingLaser,
-    spawnFlyerSpawner};
+    spawnFlyerSpawner,
+    spawnCanon};
 
 void spawnerDispatch(const SpawnerData &data, GameScene *scene)
 {
@@ -143,4 +148,11 @@ static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene)
     pos.y += 5;  // Move the flyer a little down to stay on the ground
     bool special = data.flags != 0;
     scene->spawnEntity(new FlyerSpawner(pos, special));
+}
+
+static void spawnCanon(const SpawnerData &data, GameScene *scene)
+{
+    Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
+    bool facing_up = data.flags != 0;
+    scene->spawnEntity(new Canon(pos, facing_up));
 }

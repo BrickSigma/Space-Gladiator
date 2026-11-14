@@ -59,6 +59,9 @@ TextureManager::TextureManager()
     regular_flyer_spawner = LoadTexture(getImageAssetFile("regular-flyer-spawner.png"));
     special_flyer_spawner = LoadTexture(getImageAssetFile("special-flyer-spawner.png"));
     flyer = LoadTexture(getImageAssetFile("flyer.png"));
+
+    // Canon texture
+    canon = LoadTexture(getImageAssetFile("canon.png"));
 }
 
 TextureManager::~TextureManager()
@@ -107,4 +110,7 @@ TextureManager::~TextureManager()
     UnloadTexture(regular_flyer_spawner);
     UnloadTexture(special_flyer_spawner);
     UnloadTexture(flyer);
+
+    // Canon texture
+    UnloadTexture(canon);
 }

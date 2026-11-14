@@ -51,6 +51,8 @@ public:
     Texture regular_flyer_spawner;
     Texture special_flyer_spawner;
     Texture flyer;
+
+    Texture canon;
 };
 
 #endif // TEXTURES_MANAGER_HPP
