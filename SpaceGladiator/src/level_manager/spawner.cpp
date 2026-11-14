@@ -8,6 +8,7 @@
 #include "entities/enemies/moving_laser.hpp"
 #include "entities/enemies/flyer_spawner.hpp"
 #include "entities/enemies/canon.hpp"
+#include "entities/enemies/ground_shooter.hpp"
 
 #include <format>
 #include <cstring>
@@ -28,6 +29,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::FLYER_SPAWNER;
     else if (!strcmp(str, "CANON"))
         return SpawnerType::CANON;
+    else if (!strcmp(str, "GROUND_SHOOTER"))
+        return SpawnerType::GROUND_SHOOTER;
     else
         throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
@@ -47,6 +50,7 @@ static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene);
 static void spawnMovingLaser(const SpawnerData &data, GameScene *scene);
 static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene);
 static void spawnCanon(const SpawnerData &data, GameScene *scene);
+static void spawnGroundShooter(const SpawnerData &data, GameScene *scene);
 
 static SpawnerCB spawner_cb_table[]{
     spawnAsteroid,
@@ -55,7 +59,8 @@ static SpawnerCB spawner_cb_table[]{
     spawnSpinningLaser,
     spawnMovingLaser,
     spawnFlyerSpawner,
-    spawnCanon};
+    spawnCanon,
+    spawnGroundShooter};
 
 void spawnerDispatch(const SpawnerData &data, GameScene *scene)
 {
@@ -145,7 +150,7 @@ static void spawnMovingLaser(const SpawnerData &data, GameScene *scene)
 static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    pos.y += 5;  // Move the flyer a little down to stay on the ground
+    pos.y += 5; // Move the flyer a little down to stay on the ground
     bool special = data.flags != 0;
     scene->spawnEntity(new FlyerSpawner(pos, special));
 }
@@ -155,4 +160,12 @@ static void spawnCanon(const SpawnerData &data, GameScene *scene)
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
     bool facing_up = data.flags != 0;
     scene->spawnEntity(new Canon(pos, facing_up));
+}
+
+static void spawnGroundShooter(const SpawnerData &data, GameScene *scene)
+{
+    Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
+    bool facing_up = (data.flags & 0b1) != 0;  // If bit 0 is set, then the shooter is facing up
+    bool special = (data.flags & 0b10) != 0;  // If bit 1 is set, then the shooter is a special variant
+    scene->spawnEntity(new GroundShooter(pos, facing_up, special));
 }

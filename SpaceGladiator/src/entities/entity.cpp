@@ -70,6 +70,11 @@ void Entity::handleTilemapCollision(GameScene *scene)
     (void)scene;
 }
 
+Vector2 Entity::getCenter()
+{
+    return {pos.x + static_cast<float>(width)/2, pos.y + static_cast<float>(height)/2};
+}
+
 bool Entity::isOffScreen()
 {
     Rectangle screen{0, 0, CANVAS_WIDTH, CANVAS_HEIGHT};

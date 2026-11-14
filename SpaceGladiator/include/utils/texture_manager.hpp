@@ -53,6 +53,9 @@ public:
     Texture flyer;
 
     Texture canon;
+
+    Texture regular_ground_shooter;
+    Texture special_ground_shooter;
 };
 
 #endif // TEXTURES_MANAGER_HPP

@@ -46,6 +46,9 @@ public:
     // Handle collisions between the tileset and entity
     virtual void handleTilemapCollision(GameScene *scene);
 
+    // Get the center coordinate of the entity
+    virtual Vector2 getCenter();
+
     // Check if the entity is off screen and returns true if it is.
     bool isOffScreen();
 

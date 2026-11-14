@@ -62,6 +62,10 @@ TextureManager::TextureManager()
 
     // Canon texture
     canon = LoadTexture(getImageAssetFile("canon.png"));
+
+    // Ground shooter textures
+    regular_ground_shooter = LoadTexture(getImageAssetFile("regular-ground-shooter.png"));
+    special_ground_shooter = LoadTexture(getImageAssetFile("special-ground-shooter.png"));
 }
 
 TextureManager::~TextureManager()
@@ -113,4 +117,8 @@ TextureManager::~TextureManager()
 
     // Canon texture
     UnloadTexture(canon);
+
+    // Ground shooter textures
+    UnloadTexture(regular_ground_shooter);
+    UnloadTexture(special_ground_shooter);
 }
