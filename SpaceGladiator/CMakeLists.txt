@@ -35,6 +35,7 @@ target_sources(${PROJECT_NAME}
         src/entities/enemies/spinning_laser.cpp
         src/entities/enemies/moving_laser.cpp
         src/entities/enemies/flyer_spawner.cpp
+        src/entities/enemies/enemy_projectile.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -62,6 +63,7 @@ target_sources(${PROJECT_NAME}
         include/entities/enemies/spinning_laser.hpp
         include/entities/enemies/moving_laser.hpp
         include/entities/enemies/flyer_spawner.hpp
+        include/entities/enemies/enemy_projectile.hpp
 )
 
 #set(raylib_VERBOSE 1)
