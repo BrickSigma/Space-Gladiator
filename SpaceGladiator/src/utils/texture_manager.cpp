@@ -54,6 +54,11 @@ TextureManager::TextureManager()
     moving_laser = LoadTexture(getImageAssetFile("moving-laser.png"));
     moving_laser_hole = LoadTexture(getImageAssetFile("moving-laser-hole.png"));
     laser_loading = LoadTexture(getImageAssetFile("moving-laser-loading.png"));
+
+    // Flyer spawner textures
+    regular_flyer_spawner = LoadTexture(getImageAssetFile("regular-flyer-spawner.png"));
+    special_flyer_spawner = LoadTexture(getImageAssetFile("special-flyer-spawner.png"));
+    flyer = LoadTexture(getImageAssetFile("flyer.png"));
 }
 
 TextureManager::~TextureManager()
@@ -97,4 +102,9 @@ TextureManager::~TextureManager()
     UnloadTexture(moving_laser);
     UnloadTexture(moving_laser_hole);
     UnloadTexture(laser_loading);
+
+    // Flyer spawner textures
+    UnloadTexture(regular_flyer_spawner);
+    UnloadTexture(special_flyer_spawner);
+    UnloadTexture(flyer);
 }

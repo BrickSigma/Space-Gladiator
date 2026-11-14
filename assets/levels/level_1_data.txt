@@ -1,6 +1,6 @@
 [checkpoints]
 25
-50
+70
 175
 
 [entities]
@@ -18,3 +18,4 @@
 50,3,ASTEROID,2
 62,1,ASTEROID,2
 65,4,ASTEROID,1
+92,10,FLYER_SPAWNER,0

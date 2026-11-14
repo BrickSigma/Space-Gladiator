@@ -47,6 +47,10 @@ public:
     Texture moving_laser;
     Texture moving_laser_hole;
     Texture laser_loading;
+
+    Texture regular_flyer_spawner;
+    Texture special_flyer_spawner;
+    Texture flyer;
 };
 
 #endif // TEXTURES_MANAGER_HPP

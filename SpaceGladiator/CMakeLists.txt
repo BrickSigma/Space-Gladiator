@@ -33,6 +33,7 @@ target_sources(${PROJECT_NAME}
         src/entities/sine_wave_flyer.cpp
         src/entities/spinning_laser.cpp
         src/entities/moving_laser.cpp
+        src/entities/flyer_spawner.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -56,6 +57,7 @@ target_sources(${PROJECT_NAME}
         include/entities/sine_wave_flyer.hpp
         include/entities/spinning_laser.hpp
         include/entities/moving_laser.hpp
+        include/entities/flyer_spawner.hpp
 )
 
 #set(raylib_VERBOSE 1)

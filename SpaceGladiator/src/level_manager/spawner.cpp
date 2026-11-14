@@ -6,6 +6,7 @@
 #include "entities/sine_wave_flyer.hpp"
 #include "entities/spinning_laser.hpp"
 #include "entities/moving_laser.hpp"
+#include "entities/flyer_spawner.hpp"
 
 #include <format>
 #include <cstring>
@@ -22,6 +23,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::SPINNING_LASER;
     else if (!strcmp(str, "MOVING_LASER"))
         return SpawnerType::MOVING_LASER;
+    else if (!strcmp(str, "FLYER_SPAWNER"))
+        return SpawnerType::FLYER_SPAWNER;
     else
         throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
@@ -39,13 +42,15 @@ static void spawnDiagonalFlyer(const SpawnerData &data, GameScene *scene);
 static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene);
 static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene);
 static void spawnMovingLaser(const SpawnerData &data, GameScene *scene);
+static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene);
 
 static SpawnerCB spawner_cb_table[]{
     spawnAsteroid,
     spawnDiagonalFlyer,
     spawnSineWaveFlyer,
     spawnSpinningLaser,
-    spawnMovingLaser};
+    spawnMovingLaser,
+    spawnFlyerSpawner};
 
 void spawnerDispatch(const SpawnerData &data, GameScene *scene)
 {
@@ -103,7 +108,7 @@ static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene)
     SpinningLaserType type{SpinningLaserType::LEFT};
 
     int type_flag = data.flags >> 4;  // The type of spawner is stored in the upper 4 bits of the flag
-    int no_lasers = data.flags & 0xf;  // The number of lasers the entity has is in the lower 4 bits
+    int no_lasers = data.flags & 0xf; // The number of lasers the entity has is in the lower 4 bits
 
     switch (type_flag)
     {
@@ -129,4 +134,12 @@ static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene)
 static void spawnMovingLaser(const SpawnerData &data, GameScene *scene)
 {
     scene->spawnEntity(new MovingLaser());
+}
+
+static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene)
+{
+    Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
+    pos.y += 5;  // Move the flyer a little down to stay on the ground
+    bool special = data.flags != 0;
+    scene->spawnEntity(new FlyerSpawner(pos, special));
 }
