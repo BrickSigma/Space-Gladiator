@@ -61,6 +61,9 @@ void Flyer::update(GameScene *scene)
     default:
         break;
     }
+
+    if (isOffScreen() && pos.x < SPACE_CANVAS_WIDTH)
+        delete_entity = true;
 }
 
 FlyerSpawner::FlyerSpawner(Vector2 pos_, bool special_) : Entity(EntityType::ENEMY, pos_, FlyerSpawner::WIDTH, FlyerSpawner::HEIGHT), special(special_)
@@ -109,6 +112,9 @@ void FlyerSpawner::update(GameScene *scene)
     default:
         break;
     }
+
+    if (isOffScreen() && pos.x < SPACE_CANVAS_WIDTH)
+        delete_entity = true;
 }
 
 void FlyerSpawner::draw()
