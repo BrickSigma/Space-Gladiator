@@ -1,12 +1,12 @@
 #include "level_manager/spawner.hpp"
 #include "scenes/game_scene.hpp"
 
-#include "entities/asteroid.hpp"
-#include "entities/diagonal_flyer.hpp"
-#include "entities/sine_wave_flyer.hpp"
-#include "entities/spinning_laser.hpp"
-#include "entities/moving_laser.hpp"
-#include "entities/flyer_spawner.hpp"
+#include "entities/enemies/asteroid.hpp"
+#include "entities/enemies/diagonal_flyer.hpp"
+#include "entities/enemies/sine_wave_flyer.hpp"
+#include "entities/enemies/spinning_laser.hpp"
+#include "entities/enemies/moving_laser.hpp"
+#include "entities/enemies/flyer_spawner.hpp"
 
 #include <format>
 #include <cstring>

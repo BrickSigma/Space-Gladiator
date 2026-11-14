@@ -1,4 +1,4 @@
-#include "entities/spinning_laser.hpp"
+#include "entities/enemies/spinning_laser.hpp"
 
 #include "utils/texture_manager.hpp"
 #include "scenes/game_scene.hpp"

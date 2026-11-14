@@ -1,4 +1,4 @@
-#include "entities/sine_wave_flyer.hpp"
+#include "entities/enemies/sine_wave_flyer.hpp"
 
 #include "scenes/game_scene.hpp"
 #include "utils/texture_manager.hpp"

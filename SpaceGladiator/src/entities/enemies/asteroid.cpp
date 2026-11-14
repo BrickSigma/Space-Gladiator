@@ -1,6 +1,6 @@
-#include "entities/asteroid.hpp"
+#include "entities/enemies/asteroid.hpp"
 
-#include "entities/player_bullet.hpp"
+#include "entities/player/player_bullet.hpp"
 #include "scenes/game_scene.hpp"
 #include "utils/texture_manager.hpp"
 #include "entities/explosion.hpp"

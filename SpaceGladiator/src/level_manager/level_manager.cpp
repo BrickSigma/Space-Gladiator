@@ -1,5 +1,4 @@
 #include "level_manager/level_manager.hpp"
-#include "entities/asteroid.hpp"
 #include "level_manager/level.hpp"
 
 #include "scenes/game_scene.hpp"

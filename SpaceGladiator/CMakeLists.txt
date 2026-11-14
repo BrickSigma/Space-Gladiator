@@ -19,10 +19,9 @@ target_sources(${PROJECT_NAME}
         src/scenes/credits_scene.cpp
         src/scenes/scene_manager.cpp
         src/entities/entity.cpp
-        src/entities/player.cpp
+        src/entities/player/player.cpp
         src/entities/projectile.cpp
-        src/entities/player_bullet.cpp
-        src/entities/asteroid.cpp
+        src/entities/player/player_bullet.cpp
         src/level_manager/spawner.cpp
         src/level_manager/level_manager.cpp
         src/level_manager/level.cpp
@@ -30,11 +29,12 @@ target_sources(${PROJECT_NAME}
         src/utils/texture_manager.cpp
         src/utils/animation.cpp
         src/entities/explosion.cpp
-        src/entities/diagonal_flyer.cpp
-        src/entities/sine_wave_flyer.cpp
-        src/entities/spinning_laser.cpp
-        src/entities/moving_laser.cpp
-        src/entities/flyer_spawner.cpp
+        src/entities/enemies/asteroid.cpp
+        src/entities/enemies/diagonal_flyer.cpp
+        src/entities/enemies/sine_wave_flyer.cpp
+        src/entities/enemies/spinning_laser.cpp
+        src/entities/enemies/moving_laser.cpp
+        src/entities/enemies/flyer_spawner.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -45,10 +45,9 @@ target_sources(${PROJECT_NAME}
         include/scenes/scene.hpp
         include/scenes/scene_manager.hpp
         include/entities/entity.hpp
-        include/entities/player.hpp
+        include/entities/player/player.hpp
         include/entities/projectile.hpp
-        include/entities/player_bullet.hpp
-        include/entities/asteroid.hpp
+        include/entities/player/player_bullet.hpp
         include/level_manager/spawner.hpp
         include/level_manager/level_manager.hpp
         include/level_manager/level.hpp
@@ -57,11 +56,12 @@ target_sources(${PROJECT_NAME}
         include/utils/animation.hpp
         include/utils/constants.hpp
         include/entities/explosion.hpp
-        include/entities/diagonal_flyer.hpp
-        include/entities/sine_wave_flyer.hpp
-        include/entities/spinning_laser.hpp
-        include/entities/moving_laser.hpp
-        include/entities/flyer_spawner.hpp
+        include/entities/enemies/asteroid.hpp
+        include/entities/enemies/diagonal_flyer.hpp
+        include/entities/enemies/sine_wave_flyer.hpp
+        include/entities/enemies/spinning_laser.hpp
+        include/entities/enemies/moving_laser.hpp
+        include/entities/enemies/flyer_spawner.hpp
 )
 
 #set(raylib_VERBOSE 1)

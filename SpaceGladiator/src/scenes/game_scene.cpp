@@ -1,6 +1,5 @@
 #include "scenes/game_scene.hpp"
 
-#include "entities/asteroid.hpp"
 #include "utils/constants.hpp"
 #include "level_manager/level_manager.hpp"
 #include "utils/texture_manager.hpp"

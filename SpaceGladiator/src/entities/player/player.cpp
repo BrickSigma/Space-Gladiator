@@ -1,9 +1,9 @@
-#include "entities/player.hpp"
+#include "entities/player/player.hpp"
 #include "scenes/game_scene.hpp"
 
 #include "utils/constants.hpp"
 #include "utils/texture_manager.hpp"
-#include "entities/player_bullet.hpp"
+#include "entities/player/player_bullet.hpp"
 
 #include <algorithm>
 

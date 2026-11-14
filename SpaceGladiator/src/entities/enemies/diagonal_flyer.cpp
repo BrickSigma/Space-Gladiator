@@ -1,4 +1,4 @@
-#include "entities/diagonal_flyer.hpp"
+#include "entities/enemies/diagonal_flyer.hpp"
 
 #include "scenes/game_scene.hpp"
 #include "utils/texture_manager.hpp"

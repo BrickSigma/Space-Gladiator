@@ -1,4 +1,4 @@
-#include "entities/flyer_spawner.hpp"
+#include "entities/enemies/flyer_spawner.hpp"
 
 #include "scenes/game_scene.hpp"
 #include "utils/texture_manager.hpp"

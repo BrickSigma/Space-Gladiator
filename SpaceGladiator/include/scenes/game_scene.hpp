@@ -3,7 +3,7 @@
 
 #include "scenes/scene_manager.hpp"
 #include "entities/entity.hpp"
-#include "entities/player.hpp"
+#include "entities/player/player.hpp"
 #include "utils/constants.hpp"
 #include "level_manager/level_manager.hpp"
 #include "utils/camera_shake.hpp"

@@ -1,4 +1,4 @@
-#include "entities/moving_laser.hpp"
+#include "entities/enemies/moving_laser.hpp"
 #include "scenes/game_scene.hpp"
 
 #include "utils/texture_manager.hpp"
