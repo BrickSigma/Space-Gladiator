@@ -13,7 +13,7 @@ constexpr Vector2 LASER_SPAWN_POS{
 constexpr float SCENE_CENTER{static_cast<float>(SPACE_CANVAS_HEIGHT / 2)};
 
 MovingLaser::MovingLaser()
-    : Entity(EntityType::ENEMY, LASER_SPAWN_POS, MOVING_LASER_WIDTH, MOVING_LASER_HEIGHT)
+    : Entity(EntityType::ENEMY, LASER_SPAWN_POS, static_cast<int>(MOVING_LASER_WIDTH), static_cast<int>(MOVING_LASER_HEIGHT))
 {
     TextureManager &texture_manager = TextureManager::getInstance();
     laser_animation = new Animation(texture_manager.moving_laser, 48, 6, true);
