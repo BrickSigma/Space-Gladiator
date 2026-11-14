@@ -3,8 +3,8 @@
 #include <emscripten/emscripten.h>
 #endif
 
-#include "constants.hpp"
-#include "scene_manager.hpp"
+#include "utils/constants.hpp"
+#include "scenes/scene_manager.hpp"
 #include "scenes/start_scene.hpp"
 #include "scenes/game_scene.hpp"
 #include "scenes/credits_scene.hpp"

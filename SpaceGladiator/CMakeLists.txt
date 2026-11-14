@@ -17,6 +17,7 @@ target_sources(${PROJECT_NAME}
         src/scenes/start_scene.cpp
         src/scenes/game_scene.cpp
         src/scenes/credits_scene.cpp
+        src/scenes/scene_manager.cpp
         src/entities/entity.cpp
         src/entities/player.cpp
         src/entities/projectile.cpp
@@ -41,6 +42,8 @@ target_sources(${PROJECT_NAME}
         include/scenes/start_scene.hpp
         include/scenes/game_scene.hpp
         include/scenes/credits_scene.hpp
+        include/scenes/scene.hpp
+        include/scenes/scene_manager.hpp
         include/entities/entity.hpp
         include/entities/player.hpp
         include/entities/projectile.hpp
@@ -52,6 +55,7 @@ target_sources(${PROJECT_NAME}
         include/utils/camera_shake.hpp
         include/utils/texture_manager.hpp
         include/utils/animation.hpp
+        include/utils/constants.hpp
         include/entities/explosion.hpp
         include/entities/diagonal_flyer.hpp
         include/entities/sine_wave_flyer.hpp
@@ -63,8 +67,6 @@ target_sources(${PROJECT_NAME}
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE
-        Config
-        SceneManager
         raylib
 )
 
@@ -82,7 +84,7 @@ endif()
 if(MSVC)
   target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
 else()
-  target_compile_options(SceneManager PRIVATE
+  target_compile_options(${PROJECT_NAME} PRIVATE
     -Wall -Wextra -Wpedantic -Werror
     -Wconversion
     -Wsign-conversion

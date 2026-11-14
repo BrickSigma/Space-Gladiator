@@ -1,7 +1,7 @@
 #ifndef START_SCENE_HPP
 #define START_SCENE_HPP
 
-#include "scene_manager.hpp"
+#include "scenes/scene_manager.hpp"
 
 class StartScene : public Scene {
 public:

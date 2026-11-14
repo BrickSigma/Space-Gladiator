@@ -2,7 +2,7 @@
 #define SCENE_MANAGER_HPP
 
 #include <raylib.h>
-#include "scene.hpp"
+#include "scenes/scene.hpp"
 
 // List of possible scene types
 enum class SceneState : int

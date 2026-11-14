@@ -1,5 +1,5 @@
-#include "scene_manager.hpp"
-#include "constants.hpp"
+#include "scenes/scene_manager.hpp"
+#include "utils/constants.hpp"
 
 #if defined(PLATFORM_DESKTOP)
 #define GLSL_VERSION 330

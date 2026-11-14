@@ -32,6 +32,4 @@ if(NOT ${PLATFORM} STREQUAL "Web")
   add_subdirectory(TilemapTool)
 endif()
 
-add_subdirectory(Config)
-add_subdirectory(SceneManager)
 add_subdirectory(${PROJECT_NAME})

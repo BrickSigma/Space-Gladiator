@@ -88,6 +88,6 @@ void Asteroid::handleCollision(GameScene *scene, Entity *entity)
         return;
     }
 
-    scene->spawnEntity(new Asteroid(next_size, {pos.x, pos.y + height / 2 - static_cast<int>(next_size) / 2 + static_cast<int>(next_size) / 2}, 1));
-    scene->spawnEntity(new Asteroid(next_size, {pos.x, pos.y + height / 2 - static_cast<int>(next_size) / 2 - static_cast<int>(next_size) / 2}, -1));
+    scene->spawnEntity(new Asteroid(next_size, {pos.x, pos.y + static_cast<float>(height) / 2 - static_cast<float>(next_size) / 2 + static_cast<float>(next_size) / 2}, 1));
+    scene->spawnEntity(new Asteroid(next_size, {pos.x, pos.y + static_cast<float>(height) / 2 - static_cast<float>(next_size) / 2 - static_cast<float>(next_size) / 2}, -1));
 }

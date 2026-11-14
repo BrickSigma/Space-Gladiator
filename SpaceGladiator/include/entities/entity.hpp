@@ -4,7 +4,7 @@
 #include <raylib.h>
 #include <bitset>
 
-#include "constants.hpp"
+#include "utils/constants.hpp"
 
 class GameScene;
 

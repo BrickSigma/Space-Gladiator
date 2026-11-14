@@ -1,7 +1,7 @@
 #ifndef CREDITS_SCENE_HPP
 #define CREDITS_SCENE_HPP
 
-#include "scene_manager.hpp"
+#include "scenes/scene_manager.hpp"
 
 class CreditsScene : public Scene {
 public:

@@ -1,10 +1,10 @@
 #ifndef GAME_SCENE_HPP
 #define GAME_SCENE_HPP
 
-#include "scene_manager.hpp"
+#include "scenes/scene_manager.hpp"
 #include "entities/entity.hpp"
 #include "entities/player.hpp"
-#include "constants.hpp"
+#include "utils/constants.hpp"
 #include "level_manager/level_manager.hpp"
 #include "utils/camera_shake.hpp"
 
