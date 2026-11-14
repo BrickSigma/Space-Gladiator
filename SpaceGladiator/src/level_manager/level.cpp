@@ -79,7 +79,7 @@ Level::~Level()
 
 void Level::reset()
 {
-    last_checkpoint = 1; // Change this to skip to a checkpoint in a level
+    last_checkpoint = 3; // Change this to skip to a checkpoint in a level
     next_spawner = 0;
 }
 
@@ -87,6 +87,9 @@ void Level::returnToCheckpoint(GameScene *scene)
 {
     // Set the game scene's distance to match the checkpoint
     scene->scroll_distance = checkpoints[last_checkpoint] * TILE_SIZE;
+
+    // Set the next spawner to the size of the spawner's list in case no spawner can replace it
+    next_spawner = spawners.size();
 
     // Loop through the spawner data to figure out where to set the next_spawner value to
     for (size_t i = 0; i < spawners.size(); i++)

@@ -42,6 +42,8 @@ void GameScene::resetFromCheckpoint()
 
     frame_counter = 0;
 
+    stop_scrolling = false;
+
     // Reset the game state
     state = GameSceneState::LEVEL;
 }
@@ -102,16 +104,8 @@ SceneState GameScene::update()
     BeginTextureMode(canvas);
     ClearBackground(BLACK);
 
-    if (state == GameSceneState::TRANSITION)
-    {
-        // Handle drawing cool transition background here
-        ClearBackground(PURPLE);
-    }
-    else
-    {
-        // Render the level tiles here when it's implemented
-        level_manager.drawLevel(this);
-    }
+    // Render the level tiles here when it's implemented
+    level_manager.drawLevel(this);
 
     // Render all other entities
     for (Entity *entity : entities)
@@ -222,10 +216,6 @@ SceneState GameScene::update()
                 pushStateEvent(GameSceneState::LEVEL);
     }
 
-    if (state == GameSceneState::TRANSITION)
-        if (frame_counter >= transition_duration)
-            pushStateEvent(GameSceneState::LEVEL);
-
     // Update the frame counter
     frame_counter++;
 
@@ -233,7 +223,17 @@ SceneState GameScene::update()
     {
         if (IsKeyPressed(KEY_T))
         {
-            pushStateEvent(GameSceneState::TRANSITION);
+            // Try tansition to the next level if there is one
+            if (level_manager.nextLevel())
+            {
+                stop_scrolling = false;
+                scroll_distance = -SPACE_CANVAS_WIDTH;
+                frame_counter = 0;
+            }
+            else
+            {
+                pushStateEvent(GameSceneState::COMPLETED);
+            }
         }
     }
 
@@ -295,15 +295,11 @@ void GameScene::handleStateChange()
         break;
     case GameSceneState::LEVEL:
     {
-        // We need to check if we're coming from the PAUSED, TRANSITION, or PLAYER_KILLED states
+        // We need to check if we're coming from the PAUSED, or PLAYER_KILLED states
         switch (state)
         {
         case GameSceneState::PAUSED:
             state = next_state;
-            break;
-        case GameSceneState::TRANSITION:
-            state = next_state;
-            frame_counter = 0;
             break;
         case GameSceneState::PLAYER_KILLED:
             stop_scrolling = false; // Make sure to enable scrolling again
@@ -324,27 +320,6 @@ void GameScene::handleStateChange()
         break;
     }
 
-    case GameSceneState::TRANSITION:
-    {
-        // Only move to the transition state if the player hasn't been killed
-        if (state == GameSceneState::LEVEL)
-        {
-            // Try tansition to the next level if there is one
-            if (level_manager.nextLevel())
-            {
-                stop_scrolling = false;
-                scroll_distance = 0;
-                frame_counter = 0;
-                state = next_state;
-            }
-            else
-            {
-                state = GameSceneState::COMPLETED;
-            }
-        }
-        break;
-    }
-
     case GameSceneState::PLAYER_KILLED:
         state = next_state;
         frame_counter = 0;
@@ -352,6 +327,10 @@ void GameScene::handleStateChange()
             player_killed_timer = GAME_OVER_TIME;
         else
             player_killed_timer = PLAYER_DEATH_TIME;
+        break;
+
+    case GameSceneState::COMPLETED:
+        state = next_state;
         break;
 
     default:

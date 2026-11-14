@@ -1,7 +1,7 @@
 [checkpoints]
 50
 70
-175
+170
 
 [entities]
 17,3,DIAGONAL_FLYER,0

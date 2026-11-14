@@ -23,7 +23,6 @@ enum class GameSceneState : int
     PAUSED,        // The game is paused
     LEVEL,         // Currently in a level
     PLAYER_KILLED, // The player has been killed
-    TRANSITION,    // Moving between levels
     COMPLETED,     // The last level was completed
     GAME_OVER      // Used to indicate that the player lost all lives and we should return to the title screen
 };
@@ -89,7 +88,6 @@ private:
     // Event queue for the state transitions
     std::vector<GameSceneState> state_event_queue{};
 
-    const int transition_duration{180};          // Make the transition last ~3 seconds
     int player_killed_timer{PLAYER_DEATH_TIME}; // Player death timer (~2.5 seconds or ~5 seconds on game over)
 
     // Camera shake object

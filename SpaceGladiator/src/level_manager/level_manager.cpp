@@ -55,6 +55,9 @@ void LevelManager::drawLevel(GameScene *scene)
 {
     DrawTexture(levels[current_level]->background, -scene->scroll_distance, 0, WHITE);
 
+    if (current_level > 0)
+        DrawTexture(levels[current_level-1]->background, -(TILEMAP_WIDTH*TILE_SIZE)-scene->scroll_distance, 0, WHITE);
+
     // Tile map space test
     /**
 
