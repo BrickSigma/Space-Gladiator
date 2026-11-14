@@ -12,6 +12,7 @@
 
 #include <format>
 #include <cstring>
+#include <stdexcept>
 
 SpawnerType spawnerStringToType(const char *str)
 {
@@ -98,16 +99,20 @@ static void spawnAsteroid(const SpawnerData &data, GameScene *scene)
 static void spawnDiagonalFlyer(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    bool special = data.flags != 0;
-    scene->spawnEntity(new DiagonalFlyer(pos, special));
+    if (data.flags < 0 || data.flags > 5)
+        throw std::runtime_error("Flags passed to spawn diagonal flyer are not between 0 and 5!");
+    PowerUpType power_up_type = static_cast<PowerUpType>(data.flags);
+    scene->spawnEntity(new DiagonalFlyer(pos, power_up_type));
 }
 
 // Spawn a sine wave flyer
 static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    bool special = data.flags != 0;
-    scene->spawnEntity(new SineWaveFlyer(pos, special));
+    if (data.flags < 0 || data.flags > 5)
+        throw std::runtime_error("Flags passed to spawn sine wave flyer are not between 0 and 5!");
+    PowerUpType power_up_type = static_cast<PowerUpType>(data.flags);
+    scene->spawnEntity(new SineWaveFlyer(pos, power_up_type));
 }
 
 // Spawn a spinning laser. The `data.flags` indicates the spinning type
@@ -151,8 +156,7 @@ static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
     pos.y += 5; // Move the flyer a little down to stay on the ground
-    bool special = data.flags != 0;
-    scene->spawnEntity(new FlyerSpawner(pos, special));
+    scene->spawnEntity(new FlyerSpawner(pos));
 }
 
 static void spawnCanon(const SpawnerData &data, GameScene *scene)
@@ -165,7 +169,10 @@ static void spawnCanon(const SpawnerData &data, GameScene *scene)
 static void spawnGroundShooter(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    bool facing_up = (data.flags & 0b1) != 0; // If bit 0 is set, then the shooter is facing up
-    bool special = (data.flags & 0b10) != 0;  // If bit 1 is set, then the shooter is a special variant
-    scene->spawnEntity(new GroundShooter(pos, facing_up, special));
+    bool facing_up = (data.flags & 0xf) != 0; // If bit 0 is set, then the shooter is facing up
+    int power_up_flag = (data.flags >> 4) & 0xf;
+    if (power_up_flag < 0 || power_up_flag > 5)
+        throw std::runtime_error("Flags passed to spawn ground shooter are not between 0 and 5!");
+    PowerUpType power_up_type = static_cast<PowerUpType>(power_up_flag);
+    scene->spawnEntity(new GroundShooter(pos, facing_up, power_up_type));
 }

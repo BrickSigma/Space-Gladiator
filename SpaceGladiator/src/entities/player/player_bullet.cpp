@@ -1,7 +1,7 @@
 #include "entities/player/player_bullet.hpp"
 #include "utils/texture_manager.hpp"
 
-PlayerBullet::PlayerBullet(Vector2 pos_, Vector2 velocity_) : Projectile(EntityType::PLAYER_PROJECTILE, pos_, 8, 3, velocity_) {}
+PlayerBullet::PlayerBullet(Vector2 pos_, Vector2 velocity_) : PlayerProjectile(PlayerProjectileType::BULLET, pos_, 8, 3, velocity_) {}
 
 void PlayerBullet::draw() {
     TextureManager &texture_manager = TextureManager::getInstance();

@@ -30,7 +30,7 @@ private:
 class FlyerSpawner : public Entity
 {
 public:
-    FlyerSpawner(Vector2 pos_, bool special_);
+    FlyerSpawner(Vector2 pos_);
     ~FlyerSpawner() = default;
 
     void update(GameScene *scene) override;
@@ -55,8 +55,6 @@ private:
     int health{3};                // It takes 3 bullet hits to destroy the spawner
 
     FlyerSpawnerState state{FlyerSpawnerState::WAITING};
-
-    bool special{false};
 
     Texture texture;
 };

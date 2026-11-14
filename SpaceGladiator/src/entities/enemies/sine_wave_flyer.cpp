@@ -3,17 +3,18 @@
 #include "scenes/game_scene.hpp"
 #include "utils/texture_manager.hpp"
 #include "entities/explosion.hpp"
+#include "entities/player/player_projectile.hpp"
 
 #include <cmath>
 #include <numbers>
 
-SineWaveFlyer::SineWaveFlyer(Vector2 pos_, bool special_) : Entity(EntityType::ENEMY, pos_, 16, 16), special(special_)
+SineWaveFlyer::SineWaveFlyer(Vector2 pos_, PowerUpType power_up_type_) : Entity(EntityType::ENEMY, pos_, 16, 16), power_up_type(power_up_type_)
 {
     origin = pos_.y;
 
     TextureManager &texture_manager = TextureManager::getInstance();
     Texture texture;
-    if (special_)
+    if (power_up_type != PowerUpType::NONE)
         texture = texture_manager.special_sine_wave_flyer;
     else
         texture = texture_manager.regular_sine_wave_flyer;
@@ -54,10 +55,15 @@ void SineWaveFlyer::handleCollision(GameScene *scene, Entity *entity)
 
     // The flyer was hit by a player bullet, so let's delete it
     delete_entity = true;
-    entity->delete_entity = true;
+
+    PlayerProjectile *projectile = static_cast<PlayerProjectile *>(entity);
+    projectile->handleDestruction(); // Call the projectile's own destruction handler, as the laser may not get destroyed
 
     scene->setCameraShake(CameraShake(2, 30));
 
+    if (power_up_type != PowerUpType::NONE)
+        scene->spawnEntity(new PowerUp(power_up_type, getCenter()));
+
     // Spawn an explosion
-    scene->spawnEntity(new Explosion(1, {pos.x + 8, pos.y + 8}));
+    scene->spawnEntity(new Explosion(1, getCenter()));
 }

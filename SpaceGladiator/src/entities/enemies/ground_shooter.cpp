@@ -6,14 +6,15 @@
 #include "entities/enemies/enemy_projectile.hpp"
 #include "entities/explosion.hpp"
 #include "utils/math.hpp"
+#include "entities/player/player_projectile.hpp"
 
 #include <cmath>
 
-GroundShooter::GroundShooter(Vector2 pos_, bool facing_up_, bool special_)
-    : Entity(EntityType::ENEMY, pos_, 16, 16), facing_up(facing_up_), special(special_)
+GroundShooter::GroundShooter(Vector2 pos_, bool facing_up_, PowerUpType power_up_type_)
+    : Entity(EntityType::ENEMY, pos_, 16, 16), facing_up(facing_up_), power_up_type(power_up_type_)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
-    if (special)
+    if (power_up_type != PowerUpType::NONE)
         sprites = texture_manager.special_ground_shooter;
     else
         sprites = texture_manager.regular_ground_shooter;
@@ -84,10 +85,15 @@ void GroundShooter::handleCollision(GameScene *scene, Entity *entity)
 
     // The flyer was hit by a player bullet, so let's delete it
     delete_entity = true;
-    entity->delete_entity = true;
+
+    PlayerProjectile *projectile = static_cast<PlayerProjectile *>(entity);
+    projectile->handleDestruction(); // Call the projectile's own destruction handler, as the laser may not get destroyed
 
     scene->setCameraShake(CameraShake(2, 30));
 
+    if (power_up_type != PowerUpType::NONE)
+        scene->spawnEntity(new PowerUp(power_up_type, getCenter()));
+
     // Spawn an explosion
-    scene->spawnEntity(new Explosion(1, {pos.x + 8, pos.y + 8}));
+    scene->spawnEntity(new Explosion(1, getCenter()));
 }

@@ -14,7 +14,7 @@ enum class EntityType
     ENEMY,             // Used for any enemies
     PLAYER_PROJECTILE, // Used for any projectiles fired by the player
     ENEMY_PROJECTILE,  // Used for any projectiles fired by the enemy
-    BLOCK,             // Used for any kind of block like a wall or baricade (blocks all projectiles, and will destroy the player if hit)
+    POWER_UP,          // Used for power-ups
     NONE               // A blank entity, such as an explision which doesn't need any collision mechanics or physics
 };
 

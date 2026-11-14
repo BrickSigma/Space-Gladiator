@@ -4,6 +4,9 @@
 #include "utils/constants.hpp"
 #include "utils/texture_manager.hpp"
 #include "entities/player/player_bullet.hpp"
+#include "entities/player/player_laser.hpp"
+#include "entities/player/player_multishot.hpp"
+#include "entities/explosion.hpp"
 
 #include <algorithm>
 
@@ -29,7 +32,12 @@ void Player::reset(bool restore_health)
     // Anything to do with the player's state can be reset here
     pos.x = 30;
     pos.y = static_cast<float>((CANVAS_HEIGHT / 2) - (PLAYER_HITBOX_HEIGHT / 2));
-    speed = PLAYER_BASE_SPEED; // Reset the speed back to normal
+    speed = PLAYER_BASE_SPEED;          // Reset the speed back to normal
+    max_shots = PLAYER_MAX_PROJECTILES; // Reset the number of shots a player can take
+    shield = 0;                         // Remove the sheild
+    has_laser = false;                  // Disable the laser
+    has_multishot = false;              // Disable multishot
+    shoot_delay = 10;
     is_dead = false;
     explosion->reset();
 
@@ -123,20 +131,41 @@ void Player::handlePhysics()
 void Player::handleShooting(GameScene *scene)
 {
     // First iterate through the entities in the game to find any that are the player's projectile type
+    // and also specifically  the bullet type, not laser or multi-shot
     size_t projectiles = static_cast<size_t>(
         std::count_if(scene->entities.begin(), scene->entities.end(), [](Entity *e)
-                      { return e->type == EntityType::PLAYER_PROJECTILE; }));
+                      { 
+                        if (e->type != EntityType::PLAYER_PROJECTILE)
+                            return false;
+
+                        PlayerProjectile *projectile = static_cast<PlayerProjectile *>(e);
+                        return projectile->type == PlayerProjectileType::BULLET; }));
 
     // Spawn a bullet if all conditions are met
-    if (is_shooting && projectiles < 2 && shooting_timer >= SHOOT_DELAY)
+    if (is_shooting && (projectiles < max_shots || has_laser) && shooting_timer >= shoot_delay)
     {
-        scene->spawnEntity(new PlayerBullet(
-            {pos.x + static_cast<float>(width), pos.y + static_cast<float>(height) / 2}, {PROJECTILE_SPEED, 0}));
+        if (has_laser)
+            scene->spawnEntity(new PlayerLaser({pos.x + static_cast<float>(width), getCenter().y - 1.0f}));
+        else
+            scene->spawnEntity(new PlayerBullet(
+                {pos.x + static_cast<float>(width), pos.y + static_cast<float>(height) / 2}, {PROJECTILE_SPEED, 0}));
         shooting_timer = 0; // Reset the timer
     }
 
     // Increment the shoot timer
     shooting_timer++;
+
+    frame_counter++;
+    if (has_multishot)
+    {
+        if (frame_counter % multishot_delay == 0)
+        {
+            scene->spawnEntity(new PlayerMultishot(
+                {pos.x + static_cast<float>(width), getCenter().y}, 1));
+            scene->spawnEntity(new PlayerMultishot(
+                {pos.x + static_cast<float>(width), getCenter().y}, -1));
+        }
+    }
 }
 
 void Player::update(GameScene *scene)
@@ -161,10 +190,14 @@ void Player::draw()
         texture = PLAYER_TEXTURE_DOWN;
     }
 
-    if (is_dead)
+    if (is_dead) {
         explosion->draw({pos.x - 7, pos.y - 5});
-    else
+    }
+    else {
         DrawTexture(textures[texture], static_cast<int>(pos.x - 6), static_cast<int>(pos.y - 3), WHITE);
+        if (shield > 0)
+            DrawCircleLines(static_cast<int>(getCenter().x), static_cast<int>(getCenter().y), static_cast<float>(PLAYER_SPRITE_WIDTH + 5)/2.0f, PLAYER_LASER_COLOR);
+    }
 }
 
 void Player::handleCollision(GameScene *scene, Entity *entity)
@@ -178,6 +211,32 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
     // The entity calls it's own checkCollision function in case it has it's own custom one (like the spinning laser)
     if (!(entity->checkCollision(*this)))
         return;
+
+    // Check the entity type: if it's a powerup we need to activate it, otherwise if it's an enemy bullet we need to delete it
+    if (entity->type == EntityType::POWER_UP)
+    {
+        handlePowerUp(static_cast<PowerUp *>(entity));
+        return;
+    }
+    else if (entity->type == EntityType::ENEMY_PROJECTILE)
+    {
+        entity->is_dead = true; // Mark the projectile as dead since it hit the player
+        if (shield > 0)
+        { // Let the shield protect the player from dying
+            shield--;
+            return;
+        }
+    }
+    else
+    {
+        if (shield >= 4)
+        { // Enemies will cause the shield to loose 4 bars of health
+            shield -= 4;
+            entity->delete_entity = true;                              // Delete the entity
+            scene->spawnEntity(new Explosion(1, entity->getCenter())); // Spawn an exlosion as well
+            return;                                                    // If the shield isn't strong enough, the player will die
+        }
+    }
 
     is_dead = true;
     lives--;
@@ -202,10 +261,34 @@ void Player::handleTilemapCollision(GameScene *scene)
     lives--;
     clearMovementArray();
 
-    is_dead = true;
-    lives--;
-    clearMovementArray();
-
     scene->pushStateEvent(GameSceneState::PLAYER_KILLED);
     scene->setCameraShake(CameraShake(2, 120));
+}
+
+void Player::handlePowerUp(PowerUp *power_up)
+{
+    switch (power_up->type)
+    {
+    case PowerUpType::SPEED:
+        speed += 0.25f;
+        break;
+    case PowerUpType::MULTISHOT:
+        has_multishot = true;
+        break;
+    case PowerUpType::LASER:
+        has_laser = true;
+        shoot_delay = 20;
+        break;
+    case PowerUpType::SHIELD:
+        shield = PLAYER_SHIELD_MAX_HEALTH;
+        break;
+    case PowerUpType::EXTRA_SHOT:
+        max_shots++;
+        break;
+    case PowerUpType::NONE:
+        break;
+    }
+
+    // Don't forget to delete the power-up!
+    power_up->delete_entity = true;
 }

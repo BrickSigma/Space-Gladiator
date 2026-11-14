@@ -39,6 +39,10 @@ target_sources(${PROJECT_NAME}
         src/entities/enemies/canon.cpp
         src/utils/math.cpp
         src/entities/enemies/ground_shooter.cpp
+        src/entities/power_up.cpp
+        src/entities/player/player_projectile.cpp
+        src/entities/player/player_laser.cpp
+        src/entities/player/player_multishot.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -70,6 +74,10 @@ target_sources(${PROJECT_NAME}
         include/entities/enemies/canon.hpp
         include/utils/math.hpp
         include/entities/enemies/ground_shooter.hpp
+        include/entities/power_up.hpp
+        include/entities/player/player_projectile.hpp
+        include/entities/player/player_laser.hpp
+        include/entities/player/player_multishot.hpp
 )
 
 #set(raylib_VERBOSE 1)

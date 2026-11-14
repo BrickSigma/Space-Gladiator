@@ -2,13 +2,14 @@
 #define GROUND_SHOOTER_HPP
 
 #include "entities/entity.hpp"
+#include "entities/power_up.hpp"
 
 constexpr float SHOOTER_SPEED{1.0f};
 
 class GroundShooter : public Entity
 {
 public:
-    GroundShooter(Vector2 pos_, bool facing_up_, bool special_);
+    GroundShooter(Vector2 pos_, bool facing_up_, PowerUpType power_up_type_);
     ~GroundShooter() = default;
 
     void update(GameScene *scene) override;
@@ -22,7 +23,7 @@ private:
     float target_angle{0}; // The current angular position of the player relative to the shooter
 
     bool facing_up;
-    bool special{false};
+    PowerUpType power_up_type{PowerUpType::NONE};
 
     Texture sprites;
 };

@@ -151,8 +151,8 @@ SceneState GameScene::update()
     // The first case is checking each enemy-type entity against the player
     for (Entity *entity : entities)
     {
-        if (entity->type == EntityType::PLAYER_PROJECTILE)
-            continue; // Skip player bullets as they shouldn't harm a player
+        if (entity->type == EntityType::PLAYER_PROJECTILE || entity->type == EntityType::NONE)
+            continue; // Skip player bullets or explosions as they shouldn't harm a player
 
         player.handleCollision(this, entity);
     }

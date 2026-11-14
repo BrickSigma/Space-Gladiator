@@ -48,7 +48,7 @@ void Canon::handleCollision(GameScene *scene, Entity *entity)
         return;
 
     // Can't use the regular `checkCollision` function as the player uses it
-    if (!CheckCollisionRecs(getRect(), entity->getRect()))
+    if (!checkCollision(*entity))
         return;
 
     // Delete just the bullet

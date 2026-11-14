@@ -1,6 +1,6 @@
 #include "entities/enemies/asteroid.hpp"
 
-#include "entities/player/player_bullet.hpp"
+#include "entities/player/player_projectile.hpp"
 #include "scenes/game_scene.hpp"
 #include "utils/texture_manager.hpp"
 #include "entities/explosion.hpp"
@@ -68,12 +68,14 @@ void Asteroid::handleCollision(GameScene *scene, Entity *entity)
 
     // The player bullet and asteroid collided, so let's spawn in two more smaller asteroids
     delete_entity = true;
-    entity->delete_entity = true;
+
+    PlayerProjectile *projectile = static_cast<PlayerProjectile *>(entity);
+    projectile->handleDestruction();  // Call the projectile's own destruction handler, as the laser may not get destroyed
 
     scene->setCameraShake(CameraShake(2, 30));
 
     // Spawn an explosion
-    scene->spawnEntity(new Explosion(2, {pos.x + static_cast<float>(width) / 2, pos.y + static_cast<float>(height) / 2}));
+    scene->spawnEntity(new Explosion(2, getCenter()));
 
     // Create two smaller asteroids
     AsteroidSize next_size{AsteroidSize::MEDIUM};

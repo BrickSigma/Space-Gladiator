@@ -26,6 +26,7 @@ TextureManager::TextureManager()
     player_explosion = LoadTexture(getImageAssetFile("player-explosion.png"));
 
     player_bullet = LoadTexture(getImageAssetFile("player-projectile.png"));
+    player_multishot = LoadTexture(getImageAssetFile("player-multishot.png"));
 
     // Asteroid textures
     asteroid_small = LoadTexture(getImageAssetFile("asteroid-small.png"));
@@ -66,6 +67,9 @@ TextureManager::TextureManager()
     // Ground shooter textures
     regular_ground_shooter = LoadTexture(getImageAssetFile("regular-ground-shooter.png"));
     special_ground_shooter = LoadTexture(getImageAssetFile("special-ground-shooter.png"));
+
+    // Power-ups texture
+    power_ups = LoadTexture(getImageAssetFile("power-ups.png"));
 }
 
 TextureManager::~TextureManager()
@@ -81,6 +85,7 @@ TextureManager::~TextureManager()
     UnloadTexture(player_explosion);
 
     UnloadTexture(player_bullet);
+    UnloadTexture(player_multishot);
 
     // Asteroid textures
     UnloadTexture(asteroid_small);
@@ -121,4 +126,7 @@ TextureManager::~TextureManager()
     // Ground shooter textures
     UnloadTexture(regular_ground_shooter);
     UnloadTexture(special_ground_shooter);
+
+    // Power-ups texture
+    UnloadTexture(power_ups);
 }

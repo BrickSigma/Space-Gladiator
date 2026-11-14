@@ -26,6 +26,7 @@ public:
     Texture player_explosion;
 
     Texture player_bullet;
+    Texture player_multishot;
 
     Texture asteroid_small;
     Texture asteroid_medium;
@@ -56,6 +57,8 @@ public:
 
     Texture regular_ground_shooter;
     Texture special_ground_shooter;
+
+    Texture power_ups;
 };
 
 #endif // TEXTURES_MANAGER_HPP

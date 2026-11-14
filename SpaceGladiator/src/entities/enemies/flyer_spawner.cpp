@@ -3,6 +3,7 @@
 #include "scenes/game_scene.hpp"
 #include "utils/texture_manager.hpp"
 #include "entities/explosion.hpp"
+#include "entities/player/player_projectile.hpp"
 
 Flyer::Flyer(Vector2 pos_, float target_y_) : Entity(EntityType::ENEMY, pos_, 16, 16), target_y(target_y_)
 {
@@ -30,12 +31,13 @@ void Flyer::handleCollision(GameScene *scene, Entity *entity)
 
     // The flyer was hit by a player bullet, so let's delete it
     delete_entity = true;
-    entity->delete_entity = true;
+    PlayerProjectile *projectile = static_cast<PlayerProjectile *>(entity);
+    projectile->handleDestruction(); // Call the projectile's own destruction handler, as the laser may not get destroyed
 
     scene->setCameraShake(CameraShake(2, 30));
 
     // Spawn an explosion
-    scene->spawnEntity(new Explosion(1, {pos.x + 8, pos.y + 8}));
+    scene->spawnEntity(new Explosion(1, getCenter()));
 }
 
 void Flyer::update(GameScene *scene)
@@ -66,14 +68,10 @@ void Flyer::update(GameScene *scene)
         delete_entity = true;
 }
 
-FlyerSpawner::FlyerSpawner(Vector2 pos_, bool special_) : Entity(EntityType::ENEMY, pos_, FlyerSpawner::WIDTH, FlyerSpawner::HEIGHT), special(special_)
+FlyerSpawner::FlyerSpawner(Vector2 pos_) : Entity(EntityType::ENEMY, pos_, FlyerSpawner::WIDTH, FlyerSpawner::HEIGHT)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
-
-    if (special_)
-        texture = texture_manager.special_flyer_spawner;
-    else
-        texture = texture_manager.regular_flyer_spawner;
+    texture = texture_manager.regular_flyer_spawner;
 }
 
 void FlyerSpawner::update(GameScene *scene)
@@ -134,7 +132,7 @@ void FlyerSpawner::handleCollision(GameScene *scene, Entity *entity)
     entity->delete_entity = true;
 
     if (entity->type == EntityType::ENEMY_PROJECTILE)
-        return;  // No friendly-fire from other enemy projectiles!
+        return; // No friendly-fire from other enemy projectiles!
 
     // Let's reduce the health
     health--;
@@ -148,5 +146,5 @@ void FlyerSpawner::handleCollision(GameScene *scene, Entity *entity)
     scene->setCameraShake(CameraShake(2, 30));
 
     // Spawn an explosion
-    scene->spawnEntity(new Explosion(1, {pos.x + WIDTH / 2, pos.y + HEIGHT / 2}));
+    scene->spawnEntity(new Explosion(1, getCenter()));
 }

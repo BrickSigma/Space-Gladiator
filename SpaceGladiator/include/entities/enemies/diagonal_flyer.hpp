@@ -2,6 +2,7 @@
 #define DIAGONAL_FLYER_HPP
 
 #include "entities/entity.hpp"
+#include "entities/power_up.hpp"
 
 class DiagonalFlyer : public Entity
 {
@@ -10,9 +11,9 @@ public:
      * Create a diagonal flyer.
      * 
      * @param pos
-     * @param special when `true`, the flyer can drop a powerup (yet to be implemented)
+     * @param power_up_ the type of power-up the flyer can drop
      */
-    DiagonalFlyer(Vector2 pos_, bool special_);
+    DiagonalFlyer(Vector2 pos_,  PowerUpType power_up_);
     ~DiagonalFlyer() = default;
 
     void update(GameScene *scene) override;
@@ -27,7 +28,7 @@ private:
         MOVING_STRAIGHT
     };
 
-    bool special{false};
+    PowerUpType power_up_type{PowerUpType::NONE};
 
     int frame_counter{0};
     int update_x_time{1};

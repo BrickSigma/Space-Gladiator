@@ -3,18 +3,20 @@
 
 #include "entities/entity.hpp"
 #include "utils/animation.hpp"
+#include "entities/power_up.hpp"
 
-constexpr float PLAYER_BASE_SPEED = 1.0f;
-constexpr int PLAYER_MAX_PROJECTILES = 2; // Maximum number of projectiles the player can shoot
-constexpr int SHOOT_DELAY = 10;           // Shoot every .166 seconds
-constexpr int PROJECTILE_SPEED = 3;       // Speed of projectiles shot
+constexpr float PLAYER_BASE_SPEED{1.0f};
+constexpr int PLAYER_MAX_PROJECTILES{2};    // Maximum number of projectiles the player can shoot
+constexpr int BASE_SHOOT_DELAY{10};         // Shoot every .166 seconds
+constexpr int PROJECTILE_SPEED{3};          // Speed of projectiles shot
+constexpr int PLAYER_SHIELD_MAX_HEALTH{12}; // Maximum strength of the player's sheild
 
-constexpr int PLAYER_SPRITE_WIDTH = 26;
-constexpr int PLAYER_SPRITE_HEIGHT = 12;
-constexpr int PLAYER_HITBOX_WIDTH = 16;
-constexpr int PLAYER_HITBOX_HEIGHT = 6;
+constexpr int PLAYER_SPRITE_WIDTH{26};
+constexpr int PLAYER_SPRITE_HEIGHT{12};
+constexpr int PLAYER_HITBOX_WIDTH{16};
+constexpr int PLAYER_HITBOX_HEIGHT{6};
 
-constexpr int PLAYER_MAX_LIVES = 3;
+constexpr int PLAYER_MAX_LIVES{3};
 
 class Player : public Entity
 {
@@ -50,6 +52,9 @@ private:
     // Set the movement array to false for all entries
     void clearMovementArray();
 
+    // Handle activating a powerup when collected
+    void handlePowerUp(PowerUp *power_up);
+
     // Player movement related data
     enum PlayerMovement
     {
@@ -77,7 +82,17 @@ private:
 
     // Projectiles currently shot by the player
     bool is_shooting{false};
+    size_t max_shots{2};   // The maximum number of shots a player can take at a time
     int shooting_timer{0}; // Timer tracking time since last shot
+    int shoot_delay{BASE_SHOOT_DELAY};
+
+    int frame_counter{0};          // Separate frame counter for other types of bullets, like the multishot
+    bool has_laser{false};         // Used to indicate if the player has unlocked a laser gun
+    bool has_multishot{false};     // Used to indicate if the player has multishot unlocked
+    const int multishot_delay{90}; // Allow the multishot to trigger every 1.5 seconds
+
+    // Shield health; when set to zero it means there is no shield active
+    int shield{0};
 
     Animation *explosion{nullptr};
 };

@@ -1,10 +1,10 @@
 #ifndef PLAYER_BULLET_HPP
 #define PLAYER_BULLET_HPP
 
-#include "entities/projectile.hpp"
+#include "entities/player/player_projectile.hpp"
 #include <raylib.h>
 
-class PlayerBullet : public Projectile
+class PlayerBullet : public PlayerProjectile
 {
 public:
     PlayerBullet(Vector2 pos_, Vector2 velocity_);
