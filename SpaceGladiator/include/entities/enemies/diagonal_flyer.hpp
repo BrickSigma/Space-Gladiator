@@ -41,6 +41,8 @@ private:
 
     // Store the sprite sheet for the flyer
     Texture textures;
+
+    const unsigned int score{100};
 };
 
 #endif // DIAGONAL_FLYER_HPP

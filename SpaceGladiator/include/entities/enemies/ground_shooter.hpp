@@ -26,6 +26,8 @@ private:
     PowerUpType power_up_type{PowerUpType::NONE};
 
     Texture sprites;
+
+    const unsigned int score{100};
 };
 
 #endif // GROUND_SHOOTER_HPP

@@ -32,6 +32,8 @@ private:
     const float x_vel{-3.0f}; // X-axis velocity of the flyer
 
     Animation *animation{nullptr};
+
+    const unsigned int score{100};
 };
 
 #endif // SINE_WAVE_FLYER_HPP

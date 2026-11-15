@@ -31,6 +31,7 @@ void Flyer::handleCollision(GameScene *scene, Entity *entity)
 
     // The flyer was hit by a player bullet, so let's delete it
     delete_entity = true;
+    scene->addScore(score);
     PlayerProjectile *projectile = static_cast<PlayerProjectile *>(entity);
     projectile->handleDestruction(); // Call the projectile's own destruction handler, as the laser may not get destroyed
 
@@ -143,6 +144,8 @@ void FlyerSpawner::handleCollision(GameScene *scene, Entity *entity)
 
     // Delete the flyer spawner if all health is gone
     delete_entity = true;
+
+    scene->addScore(score);
 
     // Shake the camera a bit
     scene->setCameraShake(CameraShake(2, 30));

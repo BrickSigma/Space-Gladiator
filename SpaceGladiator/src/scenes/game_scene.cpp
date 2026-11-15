@@ -140,9 +140,11 @@ SceneState GameScene::update()
     ClearBackground(BLACK);
     DrawTextureRec(canvas.texture, {0, 0, SPACE_CANVAS_WIDTH, -SPACE_CANVAS_HEIGHT}, camera.offset, WHITE);
 
-    // Render the current distance for debugging
+    // HUD goes here
     std::string distance_str = std::to_string(scroll_distance);
     DrawText(distance_str.c_str(), 8, SPACE_CANVAS_HEIGHT + 4, 12, WHITE);
+    std::string score_str = std::to_string(score);
+    DrawText(score_str.c_str(), 16*8, SPACE_CANVAS_HEIGHT + 4, 12, WHITE);
 
     EndTextureMode();
 
@@ -344,4 +346,15 @@ void GameScene::handleStateChange()
 void GameScene::setCameraShake(CameraShake camera_shake)
 {
     this->camera = camera_shake;
+}
+
+void GameScene::addScore(unsigned int score_)
+{
+    score += score_;
+    // Add an extra life to the player when > 50,000 points are reached
+    if (score >= (player_lives_incremented + 1) * 50000)
+    {
+        player.lives++;
+        player_lives_incremented++;
+    }
 }

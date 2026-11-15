@@ -69,6 +69,9 @@ void Asteroid::handleCollision(GameScene *scene, Entity *entity)
     // The player bullet and asteroid collided, so let's spawn in two more smaller asteroids
     delete_entity = true;
 
+    // Also upadte the score for the player
+    scene->addScore(score);
+
     PlayerProjectile *projectile = static_cast<PlayerProjectile *>(entity);
     projectile->handleDestruction();  // Call the projectile's own destruction handler, as the laser may not get destroyed
 

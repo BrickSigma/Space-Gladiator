@@ -25,6 +25,8 @@ private:
     FlyerState state{FlyerState::MOVING_UP};
     Animation *animation{nullptr};
     float target_y{0};
+
+    const unsigned int score{100};
 };
 
 class FlyerSpawner : public Entity
@@ -57,6 +59,8 @@ private:
     FlyerSpawnerState state{FlyerSpawnerState::WAITING};
 
     Texture texture;
+
+    const unsigned int score{1000};
 };
 
 #endif // FLYER_SPAWNER_HPP

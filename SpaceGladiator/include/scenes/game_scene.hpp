@@ -54,11 +54,12 @@ public:
     // Change the camera shake instance.
     void setCameraShake(CameraShake camera);
 
+    // Add some points to the player's score when an enemy is destroyed.
+    // Also handles incrementing the player's lives when 50,000 points are reached
+    void addScore(unsigned int score_);
+
     // Current distance into the level
     int scroll_distance{0};
-
-    // Current score
-    unsigned long score{0};
 
     // Internal level manager
     LevelManager level_manager{};
@@ -84,6 +85,9 @@ private:
 
     // The current state of the game scene
     GameSceneState state{GameSceneState::LEVEL};
+
+    unsigned int score{0};                    // The player's current score
+    unsigned int player_lives_incremented{0}; // Used to keep track of how much of the player's lives we've incremented so far
 
     // Event queue for the state transitions
     std::vector<GameSceneState> state_event_queue{};

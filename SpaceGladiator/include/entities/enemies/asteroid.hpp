@@ -31,6 +31,9 @@ private:
 
     // Asteroid texture
     Texture texture;
+
+    // Score for destroying an asteroid
+    const unsigned int score{100};
 };
 
 #endif // ASTEROID_HPP

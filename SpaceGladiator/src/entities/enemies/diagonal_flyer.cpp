@@ -70,6 +70,7 @@ void DiagonalFlyer::handleCollision(GameScene *scene, Entity *entity)
 
     // The flyer was hit by a player bullet, so let's delete it
     delete_entity = true;
+    scene->addScore(score);
     PlayerProjectile *projectile = static_cast<PlayerProjectile *>(entity);
     projectile->handleDestruction(); // Call the projectile's own destruction handler, as the laser may not get destroyed
 
