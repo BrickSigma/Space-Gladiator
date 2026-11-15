@@ -72,6 +72,8 @@ FlyerSpawner::FlyerSpawner(Vector2 pos_) : Entity(EntityType::ENEMY, pos_, Flyer
 {
     TextureManager &texture_manager = TextureManager::getInstance();
     texture = texture_manager.regular_flyer_spawner;
+
+    is_tile = true;  // The flyer spawner should be treated as a regular tile in the system
 }
 
 void FlyerSpawner::update(GameScene *scene)

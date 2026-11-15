@@ -12,6 +12,8 @@ Canon::Canon(Vector2 pos_, bool facing_up_) : Entity(EntityType::ENEMY, pos_, 16
 
     TextureManager &texture_manager = TextureManager::getInstance();
     texture = texture_manager.canon;
+
+    is_tile = true;  // The canon should not be destroyed by the player at all
 }
 
 void Canon::update(GameScene *scene)

@@ -65,6 +65,8 @@ SpinningLaser::SpinningLaser(Vector2 pos_, int no_lasers, SpinningLaserType type
 
     TextureManager &texture_manager = TextureManager::getInstance();
     texture = texture_manager.spinning_laser_base;
+
+    is_tile = true; // Treat the spinning laser as an indestructable tile
 }
 
 SpinningLaser::~SpinningLaser()

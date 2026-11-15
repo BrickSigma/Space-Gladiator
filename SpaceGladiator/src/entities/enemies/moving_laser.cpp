@@ -19,6 +19,8 @@ MovingLaser::MovingLaser()
     laser_animation = new Animation(texture_manager.moving_laser, 48, 6, true);
     moving_laser_hole = texture_manager.moving_laser_hole;
     laser_loading_animation = new Animation(texture_manager.laser_loading, 5, 3, false);
+
+    is_tile = true;
 }
 
 MovingLaser::~MovingLaser()

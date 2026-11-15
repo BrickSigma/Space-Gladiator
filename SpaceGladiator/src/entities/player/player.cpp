@@ -100,22 +100,14 @@ void Player::handleInput()
 void Player::handlePhysics()
 {
     if (movement[PLAYER_UP])
-    {
         pos.y -= speed;
-    }
     else if (movement[PLAYER_DOWN])
-    {
         pos.y += speed;
-    }
 
     if (movement[PLAYER_LEFT])
-    {
         pos.x -= speed;
-    }
     else if (movement[PLAYER_RIGHT])
-    {
         pos.x += speed;
-    }
 
     // Make sure the player can't go off screen
     if (pos.x < 16)
@@ -182,21 +174,19 @@ void Player::draw()
 {
     int texture = PLAYER_TEXTURE_NORMAL;
     if (movement[PLAYER_UP])
-    {
         texture = PLAYER_TEXTURE_UP;
-    }
     else if (movement[PLAYER_DOWN])
-    {
         texture = PLAYER_TEXTURE_DOWN;
-    }
 
-    if (is_dead) {
+    if (is_dead)
+    {
         explosion->draw({pos.x - 7, pos.y - 5});
     }
-    else {
+    else
+    {
         DrawTexture(textures[texture], static_cast<int>(pos.x - 6), static_cast<int>(pos.y - 3), WHITE);
         if (shield > 0)
-            DrawCircleLines(static_cast<int>(getCenter().x), static_cast<int>(getCenter().y), static_cast<float>(PLAYER_SPRITE_WIDTH + 5)/2.0f, PLAYER_LASER_COLOR);
+            DrawCircleLines(static_cast<int>(getCenter().x), static_cast<int>(getCenter().y), static_cast<float>(PLAYER_SPRITE_WIDTH + 5) / 2.0f, PLAYER_LASER_COLOR);
     }
 }
 
@@ -229,10 +219,11 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
     }
     else
     {
-        if (shield >= 4)
+        if (shield >= 4 && !entity->is_tile)
         { // Enemies will cause the shield to loose 4 bars of health
             shield -= 4;
-            entity->delete_entity = true;                              // Delete the entity
+            entity->delete_entity = true; // Delete the entity
+
             scene->spawnEntity(new Explosion(1, entity->getCenter())); // Spawn an exlosion as well
             return;                                                    // If the shield isn't strong enough, the player will die
         }

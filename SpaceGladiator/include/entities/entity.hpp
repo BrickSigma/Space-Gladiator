@@ -62,6 +62,7 @@ public:
     int width{0};
     int height{0};
     bool is_dead{false}; // Indicates whether the entity is dead or not
+    bool is_tile{false};  // Used to temporarily fix a bug where the player's sheild can destroy entities that shouldn't be destroyed, like the lasers or spawners
 };
 
 #endif // ENTITY_HPP
