@@ -210,7 +210,7 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
     }
     else if (entity->type == EntityType::ENEMY_PROJECTILE)
     {
-        entity->is_dead = true; // Mark the projectile as dead since it hit the player
+        entity->delete_entity = true; // Mark the projectile as dead since it hit the player
         if (shield > 0)
         { // Let the shield protect the player from dying
             shield--;
