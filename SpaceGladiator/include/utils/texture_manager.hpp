@@ -37,6 +37,7 @@ public:
 
     Texture explosion_1_frames;
     Texture explosion_2_frames;
+    Texture giant_explosion;
 
     Texture regular_diagonal_flyer;
     Texture special_diagonal_flyer;
@@ -62,6 +63,9 @@ public:
     Texture special_ground_shooter;
 
     Texture power_ups;
+
+    Texture big_spaceship;
+    Texture big_spaceship_bullet;
 };
 
 #endif // TEXTURES_MANAGER_HPP

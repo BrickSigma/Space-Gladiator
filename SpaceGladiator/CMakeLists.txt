@@ -43,6 +43,8 @@ target_sources(${PROJECT_NAME}
         src/entities/player/player_projectile.cpp
         src/entities/player/player_laser.cpp
         src/entities/player/player_multishot.cpp
+        src/entities/bosses/big_spaceship.cpp
+        src/entities/bosses/big_spaceship_bullet.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -78,6 +80,8 @@ target_sources(${PROJECT_NAME}
         include/entities/player/player_projectile.hpp
         include/entities/player/player_laser.hpp
         include/entities/player/player_multishot.hpp
+        include/entities/bosses/big_spaceship.hpp
+        include/entities/bosses/big_spaceship_bullet.hpp
 )
 
 #set(raylib_VERBOSE 1)

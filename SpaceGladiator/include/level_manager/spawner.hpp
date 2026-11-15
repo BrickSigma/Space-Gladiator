@@ -13,7 +13,8 @@ enum class SpawnerType
     MOVING_LASER,
     FLYER_SPAWNER,
     CANON,
-    GROUND_SHOOTER
+    GROUND_SHOOTER,
+    BIG_SPACESHIP
 };
 
 // Convert a string to a spawner type, or throw an error on failure

@@ -9,6 +9,7 @@
 #include "entities/enemies/flyer_spawner.hpp"
 #include "entities/enemies/canon.hpp"
 #include "entities/enemies/ground_shooter.hpp"
+#include "entities/bosses/big_spaceship.hpp"
 
 #include <format>
 #include <cstring>
@@ -32,6 +33,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::CANON;
     else if (!strcmp(str, "GROUND_SHOOTER"))
         return SpawnerType::GROUND_SHOOTER;
+    else if (!strcmp(str, "BIG_SPACESHIP"))
+        return SpawnerType::BIG_SPACESHIP;
     else
         throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
@@ -52,6 +55,7 @@ static void spawnMovingLaser(const SpawnerData &data, GameScene *scene);
 static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene);
 static void spawnCanon(const SpawnerData &data, GameScene *scene);
 static void spawnGroundShooter(const SpawnerData &data, GameScene *scene);
+static void spawnBigSpaceship(const SpawnerData &data, GameScene *scene);
 
 static SpawnerCB spawner_cb_table[]{
     spawnAsteroid,
@@ -61,7 +65,8 @@ static SpawnerCB spawner_cb_table[]{
     spawnMovingLaser,
     spawnFlyerSpawner,
     spawnCanon,
-    spawnGroundShooter};
+    spawnGroundShooter,
+    spawnBigSpaceship};
 
 void spawnerDispatch(const SpawnerData &data, GameScene *scene)
 {
@@ -175,4 +180,10 @@ static void spawnGroundShooter(const SpawnerData &data, GameScene *scene)
         throw std::runtime_error("Flags passed to spawn ground shooter are not between 0 and 5!");
     PowerUpType power_up_type = static_cast<PowerUpType>(power_up_flag);
     scene->spawnEntity(new GroundShooter(pos, facing_up, power_up_type));
+}
+
+static void spawnBigSpaceship(const SpawnerData &data, GameScene *scene)
+{
+    (void)data;
+    scene->spawnEntity(new BigSpaceship());
 }

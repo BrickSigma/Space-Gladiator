@@ -49,6 +49,7 @@ TextureManager::TextureManager()
     // Explosion frames
     explosion_1_frames = LoadTexture(getImageAssetFile("explosion-1.png"));
     explosion_2_frames = LoadTexture(getImageAssetFile("explosion-2.png"));
+    giant_explosion = LoadTexture(getImageAssetFile("giant-explosion.png"));
 
     // Spining laser base texture
     spinning_laser_base = LoadTexture(getImageAssetFile("spinning-laser-base.png"));
@@ -75,6 +76,10 @@ TextureManager::TextureManager()
 
     // Power-ups texture
     power_ups = LoadTexture(getImageAssetFile("power-ups.png"));
+
+    // Big spaceship textures
+    big_spaceship = LoadTexture(getImageAssetFile("big-spaceship.png"));
+    big_spaceship_bullet = LoadTexture(getImageAssetFile("big-spaceship-bullet.png"));
 }
 
 TextureManager::~TextureManager()
@@ -112,6 +117,7 @@ TextureManager::~TextureManager()
     // Explosion textures
     UnloadTexture(explosion_1_frames);
     UnloadTexture(explosion_2_frames);
+    UnloadTexture(giant_explosion);
 
     // Spinning laser base texture
     UnloadTexture(spinning_laser_base);
@@ -138,4 +144,8 @@ TextureManager::~TextureManager()
 
     // Power-ups texture
     UnloadTexture(power_ups);
+
+    // Big spaceship textures
+    UnloadTexture(big_spaceship);
+    UnloadTexture(big_spaceship_bullet);
 }

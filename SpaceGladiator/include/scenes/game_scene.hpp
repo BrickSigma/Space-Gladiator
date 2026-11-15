@@ -58,6 +58,12 @@ public:
     // Also handles incrementing the player's lives when 50,000 points are reached
     void addScore(unsigned int score_);
 
+    // Update the boss's health
+    void setBossHealth(int health);
+
+    // Called to move to the next level. Only the bosses should be able to trigger this when they die
+    void nextLevel();
+
     // Current distance into the level
     int scroll_distance{0};
 

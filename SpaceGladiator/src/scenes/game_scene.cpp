@@ -50,6 +50,8 @@ void GameScene::resetFromCheckpoint()
 
     stop_scrolling = false;
 
+    boss_health = 16;
+
     // Reset the game state
     state = GameSceneState::LEVEL;
 }
@@ -150,7 +152,7 @@ SceneState GameScene::update()
     std::string distance_str = std::to_string(scroll_distance);
     DrawText(distance_str.c_str(), 8, 0, 8, WHITE);
     std::string fps = std::to_string(GetFPS());
-    DrawText(fps.c_str(), 16*14, 0, 8, WHITE);
+    DrawText(fps.c_str(), 16 * 14, 0, 8, WHITE);
 
     // HUD goes here
     DrawTexture(hud_background, 0, SPACE_CANVAS_HEIGHT, WHITE);
@@ -164,13 +166,15 @@ SceneState GameScene::update()
     DrawText(score_str.c_str(), 160, SPACE_CANVAS_HEIGHT + 4, 8, WHITE);
 
     // Draw the sheild health bar for the player
-    for (int i = 0; i < player.shield; i++) {
-        DrawTexture(shield_health_bar, 56 + 4*i, SPACE_CANVAS_HEIGHT, WHITE);
+    for (int i = 0; i < player.shield; i++)
+    {
+        DrawTexture(shield_health_bar, 56 + 4 * i, SPACE_CANVAS_HEIGHT, WHITE);
     }
 
     // Draw the boss health bar
-    for (int i = 0; i < boss_health; i++) {
-        DrawTexture(boss_health_bar, 56 + 4*i, SPACE_CANVAS_HEIGHT + 8, WHITE);
+    for (int i = 0; i < boss_health; i++)
+    {
+        DrawTexture(boss_health_bar, 56 + 4 * i, SPACE_CANVAS_HEIGHT + 8, WHITE);
     }
 
     EndTextureMode();
@@ -252,17 +256,7 @@ SceneState GameScene::update()
     {
         if (IsKeyPressed(KEY_T))
         {
-            // Try tansition to the next level if there is one
-            if (level_manager.nextLevel())
-            {
-                stop_scrolling = false;
-                scroll_distance = -SPACE_CANVAS_WIDTH;
-                frame_counter = 0;
-            }
-            else
-            {
-                pushStateEvent(GameSceneState::COMPLETED);
-            }
+            nextLevel();
         }
     }
 
@@ -387,5 +381,26 @@ void GameScene::addScore(unsigned int score_)
     {
         player.lives++;
         player_lives_incremented++;
+    }
+}
+
+void GameScene::setBossHealth(int health)
+{
+    boss_health = health;
+}
+
+void GameScene::nextLevel()
+{
+    // Try tansition to the next level if there is one
+    if (level_manager.nextLevel())
+    {
+        stop_scrolling = false;
+        scroll_distance = -SPACE_CANVAS_WIDTH;
+        frame_counter = 0;
+        boss_health = 16; // Make sure to set the boss level again
+    }
+    else
+    {
+        pushStateEvent(GameSceneState::COMPLETED);
     }
 }
