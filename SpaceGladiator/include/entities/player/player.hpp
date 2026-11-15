@@ -9,7 +9,7 @@ constexpr float PLAYER_BASE_SPEED{1.0f};
 constexpr int PLAYER_MAX_PROJECTILES{2};    // Maximum number of projectiles the player can shoot
 constexpr int BASE_SHOOT_DELAY{10};         // Shoot every .166 seconds
 constexpr int PROJECTILE_SPEED{3};          // Speed of projectiles shot
-constexpr int PLAYER_SHIELD_MAX_HEALTH{12}; // Maximum strength of the player's sheild
+constexpr int PLAYER_SHIELD_MAX_HEALTH{16}; // Maximum strength of the player's sheild
 
 constexpr int PLAYER_SPRITE_WIDTH{26};
 constexpr int PLAYER_SPRITE_HEIGHT{12};
@@ -40,6 +40,9 @@ public:
     void handleTilemapCollision(GameScene *scene) override;
 
     int lives = PLAYER_MAX_LIVES; // The amount of lives the player has remaining
+
+    // Shield health; when set to zero it means there is no shield active
+    int shield{0};
 
 private:
     // Handle user input to move the player or shoot
@@ -90,9 +93,6 @@ private:
     bool has_laser{false};         // Used to indicate if the player has unlocked a laser gun
     bool has_multishot{false};     // Used to indicate if the player has multishot unlocked
     const int multishot_delay{90}; // Allow the multishot to trigger every 1.5 seconds
-
-    // Shield health; when set to zero it means there is no shield active
-    int shield{0};
 
     Animation *explosion{nullptr};
 };

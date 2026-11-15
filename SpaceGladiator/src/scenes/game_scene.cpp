@@ -10,6 +10,12 @@
 GameScene::GameScene(RenderTexture *screen_) : Scene(screen_)
 {
     canvas = LoadRenderTexture(SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT);
+
+    TextureManager &texture_manager = TextureManager::getInstance();
+    hud_background = texture_manager.hud;
+    shield_health_bar = texture_manager.shield_health_bar;
+    boss_health_bar = texture_manager.boss_health_bar;
+
     reset();
 }
 
@@ -140,11 +146,32 @@ SceneState GameScene::update()
     ClearBackground(BLACK);
     DrawTextureRec(canvas.texture, {0, 0, SPACE_CANVAS_WIDTH, -SPACE_CANVAS_HEIGHT}, camera.offset, WHITE);
 
-    // HUD goes here
+    // Drawing the distance for debugging
     std::string distance_str = std::to_string(scroll_distance);
-    DrawText(distance_str.c_str(), 8, SPACE_CANVAS_HEIGHT + 4, 12, WHITE);
+    DrawText(distance_str.c_str(), 8, 0, 8, WHITE);
+    std::string fps = std::to_string(GetFPS());
+    DrawText(fps.c_str(), 16*14, 0, 8, WHITE);
+
+    // HUD goes here
+    DrawTexture(hud_background, 0, SPACE_CANVAS_HEIGHT, WHITE);
+
+    // Draw the player's lives
+    std::string player_lives = std::to_string(player.lives >= 0 ? player.lives : 0);
+    DrawText(player_lives.c_str(), 24, SPACE_CANVAS_HEIGHT + 4, 8, WHITE);
+
+    // Render the score
     std::string score_str = std::to_string(score);
-    DrawText(score_str.c_str(), 16*8, SPACE_CANVAS_HEIGHT + 4, 12, WHITE);
+    DrawText(score_str.c_str(), 160, SPACE_CANVAS_HEIGHT + 4, 8, WHITE);
+
+    // Draw the sheild health bar for the player
+    for (int i = 0; i < player.shield; i++) {
+        DrawTexture(shield_health_bar, 56 + 4*i, SPACE_CANVAS_HEIGHT, WHITE);
+    }
+
+    // Draw the boss health bar
+    for (int i = 0; i < boss_health; i++) {
+        DrawTexture(boss_health_bar, 56 + 4*i, SPACE_CANVAS_HEIGHT + 8, WHITE);
+    }
 
     EndTextureMode();
 
@@ -351,6 +378,10 @@ void GameScene::setCameraShake(CameraShake camera_shake)
 void GameScene::addScore(unsigned int score_)
 {
     score += score_;
+
+    if (player.lives >= 9)
+        return; // It's highly unlikely a player can get more than 450,000 points, but just in case, let's make sure the lives stay in single digits
+
     // Add an extra life to the player when > 50,000 points are reached
     if (score >= (player_lives_incremented + 1) * 50000)
     {

@@ -17,7 +17,10 @@ TextureManager &TextureManager::getInstance()
 TextureManager::TextureManager()
 {
     TraceLog(LOG_INFO, "Creating texture manager instance");
-    background = LoadTexture(getImageAssetFile("background.png"));
+
+    // Fonts and HUD
+    numbers = LoadTexture(getImageAssetFile("numbers.png"));
+    hud = LoadTexture(getImageAssetFile("hud.png"));
 
     // Player related textures
     player_normal = LoadTexture(getImageAssetFile("player-normal.png"));
@@ -27,6 +30,8 @@ TextureManager::TextureManager()
 
     player_bullet = LoadTexture(getImageAssetFile("player-projectile.png"));
     player_multishot = LoadTexture(getImageAssetFile("player-multishot.png"));
+    shield_health_bar = LoadTexture(getImageAssetFile("shield-health-bar.png"));
+    boss_health_bar = LoadTexture(getImageAssetFile("boss-health-bar.png"));
 
     // Asteroid textures
     asteroid_small = LoadTexture(getImageAssetFile("asteroid-small.png"));
@@ -76,7 +81,9 @@ TextureManager::~TextureManager()
 {
     TraceLog(LOG_INFO, "Destroying texture manager instance");
 
-    UnloadTexture(background);
+    // Fonts and HUD
+    UnloadTexture(numbers);
+    UnloadTexture(hud);
 
     // Player textures
     UnloadTexture(player_normal);
@@ -86,6 +93,8 @@ TextureManager::~TextureManager()
 
     UnloadTexture(player_bullet);
     UnloadTexture(player_multishot);
+    UnloadTexture(shield_health_bar);
+    UnloadTexture(boss_health_bar);
 
     // Asteroid textures
     UnloadTexture(asteroid_small);

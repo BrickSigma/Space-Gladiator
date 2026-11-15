@@ -18,7 +18,8 @@ public:
 
     // Textures which are part of the texture manager
 
-    Texture background;
+    Texture numbers;
+    Texture hud;
     
     Texture player_normal;
     Texture player_up;
@@ -27,6 +28,8 @@ public:
 
     Texture player_bullet;
     Texture player_multishot;
+    Texture shield_health_bar;
+    Texture boss_health_bar;
 
     Texture asteroid_small;
     Texture asteroid_medium;
