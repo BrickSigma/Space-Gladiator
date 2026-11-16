@@ -9,6 +9,8 @@ A retro-style, pixel-art themed space shooter game inspired by the NES game "Gra
 - [Controls](#controls)
 - [list of enemies](#list-of-enemies)
 - [Power-ups](#power-ups)
+- [Remaining items](#remaining-items)
+- [Credits](#credits)
 
 ## Building and running
 This project uses CMake as its build system and fetches Raylib automatically, so there is no need to download any extra libraries. Just make sure to install CMake and have a C++ compiler setup on your system.
@@ -55,3 +57,16 @@ To help the player survive, several power-ups can be collected when destroying c
 3. Multiplier - allow the player to shoot more bullets at a time
 4. Laser - allow the player to shoot an indestructible laser beam
 5. Shield - protect the player from enemies
+
+## Remaining items
+The following items still need to be added to the game, kindly keep them in mind if you are assessing this work:
+- [ ] Snake boss
+- [ ] Laser eye boss
+- [ ] Final level design
+- [ ] Complete title screen and credits
+- [ ] SFX and music
+
+## Credits
+This game was made using assets created by Nintendo and Konami. All art work, sprites, backgrounds, sound tracks, and themes belong to them. 
+
+**This project is in submission for a class project in university, and is not designed or developed with the intention of being sold or publically played**
