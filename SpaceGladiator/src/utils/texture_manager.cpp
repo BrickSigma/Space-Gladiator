@@ -80,6 +80,10 @@ TextureManager::TextureManager()
     // Big spaceship textures
     big_spaceship = LoadTexture(getImageAssetFile("big-spaceship.png"));
     big_spaceship_bullet = LoadTexture(getImageAssetFile("big-spaceship-bullet.png"));
+
+    // Snake textures
+    snake_head = LoadTexture(getImageAssetFile("snake-head.png"));
+    snake_spine = LoadTexture(getImageAssetFile("snake-spine.png"));
 }
 
 TextureManager::~TextureManager()
@@ -148,4 +152,8 @@ TextureManager::~TextureManager()
     // Big spaceship textures
     UnloadTexture(big_spaceship);
     UnloadTexture(big_spaceship_bullet);
+
+    // Snake textures
+    UnloadTexture(snake_head);
+    UnloadTexture(snake_spine);
 }

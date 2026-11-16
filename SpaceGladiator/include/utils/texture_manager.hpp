@@ -66,6 +66,9 @@ public:
 
     Texture big_spaceship;
     Texture big_spaceship_bullet;
+
+    Texture snake_head;
+    Texture snake_spine;
 };
 
 #endif // TEXTURES_MANAGER_HPP

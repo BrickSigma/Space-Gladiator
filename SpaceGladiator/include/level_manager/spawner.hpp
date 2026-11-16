@@ -14,7 +14,8 @@ enum class SpawnerType
     FLYER_SPAWNER,
     CANON,
     GROUND_SHOOTER,
-    BIG_SPACESHIP
+    BIG_SPACESHIP,
+    SNAKES
 };
 
 // Convert a string to a spawner type, or throw an error on failure
