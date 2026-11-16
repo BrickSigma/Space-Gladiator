@@ -196,7 +196,7 @@ static void spawnBigSpaceship(const SpawnerData &data, GameScene *scene)
 static void spawnSnakes(const SpawnerData &data, GameScene *scene)
 {
     (void)data;
-    scene->spawnEntity(new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT / 2.0f}, {SPACE_CANVAS_WIDTH - 80, SPACE_CANVAS_HEIGHT / 2.0f}, {12, 20}, 0, 0, 3));
-    scene->spawnEntity(new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT / 5.0f}, {SPACE_CANVAS_WIDTH - 72, SPACE_CANVAS_HEIGHT / 5.0f}, {8, 14}, 43, 0, 4));
-    scene->spawnEntity(new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT * 4.0f / 5.0f}, {SPACE_CANVAS_WIDTH - 64, SPACE_CANVAS_HEIGHT * 4.0f / 5.0f}, {8, 14}, 96, 0, 3));
+    scene->spawnEntity(new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT / 2.0f}, {SPACE_CANVAS_WIDTH - 80, SPACE_CANVAS_HEIGHT / 2.0f}, {12, 20}, 0, 120, 3));
+    scene->spawnEntity(new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT / 5.0f}, {SPACE_CANVAS_WIDTH - 72, SPACE_CANVAS_HEIGHT / 5.0f}, {8, 14}, 43, 180, 4));
+    scene->spawnEntity(new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT * 4.0f / 5.0f}, {SPACE_CANVAS_WIDTH - 64, SPACE_CANVAS_HEIGHT * 4.0f / 5.0f}, {8, 14}, 96, 160, 3));
 }

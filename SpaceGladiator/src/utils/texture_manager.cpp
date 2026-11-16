@@ -84,6 +84,7 @@ TextureManager::TextureManager()
     // Snake textures
     snake_head = LoadTexture(getImageAssetFile("snake-head.png"));
     snake_spine = LoadTexture(getImageAssetFile("snake-spine.png"));
+    snake_fire = LoadTexture(getImageAssetFile("snake-fire.png"));
 }
 
 TextureManager::~TextureManager()
@@ -156,4 +157,5 @@ TextureManager::~TextureManager()
     // Snake textures
     UnloadTexture(snake_head);
     UnloadTexture(snake_spine);
+    UnloadTexture(snake_fire);
 }

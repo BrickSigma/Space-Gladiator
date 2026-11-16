@@ -69,6 +69,7 @@ public:
 
     Texture snake_head;
     Texture snake_spine;
+    Texture snake_fire;
 };
 
 #endif // TEXTURES_MANAGER_HPP

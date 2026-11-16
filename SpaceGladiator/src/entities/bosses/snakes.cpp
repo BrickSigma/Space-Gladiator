@@ -3,8 +3,10 @@
 #include "utils/texture_manager.hpp"
 #include "scenes/game_scene.hpp"
 #include "entities/explosion.hpp"
+#include "entities/bosses/snake_fire.hpp"
 
 #include <cmath>
+#include <iostream>
 #include <numbers>
 
 Snake::Snake(Vector2 base_, Vector2 head_origin_, Vector2 amplitude_, int period_offset, int fire_time_, int health_)
@@ -13,6 +15,10 @@ Snake::Snake(Vector2 base_, Vector2 head_origin_, Vector2 amplitude_, int period
       frame_counter(period_offset),
       fire_time(fire_time_)
 {
+    // Make sure the fire time isn't 0
+    if (fire_time <= 0)
+        throw std::runtime_error("Snake fire time cannot be less than or equal to 0!");
+
     TextureManager &texture_manager = TextureManager::getInstance();
     snake_head = texture_manager.snake_head;
     snake_spine = texture_manager.snake_spine;
@@ -27,7 +33,9 @@ Snake::Snake(Vector2 base_, Vector2 head_origin_, Vector2 amplitude_, int period
 
 void Snake::update(GameScene *scene)
 {
-    (void)scene;
+    if (is_dead)
+        return;
+
     if (spawning)
     {
         pos.x--;
@@ -56,6 +64,18 @@ void Snake::update(GameScene *scene)
             spine[i].x = base.x + frac * (getXHead(frame_counter + offset) - base.x);
             spine[i].y = base.y + frac * (getYHead(frame_counter + offset) - base.y);
         }
+    }
+
+    // Fire a fire ball
+    if ((frame_counter % fire_time == 0) && !spawning)
+    {
+        // Get the angle towards the player
+        Vector2 player_pos = scene->player.getCenter();
+        Vector2 shooter_center = getCenter();
+        float dx = player_pos.x - shooter_center.x;
+        float dy = player_pos.y - shooter_center.y;
+        float angle = atan2f(dy, dx);
+        scene->spawnEntity(new SnakeFire({pos.x - 15.0f, pos.y - 3.0f}, angle));
     }
 }
 
