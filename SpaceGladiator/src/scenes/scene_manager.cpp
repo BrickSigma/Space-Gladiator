@@ -37,6 +37,7 @@ void SceneManager::update()
     if (IsKeyPressed(KEY_C) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_LEFT))
     {
         useShader = !useShader;
+        SetTextureFilter(screen->texture, useShader ? TEXTURE_FILTER_BILINEAR : TEXTURE_FILTER_POINT);
     }
 
     if (next_state == SceneState::NO_CHANGE)
