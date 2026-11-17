@@ -391,6 +391,9 @@ void GameScene::setBossHealth(int health)
 
 void GameScene::nextLevel()
 {
+    if (state == GameSceneState::PLAYER_KILLED)
+        return; // Don't go to the next level if the player died just after beating the boss
+
     // Try tansition to the next level if there is one
     if (level_manager.nextLevel())
     {
