@@ -1,0 +1,7 @@
+[checkpoints]
+100
+140
+340
+
+[entities]
+416,0,SNAKES,0

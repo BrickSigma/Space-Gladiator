@@ -114,10 +114,10 @@ void Player::handlePhysics()
         pos.x = 16;
     if (pos.x >= static_cast<float>(SPACE_CANVAS_WIDTH - (16 + width)))
         pos.x = static_cast<float>(SPACE_CANVAS_WIDTH - (16 + width));
-    if (pos.y < 16)
-        pos.y = 16;
-    if (pos.y >= static_cast<float>(SPACE_CANVAS_HEIGHT - (8 + height)))
-        pos.y = static_cast<float>(SPACE_CANVAS_HEIGHT - (8 + height));
+    if (pos.y < min_y_pos)
+        pos.y = min_y_pos;
+    if (pos.y >= (SPACE_CANVAS_HEIGHT - (max_y_pos + static_cast<float>(height))))
+        pos.y = SPACE_CANVAS_HEIGHT - (max_y_pos + static_cast<float>(height));
 }
 
 void Player::handleShooting(GameScene *scene)

@@ -39,6 +39,9 @@ public:
     // Handle collisions with the tilemap
     void handleTilemapCollision(GameScene *scene) override;
 
+    float min_y_pos{16.0f}; // Minimum y position the player can go to
+    float max_y_pos{8.0f};  // Maximum padding next to bottom of the screen the player can go to
+
     int lives = PLAYER_MAX_LIVES; // The amount of lives the player has remaining
 
     // Shield health; when set to zero it means there is no shield active

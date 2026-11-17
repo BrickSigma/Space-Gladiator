@@ -47,8 +47,8 @@ bool Entity::checkTilemapCollision(const std::bitset<TILEMAP_WIDTH * TILEMAP_HEI
 
         for (int w = grid_x_pos; w <= grid_x_pos + entity_grid_width; w++)
         {
-            if (w >= LEVEL_GRID_WIDTH)
-                continue; // Prevent a potential segfault when we reach the end of the level
+            if (w < 0 || w >= LEVEL_GRID_WIDTH)
+                continue; // Prevent a potential segfault when we reach the end of the level, or when scrolling into the next level
 
             if (tilemap[static_cast<size_t>(h * LEVEL_GRID_WIDTH + w)])
             {
@@ -72,7 +72,7 @@ void Entity::handleTilemapCollision(GameScene *scene)
 
 Vector2 Entity::getCenter()
 {
-    return {pos.x + static_cast<float>(width)/2, pos.y + static_cast<float>(height)/2};
+    return {pos.x + static_cast<float>(width) / 2, pos.y + static_cast<float>(height) / 2};
 }
 
 bool Entity::isOffScreen()

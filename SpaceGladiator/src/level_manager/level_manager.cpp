@@ -9,7 +9,7 @@ LevelManager::LevelManager()
 {
     TraceLog(LOG_INFO, "Loading levels...");
     levels.push_back(new Level(1));
-    levels.push_back(new Level(1));
+    levels.push_back(new Level(2));
 }
 
 LevelManager::~LevelManager()

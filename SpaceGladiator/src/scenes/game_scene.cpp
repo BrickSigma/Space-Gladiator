@@ -398,6 +398,9 @@ void GameScene::nextLevel()
         scroll_distance = -SPACE_CANVAS_WIDTH;
         frame_counter = 0;
         boss_health = 16; // Make sure to set the boss level again
+        // Also allow the player to reach the very top and bottom of the screen
+        player.min_y_pos = 8.0f;
+        player.max_y_pos = 8.0f;
     }
     else
     {
