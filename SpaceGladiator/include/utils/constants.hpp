@@ -6,8 +6,9 @@
 
 #define WINDOW_SCALE (3)
 
-#define TILEMAP_WIDTH (208)
-#define TILEMAP_HEIGHT (13)
+constexpr int TILE_SIZE{8};       // The size of a tile
+constexpr int TILEMAP_WIDTH{416}; // The width of the entire tilemap/level
+constexpr int TILEMAP_HEIGHT{26}; // The height of the entire tilemap/level
 
 constexpr int WINDOW_WIDTH = CANVAS_WIDTH * WINDOW_SCALE;
 constexpr int WINDOW_HEIGHT = CANVAS_HEIGHT * WINDOW_SCALE;

@@ -7,10 +7,11 @@
 #include <bitset>
 #include <vector>
 
-#define TILE_SIZE (16)
-#define LEVEL_GRID_WIDTH (208)  // Width of the level, where a grid is a 16x16 tile
-#define LEVEL_GRID_HEIGHT (13)  // Height of the level, where a grid is a 16x16 tile
-#define VISIBLE_GRID_WIDTH (16) // The visible number of tiles we can see on screen
+#include "utils/constants.hpp"
+
+constexpr int LEVEL_GRID_WIDTH{TILEMAP_WIDTH};   // Width of the level, where a grid is a 16x16 tile
+constexpr int LEVEL_GRID_HEIGHT{TILEMAP_HEIGHT}; // Height of the level, where a grid is a 16x16 tile
+constexpr int VISIBLE_GRID_WIDTH{32};            // The visible number of tiles we can see on screen
 
 class GameScene;
 

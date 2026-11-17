@@ -56,7 +56,7 @@ void LevelManager::drawLevel(GameScene *scene)
     DrawTexture(levels[current_level]->background, -scene->scroll_distance, 0, WHITE);
 
     if (current_level > 0)
-        DrawTexture(levels[current_level-1]->background, -(TILEMAP_WIDTH*TILE_SIZE)-scene->scroll_distance, 0, WHITE);
+        DrawTexture(levels[current_level - 1]->background, -(TILEMAP_WIDTH * TILE_SIZE) - scene->scroll_distance, 0, WHITE);
 
     // Tile map space test
     /**
@@ -67,20 +67,23 @@ void LevelManager::drawLevel(GameScene *scene)
     int grid_x_pos = player_x_pos / TILE_SIZE;
     int grid_y_pos = player_y_pos / TILE_SIZE;
 
-    int grid_pos = scene->scroll_distance/TILE_SIZE;
+    int grid_pos = scene->scroll_distance / TILE_SIZE;
     int scroll_offset = scene->scroll_distance % TILE_SIZE;
 
-    for (int h = grid_y_pos; h <= grid_y_pos + 1; h++)
+    int entity_grid_width = (scene->player.width + TILE_SIZE) / TILE_SIZE;
+    int entity_grid_height = (scene->player.height + TILE_SIZE) / TILE_SIZE;
+
+    for (int h = grid_y_pos; h <= grid_y_pos + entity_grid_height; h++)
     {
         if (h >= LEVEL_GRID_HEIGHT)
-        continue;
+            continue;
 
-        for (int w = grid_x_pos; w <= grid_x_pos + 1; w++)
+        for (int w = grid_x_pos; w <= grid_x_pos + entity_grid_width; w++)
         {
             if (w >= LEVEL_GRID_WIDTH)
-            continue; // Prevent a potential segfault when we reach the end of the level
-            if (levels[current_level]->tilemap[h * LEVEL_GRID_WIDTH + w])
-            DrawRectangle((w - grid_pos) * TILE_SIZE - scroll_offset, h * TILE_SIZE, TILE_SIZE, TILE_SIZE, BLUE);
+                continue; // Prevent a potential segfault when we reach the end of the level
+            if (levels[current_level]->tilemap[static_cast<size_t>(h * LEVEL_GRID_WIDTH + w)])
+                DrawRectangle((w - grid_pos) * TILE_SIZE - scroll_offset, h * TILE_SIZE, TILE_SIZE, TILE_SIZE, BLUE);
         }
     }
     */

@@ -116,8 +116,8 @@ void Player::handlePhysics()
         pos.x = static_cast<float>(SPACE_CANVAS_WIDTH - (16 + width));
     if (pos.y < 16)
         pos.y = 16;
-    if (pos.y >= static_cast<float>(SPACE_CANVAS_HEIGHT - (16 + height)))
-        pos.y = static_cast<float>(SPACE_CANVAS_HEIGHT - (16 + height));
+    if (pos.y >= static_cast<float>(SPACE_CANVAS_HEIGHT - (8 + height)))
+        pos.y = static_cast<float>(SPACE_CANVAS_HEIGHT - (8 + height));
 }
 
 void Player::handleShooting(GameScene *scene)

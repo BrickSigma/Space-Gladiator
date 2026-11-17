@@ -3,8 +3,8 @@
 #include <fstream>
 #include <iostream>
 
-#define TILEMAP_WIDTH (208)
-#define TILEMAP_HEIGHT (13)
+constexpr int TILEMAP_WIDTH{416};
+constexpr int TILEMAP_HEIGHT{26};
 
 int main(int argc, char *argv[])
 {
@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    Image tilemap_image = LoadImage(TextFormat("tilemaps/level-%s-tilemap.png", argv[1]));
+    Image tilemap_image = LoadImage(TextFormat("tilemaps/level_%s_tilemap.png", argv[1]));
 
-    std::ofstream file(TextFormat("assets/levels/level-%s-tilemap.txt", argv[1]));
+    std::ofstream file(TextFormat("assets/levels/level_%s_tilemap.txt", argv[1]));
 
     for (int h = 0; h < TILEMAP_HEIGHT; h++)
     {
