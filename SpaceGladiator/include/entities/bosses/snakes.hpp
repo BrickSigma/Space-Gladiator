@@ -27,7 +27,7 @@ private:
 
     int fire_time{0};         // Time delay between the snake firing
     bool mouth_open{false};   // Keep a track if the snake's mouth is open
-    const int fire_delay{30}; // Open the mouth .5 seconds before firing
+    // const int fire_delay{30}; // Open the mouth .5 seconds before firing
 
     static constexpr int SPINE_LEN{6}; // The length of the spine
 

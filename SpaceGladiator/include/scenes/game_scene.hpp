@@ -97,7 +97,6 @@ private:
     Texture shield_health_bar;                // Texture for sheild health bar
     Texture boss_health_bar;                  // Texture for boss health bar
     unsigned int score{0};                    // The player's current score
-    unsigned int hi_score{0};                 // The player's highest score
     unsigned int player_lives_incremented{0}; // Used to keep track of how much of the player's lives we've incremented so far
     int boss_health{16};
 
