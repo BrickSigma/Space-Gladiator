@@ -52,6 +52,8 @@ int main(int argc, char *argv[])
     // Render texture used to draw to
     RenderTexture screen = LoadRenderTexture(CANVAS_WIDTH, CANVAS_HEIGHT);
 
+    SetTextureWrap(screen.texture, TEXTURE_WRAP_CLAMP); // Set the OpenGL texture wrapping mode to clamp for a cleaner look when using the linear filter
+
     StartScene *start = nullptr;
     GameScene *game = nullptr;
     CreditsScene *credits = nullptr;
