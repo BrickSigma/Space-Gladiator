@@ -53,4 +53,22 @@ private:
     float getYHead(int frame);
 };
 
+class Snakes : public Entity
+{
+public:
+    Snakes();
+    ~Snakes();
+
+    void update(GameScene *scene) override;
+    void draw() override;
+    void handleCollision(GameScene *scene, Entity *entity) override;
+    bool checkCollision(const Entity &entity) const override;
+
+private:
+    Snake *snakes[3]{nullptr};
+
+    int frame_counter{0};
+    const int death_time{150}; // Wait 2.5 seconds before moving to the next level
+};
+
 #endif // SNAKES_HPP

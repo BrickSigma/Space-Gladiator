@@ -170,3 +170,63 @@ float Snake::getYHead(int frame)
     float t = (static_cast<float>(frame) / period) * 2 * std::numbers::pi_v<float>;
     return head_origin.y + amplitude.y * sinf(t);
 }
+
+Snakes::Snakes() : Entity(EntityType::ENEMY, {0, 0}, 0, 0)
+{
+    snakes[0] = new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT / 5.0f}, {SPACE_CANVAS_WIDTH - 72, SPACE_CANVAS_HEIGHT / 5.0f}, {8, 14}, 43, 180, 5);               // Top snake
+    snakes[1] = new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT / 2.0f}, {SPACE_CANVAS_WIDTH - 80, SPACE_CANVAS_HEIGHT / 2.0f}, {12, 20}, 0, 120, 6);               // Middle snake
+    snakes[2] = new Snake({SPACE_CANVAS_WIDTH, SPACE_CANVAS_HEIGHT * 4.0f / 5.0f}, {SPACE_CANVAS_WIDTH - 64, SPACE_CANVAS_HEIGHT * 4.0f / 5.0f}, {8, 14}, 96, 160, 5); // Bottom snake
+}
+
+Snakes::~Snakes()
+{
+    delete snakes[0];
+    delete snakes[1];
+    delete snakes[2];
+}
+
+void Snakes::update(GameScene *scene)
+{
+    if (is_dead) {
+        frame_counter++;
+        if (frame_counter >= death_time)
+        {
+            delete_entity = true;
+            scene->nextLevel();
+        }
+
+        return;
+    }
+    for (size_t i = 0; i < 3; i++)
+        snakes[i]->update(scene);
+}
+
+void Snakes::draw()
+{
+    for (size_t i = 0; i < 3; i++)
+        snakes[i]->draw();
+}
+
+void Snakes::handleCollision(GameScene *scene, Entity *entity)
+{
+    int combined_health{0};
+    for (size_t i = 0; i < 3; i++)
+    {
+        snakes[i]->handleCollision(scene, entity);
+        combined_health += snakes[i]->health;
+    }
+
+    scene->setBossHealth(combined_health);
+
+    if (combined_health <= 0)
+        is_dead = true;
+}
+
+bool Snakes::checkCollision(const Entity &entity) const
+{
+    for (size_t i = 0; i < 3; i++)
+        if (snakes[i]->checkCollision(entity))
+            return true;
+
+    return false;
+}
