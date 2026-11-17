@@ -60,7 +60,7 @@ To help the player survive, several power-ups can be collected when destroying c
 
 ## Remaining items
 The following items still need to be added to the game, kindly keep them in mind if you are assessing this work:
-- [ ] Snake boss
+- [x] Snake boss
 - [ ] Laser eye boss
 - [ ] Final level design
 - [ ] Complete title screen and credits
