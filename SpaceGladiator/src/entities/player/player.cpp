@@ -262,8 +262,8 @@ void Player::handlePowerUp(PowerUp *power_up)
     {
     case PowerUpType::SPEED:
         speed += 0.25f;
-        if (speed >= 1.75f)
-            speed = 1.75f; // Cap the player speed to prevent the player from loosing control
+        if (speed >= 1.5f)
+            speed = 1.5f; // Cap the player speed to prevent the player from loosing control
         break;
     case PowerUpType::MULTISHOT:
         has_multishot = true;
