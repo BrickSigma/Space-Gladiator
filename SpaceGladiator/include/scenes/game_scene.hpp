@@ -118,6 +118,9 @@ private:
      * and should resolve two entities trying to update the state simultaneously.
      */
     void handleStateChange();
+
+    // Render the score and player health to the HUD
+    void renderScoreAndHealth() const;
 };
 
 #endif // GAME_SCENE_HPP

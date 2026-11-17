@@ -6,6 +6,8 @@
 
 #include <algorithm>
 #include <string>
+#include <sstream>
+#include <format>
 
 GameScene::GameScene(RenderTexture *screen_) : Scene(screen_)
 {
@@ -157,13 +159,8 @@ SceneState GameScene::update()
     // HUD goes here
     DrawTexture(hud_background, 0, SPACE_CANVAS_HEIGHT, WHITE);
 
-    // Draw the player's lives
-    std::string player_lives = std::to_string(player.lives >= 0 ? player.lives : 0);
-    DrawText(player_lives.c_str(), 24, SPACE_CANVAS_HEIGHT + 4, 8, WHITE);
-
-    // Render the score
-    std::string score_str = std::to_string(score);
-    DrawText(score_str.c_str(), 160, SPACE_CANVAS_HEIGHT + 4, 8, WHITE);
+    // Render the player score and health to the HUD as well
+    renderScoreAndHealth();
 
     // Draw the sheild health bar for the player
     for (int i = 0; i < player.shield; i++)
@@ -376,8 +373,8 @@ void GameScene::addScore(unsigned int score_)
     if (player.lives >= 9)
         return; // It's highly unlikely a player can get more than 450,000 points, but just in case, let's make sure the lives stay in single digits
 
-    // Add an extra life to the player when > 50,000 points are reached
-    if (score >= (player_lives_incremented + 1) * 50000)
+    // Add an extra life to the player when > 30,000 points are reached
+    if (score >= (player_lives_incremented + 1) * 30000)
     {
         player.lives++;
         player_lives_incremented++;
@@ -405,5 +402,27 @@ void GameScene::nextLevel()
     else
     {
         pushStateEvent(GameSceneState::COMPLETED);
+    }
+}
+
+void GameScene::renderScoreAndHealth() const
+{
+    TextureManager &texture_manager = TextureManager::getInstance();
+
+    // Render the player's health first
+    float lives_index = player.lives >= 0 ? static_cast<float>(player.lives) : 0.0f;
+    DrawTextureRec(texture_manager.numbers, {8.0f * lives_index, 0, 8, 8}, {24, SPACE_CANVAS_HEIGHT + 4.0f}, WHITE);
+
+    std::ostringstream number{};
+    number << std::format("{:07}", score);
+
+    // 160, SPACE_CANVAS_HEIGHT + 4
+
+    std::string text = number.str();
+
+    for (size_t i = 0; i < text.length(); i++)
+    {
+        float index = static_cast<float>(text[i] - '0');
+        DrawTextureRec(texture_manager.numbers, {8.0f * index, 0, 8, 8}, {160.0f + 8.0f * static_cast<float>(i), SPACE_CANVAS_HEIGHT + 4.0f}, WHITE);
     }
 }
