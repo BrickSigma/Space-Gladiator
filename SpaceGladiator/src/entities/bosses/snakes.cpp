@@ -66,8 +66,12 @@ void Snake::update(GameScene *scene)
         }
     }
 
+    // Determine if the mouth should be opened or closed
+    int fire_frame = frame_counter % fire_time;
+    mouth_open = fire_frame <= fire_delay || fire_frame >= (fire_time - fire_delay);
+
     // Fire a fire ball
-    if ((frame_counter % fire_time == 0) && !spawning)
+    if ((fire_frame == 0) && !spawning)
     {
         // Get the angle towards the player
         Vector2 player_pos = scene->player.getCenter();
