@@ -170,8 +170,11 @@ static void spawnMovingLaser(const SpawnerData &data, GameScene *scene)
 static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    pos.y += 5; // Move the flyer a little down to stay on the ground
-    scene->spawnEntity(new FlyerSpawner(pos));
+    bool flipped = data.flags_1 != 0;
+    if (!flipped)
+        pos.y += 5; // Move the flyer a little down to stay on the ground
+    
+    scene->spawnEntity(new FlyerSpawner(pos, flipped));
 }
 
 static void spawnCanon(const SpawnerData &data, GameScene *scene)

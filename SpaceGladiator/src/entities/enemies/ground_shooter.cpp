@@ -33,10 +33,13 @@ void GroundShooter::update(GameScene *scene)
     float dy = player_pos.y - shooter_center.y;
     target_angle = atan2f(dy, dx); // This will return an angle between -180 to 180 degrees. We don't want to adjust it as the signage of the angle is actually quite useful
 
+
+    constexpr float excess_angle{20.0f};  // Give the shooters an addition 20 degrees angle to shoot beyond what they're physically capable of
     if (frame_counter % fire_time == 0)
     {
         // Shoot if the player is in reach of the shooter
-        if ((target_angle <= 0 && facing_up) || (target_angle >= 0 && !facing_up))
+        if (((target_angle <= deg2rad(excess_angle) || target_angle >= deg2rad(180.0f - excess_angle)) && facing_up) ||
+            ((target_angle >= deg2rad(-excess_angle) || target_angle <= deg2rad(-180.0f + excess_angle)) && !facing_up))
         {
             // Move the bullet a bit outwards so it doesn't spawn on top of the shooter
             EnemyProjectile *bullet = new EnemyProjectile(shooter_center, target_angle, SHOOTER_SPEED);

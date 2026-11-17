@@ -5,7 +5,7 @@
 #include "entities/explosion.hpp"
 #include "entities/player/player_projectile.hpp"
 
-Flyer::Flyer(Vector2 pos_, float target_y_) : Entity(EntityType::ENEMY, pos_, 16, 16), target_y(target_y_)
+Flyer::Flyer(Vector2 pos_, float target_y_, bool flipped_) : Entity(EntityType::ENEMY, pos_, 16, 16), target_y(target_y_), flipped(flipped_)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
     animation = new Animation(texture_manager.flyer, 16, 6, true);
@@ -47,14 +47,23 @@ void Flyer::update(GameScene *scene)
     frame_counter++;
     switch (state)
     {
-    case FlyerState::MOVING_UP:
+    case FlyerState::MOVING_VERTICALLY:
         if (frame_counter % 2 == 0)
-        {
             pos.x--;
+
+        if (flipped)
+        {
+            pos.y += 2;
+            if (pos.y >= target_y || pos.y >= SPACE_CANVAS_HEIGHT - 16.0f - static_cast<float>(height))
+                state = FlyerState::MOVING_LEFT;
         }
-        pos.y -= 2;
-        if (pos.y <= target_y)
-            state = FlyerState::MOVING_LEFT;
+        else
+        {
+            pos.y -= 2;
+            if (pos.y <= target_y || pos.y <= 16)
+                state = FlyerState::MOVING_LEFT;
+        }
+
         break;
 
     case FlyerState::MOVING_LEFT:
@@ -69,12 +78,12 @@ void Flyer::update(GameScene *scene)
         delete_entity = true;
 }
 
-FlyerSpawner::FlyerSpawner(Vector2 pos_) : Entity(EntityType::ENEMY, pos_, FlyerSpawner::WIDTH, FlyerSpawner::HEIGHT)
+FlyerSpawner::FlyerSpawner(Vector2 pos_, bool flipped_) : Entity(EntityType::ENEMY, pos_, FlyerSpawner::WIDTH, FlyerSpawner::HEIGHT), flipped(flipped_)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
     texture = texture_manager.regular_flyer_spawner;
 
-    is_tile = true;  // The flyer spawner should be treated as a regular tile in the system
+    is_tile = true; // The flyer spawner should be treated as a regular tile in the system
 }
 
 void FlyerSpawner::update(GameScene *scene)
@@ -99,8 +108,13 @@ void FlyerSpawner::update(GameScene *scene)
         {
             // Get the player's current y position
             float target_y = scene->player.pos.y;
-            Vector2 flyer_pos{pos.x + 8, pos.y - 8};
-            scene->spawnEntity(new Flyer(flyer_pos, target_y));
+            Vector2 flyer_pos{pos.x + 8.0f, pos.y};
+            if (flipped)
+                flyer_pos.y += 26.0f;
+            else
+                flyer_pos.y -= 8.0f;
+
+            scene->spawnEntity(new Flyer(flyer_pos, target_y, flipped));
             flyers_spawned++;
             if (flyers_spawned >= max_flyers)
             {
@@ -120,7 +134,7 @@ void FlyerSpawner::update(GameScene *scene)
 
 void FlyerSpawner::draw()
 {
-    DrawTexture(texture, static_cast<int>(pos.x), static_cast<int>(pos.y), WHITE);
+    DrawTextureRec(texture, {0, 0, static_cast<float>(width), static_cast<float>(flipped ? -height : height)}, pos, WHITE);
 }
 
 void FlyerSpawner::handleCollision(GameScene *scene, Entity *entity)
