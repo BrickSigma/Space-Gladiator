@@ -9,6 +9,7 @@
 #include "entities/enemies/flyer_spawner.hpp"
 #include "entities/enemies/canon.hpp"
 #include "entities/enemies/ground_shooter.hpp"
+#include "entities/enemies/blockade_ball.hpp"
 #include "entities/bosses/big_spaceship.hpp"
 #include "entities/bosses/snakes.hpp"
 
@@ -34,6 +35,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::CANON;
     else if (!strcmp(str, "GROUND_SHOOTER"))
         return SpawnerType::GROUND_SHOOTER;
+    else if (!strcmp(str, "BLOCKADE_BALL"))
+        return SpawnerType::BLOCKADE_BALL;
     else if (!strcmp(str, "BIG_SPACESHIP"))
         return SpawnerType::BIG_SPACESHIP;
     else if (!strcmp(str, "SNAKES"))
@@ -58,6 +61,7 @@ static void spawnMovingLaser(const SpawnerData &data, GameScene *scene);
 static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene);
 static void spawnCanon(const SpawnerData &data, GameScene *scene);
 static void spawnGroundShooter(const SpawnerData &data, GameScene *scene);
+static void spawnBlockadeBall(const SpawnerData &data, GameScene *scene);
 static void spawnBigSpaceship(const SpawnerData &data, GameScene *scene);
 static void spawnSnakes(const SpawnerData &data, GameScene *scene);
 
@@ -70,6 +74,7 @@ static SpawnerCB spawner_cb_table[]{
     spawnFlyerSpawner,
     spawnCanon,
     spawnGroundShooter,
+    spawnBlockadeBall,
     spawnBigSpaceship,
     spawnSnakes};
 
@@ -86,7 +91,7 @@ static void spawnAsteroid(const SpawnerData &data, GameScene *scene)
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
     AsteroidSize size;
 
-    switch (data.flags)
+    switch (data.flags_1)
     {
     case 0:
         size = AsteroidSize::SMALL;
@@ -98,7 +103,7 @@ static void spawnAsteroid(const SpawnerData &data, GameScene *scene)
         size = AsteroidSize::LARGE;
         break;
     default:
-        throw std::runtime_error(std::format("Invalid asteroid flag passed in: {}", data.flags));
+        throw std::runtime_error(std::format("Invalid asteroid flag passed in: {}", data.flags_1));
     }
 
     int direction = (pos.y > SPACE_CANVAS_HEIGHT / 2) ? -1 : 1;
@@ -109,9 +114,9 @@ static void spawnAsteroid(const SpawnerData &data, GameScene *scene)
 static void spawnDiagonalFlyer(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    if (data.flags < 0 || data.flags > 5)
+    if (data.flags_1 < 0 || data.flags_1 > 5)
         throw std::runtime_error("Flags passed to spawn diagonal flyer are not between 0 and 5!");
-    PowerUpType power_up_type = static_cast<PowerUpType>(data.flags);
+    PowerUpType power_up_type = static_cast<PowerUpType>(data.flags_1);
     scene->spawnEntity(new DiagonalFlyer(pos, power_up_type));
 }
 
@@ -119,9 +124,9 @@ static void spawnDiagonalFlyer(const SpawnerData &data, GameScene *scene)
 static void spawnSineWaveFlyer(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    if (data.flags < 0 || data.flags > 5)
+    if (data.flags_1 < 0 || data.flags_1 > 5)
         throw std::runtime_error("Flags passed to spawn sine wave flyer are not between 0 and 5!");
-    PowerUpType power_up_type = static_cast<PowerUpType>(data.flags);
+    PowerUpType power_up_type = static_cast<PowerUpType>(data.flags_1);
     scene->spawnEntity(new SineWaveFlyer(pos, power_up_type));
 }
 
@@ -132,8 +137,8 @@ static void spawnSpinningLaser(const SpawnerData &data, GameScene *scene)
 
     SpinningLaserType type{SpinningLaserType::LEFT};
 
-    int type_flag = data.flags >> 4;  // The type of spawner is stored in the upper 4 bits of the flag
-    int no_lasers = data.flags & 0xf; // The number of lasers the entity has is in the lower 4 bits
+    int type_flag = data.flags_1 >> 4;  // The type of spawner is stored in the upper 4 bits of the flag
+    int no_lasers = data.flags_1 & 0xf; // The number of lasers the entity has is in the lower 4 bits
 
     switch (type_flag)
     {
@@ -172,19 +177,35 @@ static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene)
 static void spawnCanon(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    bool facing_up = data.flags != 0;
+    bool facing_up = data.flags_1 != 0;
     scene->spawnEntity(new Canon(pos, facing_up));
 }
 
 static void spawnGroundShooter(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    bool facing_up = (data.flags & 0xf) != 0; // If bit 0 is set, then the shooter is facing up
-    int power_up_flag = (data.flags >> 4) & 0xf;
+    bool facing_up = (data.flags_1 & 0xf) != 0; // If bit 0 is set, then the shooter is facing up
+    int power_up_flag = (data.flags_1 >> 4) & 0xf;
     if (power_up_flag < 0 || power_up_flag > 5)
         throw std::runtime_error("Flags passed to spawn ground shooter are not between 0 and 5!");
     PowerUpType power_up_type = static_cast<PowerUpType>(power_up_flag);
     scene->spawnEntity(new GroundShooter(pos, facing_up, power_up_type));
+}
+
+static void spawnBlockadeBall(const SpawnerData &data, GameScene *scene)
+{
+    Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
+    int ball_cols = data.flags_1; // The flags indicate how many columns the balls use
+    int ball_rows = data.flags_2; // The second flag indicates how many rows the balls use
+    for (int h = 0; h < ball_rows; h++)
+    {
+        for (int w = 0; w < ball_cols; w++)
+        {
+            float x_pos = pos.x + static_cast<float>(8 * w) + 1.0f;
+            float y_pos = pos.y + static_cast<float>(8 * h);
+            scene->spawnEntity(new BlockadeBall({x_pos, y_pos}));
+        }
+    }
 }
 
 static void spawnBigSpaceship(const SpawnerData &data, GameScene *scene)

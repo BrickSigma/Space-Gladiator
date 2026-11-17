@@ -95,6 +95,9 @@ TextureManager::TextureManager()
     // Power-ups texture
     power_ups = LoadTexture(getImageAssetFile("power-ups.png"));
 
+    // Blockade ball texture
+    blockade_ball = LoadTexture(getImageAssetFile("blockade-ball.png"));
+
     // Big spaceship textures
     big_spaceship = LoadTexture(getImageAssetFile("big-spaceship.png"));
     big_spaceship_bullet = LoadTexture(getImageAssetFile("big-spaceship-bullet.png"));
@@ -168,6 +171,9 @@ TextureManager::~TextureManager()
 
     // Power-ups texture
     UnloadTexture(power_ups);
+
+    // Blockade ball texture
+    UnloadTexture(blockade_ball);
 
     // Big spaceship textures
     UnloadTexture(big_spaceship);

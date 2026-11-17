@@ -14,6 +14,7 @@ enum class SpawnerType
     FLYER_SPAWNER,
     CANON,
     GROUND_SHOOTER,
+    BLOCKADE_BALL,
     BIG_SPACESHIP,
     SNAKES
 };
@@ -27,7 +28,8 @@ struct SpawnerData
     int x_tile_pos;   // X position of entity in terms of tiles
     int y_tile_pos;   // Y position of entity in terms of tiles
     SpawnerType type; // The type of entity we want to spawn
-    int flags;        // Extra flags carrying information for the spawner
+    int flags_1;      // Extra flags carrying information for the spawner
+    int flags_2;      // A second set of flags for further information (and because bit fields in text files are a pain to write)
 };
 
 // Callback function type for spawning an entity

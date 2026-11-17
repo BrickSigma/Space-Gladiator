@@ -69,6 +69,8 @@ public:
 
     Texture power_ups;
 
+    Texture blockade_ball;
+
     Texture big_spaceship;
     Texture big_spaceship_bullet;
 

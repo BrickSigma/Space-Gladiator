@@ -1,14 +1,21 @@
 #include "level_manager/level.hpp"
 
+#include <algorithm>
 #include <format>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <cstring>
 
 #include "level_manager/spawner.hpp"
 #include "scenes/game_scene.hpp"
 
 #define TYPE_STR_MAX_LEN (256)
+
+static bool spawner_data_cmp(const SpawnerData &lhs, const SpawnerData &rhs)
+{
+    return lhs.x_tile_pos < rhs.x_tile_pos;
+}
 
 Level::Level(unsigned int no)
 {
@@ -36,15 +43,21 @@ Level::Level(unsigned int no)
     std::getline(data_file, buffer);
     while (std::getline(data_file, buffer))
     {
-        int x, y, flags;
+        if (strcmp("-", buffer.c_str()) == 0)
+            continue;
+
+        int x, y, flags_1, flags_2;
         char type_str[TYPE_STR_MAX_LEN];
 #ifdef _WIN32
-        sscanf_s(buffer.c_str(), "%d,%d,%[^,],%d", &x, &y, type_str, TYPE_STR_MAX_LEN, &flags);
+        sscanf_s(buffer.c_str(), "%d,%d,%[^,],%d,%d", &x, &y, type_str, TYPE_STR_MAX_LEN, &flags_1, &flags_2);
 #else
-        sscanf(buffer.c_str(), "%d,%d,%255[^,],%d", &x, &y, type_str, &flags);
+        sscanf(buffer.c_str(), "%d,%d,%255[^,],%d,%d", &x, &y, type_str, &flags_1, &flags_2);
 #endif
-        spawners.push_back({x, y, spawnerStringToType(type_str), flags});
+        spawners.push_back({x, y, spawnerStringToType(type_str), flags_1, flags_2});
     }
+
+    // Sort the spawner data in order of the x tile position
+    std::sort(spawners.begin(), spawners.end(), spawner_data_cmp);
 
     // Next load up the tilemap data file needed
     std::ifstream tilemap_file(TextFormat("assets/levels/level_%d_tilemap.txt", no));
@@ -79,7 +92,7 @@ Level::~Level()
 
 void Level::reset()
 {
-    last_checkpoint = 3; // Change this to skip to a checkpoint in a level
+    last_checkpoint = 1; // Change this to skip to a checkpoint in a level
     next_spawner = 0;
 }
 
