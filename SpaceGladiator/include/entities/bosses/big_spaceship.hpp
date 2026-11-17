@@ -34,6 +34,9 @@ private:
 
     Texture texture;
     Animation *explosion{nullptr};
+
+    // Get the Y position of the spaceship based on the current frame
+    float getYPos(int frame);
 };
 
 #endif // BIG_SPACESHIP_HPP

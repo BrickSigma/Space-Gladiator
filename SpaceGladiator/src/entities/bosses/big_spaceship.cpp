@@ -12,6 +12,9 @@ static constexpr Vector2 SPAWN{static_cast<float>(SPACE_CANVAS_WIDTH), Y_ORIGIN}
 
 BigSpaceship::BigSpaceship() : Entity(EntityType::ENEMY, SPAWN, 48, 48)
 {
+    // Set the y position so the spaceship doesn't "jump" into place
+    pos.y = getYPos(0);
+
     TextureManager &texture_manager = TextureManager::getInstance();
     texture = texture_manager.big_spaceship;
 
@@ -38,9 +41,7 @@ void BigSpaceship::update(GameScene *scene)
     case BigSpaceshipState::MOVING:
     {
         frame_counter++;
-        float t = (static_cast<float>(frame_counter) / period) * 2 * std::numbers::pi_v<float>;
-        float y = (-0.5f * sinf(t)) + (0.25f * sinf((t / 3) + (std::numbers::pi_v<float> / 3.0f))) + (0.25f * sinf((t / 5.0f) - (std::numbers::pi_v<float> / 5.0f)));
-        pos.y = static_cast<float>(SPACE_CANVAS_HEIGHT / 2.0f) * (1 + y) - 24.0f;
+        pos.y = getYPos(frame_counter);
         if (frame_counter % fire_time == 0)
         {
             scene->spawnEntity(new BigSpaceshipBullet({pos.x, pos.y + 4.0f}));
@@ -53,7 +54,7 @@ void BigSpaceship::update(GameScene *scene)
 
     case BigSpaceshipState::DEAD:
         frame_counter++;
-        if (frame_counter > death_time)
+        if (frame_counter >= death_time)
         {
             delete_entity = true;
             scene->nextLevel();
@@ -110,4 +111,11 @@ bool BigSpaceship::checkCollision(const Entity &entity) const
         return false;
 
     return Entity::checkCollision(entity);
+}
+
+float BigSpaceship::getYPos(int frame)
+{
+    float t = (static_cast<float>(frame) / period) * 2 * std::numbers::pi_v<float>;
+    float y = (-0.5f * sinf(t)) + (0.25f * sinf((t / 3) + (std::numbers::pi_v<float> / 3.0f))) + (0.25f * sinf((t / 5.0f) - (std::numbers::pi_v<float> / 5.0f)));
+    return static_cast<float>(SPACE_CANVAS_HEIGHT / 2.0f) * (1 + y) - 24.0f;
 }

@@ -68,7 +68,7 @@ private:
     Snake *snakes[3]{nullptr};
 
     int frame_counter{0};
-    const int death_time{150}; // Wait 2.5 seconds before moving to the next level
+    const int death_time{90}; // Wait 1.5 seconds before moving to the next level
 };
 
 #endif // SNAKES_HPP
