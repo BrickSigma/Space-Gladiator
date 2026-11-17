@@ -84,6 +84,7 @@ void GameScene::updateEntities()
 SceneState GameScene::update()
 {
     SceneState next_state = SceneState::NO_CHANGE;
+    TextureManager &texture_manager = TextureManager::getInstance();
 
     if (state == GameSceneState::COMPLETED)
         return SceneState::CREDITS;
@@ -134,13 +135,11 @@ SceneState GameScene::update()
     // Render any overlays
     if (state == GameSceneState::PAUSED)
     {
-        int text_width = MeasureText("Paused", 8);
-        DrawText("Paused", CANVAS_WIDTH / 2 - text_width / 2, SPACE_CANVAS_HEIGHT / 2 - 4, 8, WHITE);
+        texture_manager.renderText("PAUSED", {SPACE_CANVAS_WIDTH / 2.0f - 24.0F, SPACE_CANVAS_HEIGHT / 2.0f - 4.0f});
     }
     else if (state == GameSceneState::PLAYER_KILLED && player.lives < 0)
     {
-        int text_width = MeasureText("Game Over!", 8);
-        DrawText("Game Over!", CANVAS_WIDTH / 2 - text_width / 2, SPACE_CANVAS_HEIGHT / 2 - 4, 8, WHITE);
+        texture_manager.renderText("GAME OVER", {SPACE_CANVAS_WIDTH / 2.0f - 36.0F, SPACE_CANVAS_HEIGHT / 2.0f - 4.0f});
     }
 
     EndTextureMode();

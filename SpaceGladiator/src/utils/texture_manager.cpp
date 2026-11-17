@@ -1,5 +1,7 @@
 #include "utils/texture_manager.hpp"
 
+#include <iostream>
+
 static char *getImageAssetFile(const char *file)
 {
     const char *strings[] = {
@@ -14,12 +16,28 @@ TextureManager &TextureManager::getInstance()
     return instance;
 }
 
+void TextureManager::renderText(const std::string &str, Vector2 pos) const
+{
+    for (size_t i = 0; i < str.length(); i++)
+    {
+        if (str[i] == ' ')
+            continue;
+
+        float index = static_cast<float>(str[i] - 'A');
+        if (index < 0 || index >= 26)
+            throw std::runtime_error("String is invalid! Make sure it is in uppercase and has no special symbols");
+
+        DrawTextureRec(letters, {8.0f * index, 0, 8, 8}, {pos.x + 8.0f * static_cast<float>(i), pos.y}, WHITE);
+    }
+}
+
 TextureManager::TextureManager()
 {
     TraceLog(LOG_INFO, "Creating texture manager instance");
 
     // Fonts and HUD
     numbers = LoadTexture(getImageAssetFile("numbers.png"));
+    letters = LoadTexture(getImageAssetFile("letters.png"));
     hud = LoadTexture(getImageAssetFile("hud.png"));
 
     // Player related textures
@@ -93,6 +111,7 @@ TextureManager::~TextureManager()
 
     // Fonts and HUD
     UnloadTexture(numbers);
+    UnloadTexture(letters);
     UnloadTexture(hud);
 
     // Player textures

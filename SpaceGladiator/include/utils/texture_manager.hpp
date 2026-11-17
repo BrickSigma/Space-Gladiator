@@ -2,6 +2,7 @@
 #define TEXTURES_MANAGER_HPP
 
 #include <raylib.h>
+#include <string>
 
 class TextureManager
 {
@@ -16,9 +17,13 @@ public:
     // Get an instance of the singleton
     static TextureManager &getInstance();
 
+    // Render a string of text
+    void renderText(const std::string& str, Vector2 pos) const;
+
     // Textures which are part of the texture manager
 
     Texture numbers;
+    Texture letters;
     Texture hud;
     
     Texture player_normal;
