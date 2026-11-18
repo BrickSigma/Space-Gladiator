@@ -70,6 +70,7 @@ TextureManager::TextureManager()
     explosion_1_frames = LoadTexture(getImageAssetFile("explosion-1.png"));
     explosion_2_frames = LoadTexture(getImageAssetFile("explosion-2.png"));
     giant_explosion = LoadTexture(getImageAssetFile("giant-explosion.png"));
+    giant_explosion_2 = LoadTexture(getImageAssetFile("giant-explosion-2.png"));
 
     // Spining laser base texture
     spinning_laser_base = LoadTexture(getImageAssetFile("spinning-laser-base.png"));
@@ -156,6 +157,7 @@ TextureManager::~TextureManager()
     UnloadTexture(explosion_1_frames);
     UnloadTexture(explosion_2_frames);
     UnloadTexture(giant_explosion);
+    UnloadTexture(giant_explosion_2);
 
     // Spinning laser base texture
     UnloadTexture(spinning_laser_base);

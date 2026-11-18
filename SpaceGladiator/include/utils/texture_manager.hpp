@@ -45,6 +45,7 @@ public:
     Texture explosion_1_frames;
     Texture explosion_2_frames;
     Texture giant_explosion;
+    Texture giant_explosion_2;
 
     Texture regular_diagonal_flyer;
     Texture special_diagonal_flyer;

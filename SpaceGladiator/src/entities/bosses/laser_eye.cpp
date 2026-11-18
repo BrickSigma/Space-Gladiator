@@ -2,6 +2,10 @@
 
 #include "utils/texture_manager.hpp"
 #include "scenes/game_scene.hpp"
+#include "entities/enemies/enemy_projectile.hpp"
+#include "entities/bosses/spiral_bullet.hpp"
+#include "utils/math.hpp"
+#include "utils/audio_manager.hpp"
 
 #include <raymath.h>
 #include <cmath>
@@ -23,6 +27,8 @@ LaserEye::LaserEye(Vector2 pos_, RenderTexture canvas_) : Entity(EntityType::ENE
     center = {pos.x + 32.0f, pos.y + 32.0f};
     is_tile = true;
 
+    explosion = new Animation(texture_manager.giant_explosion_2, 48, 8, false);
+
     eye_canvas = LoadRenderTexture(WIDTH, HEIGHT);
     mask = texture_manager.laser_eye_mask;
 
@@ -33,6 +39,7 @@ LaserEye::LaserEye(Vector2 pos_, RenderTexture canvas_) : Entity(EntityType::ENE
 LaserEye::~LaserEye()
 {
     delete frames;
+    delete explosion;
     UnloadRenderTexture(eye_canvas);
     UnloadShader(mask_shader);
 }
@@ -42,7 +49,7 @@ bool LaserEye::checkCollision(const Entity &entity) const
     if (is_dead)
         return false;
 
-    Rectangle rect{pos.x + 2.0f, pos.y + 14.0f, 60, 34};
+    Rectangle rect{pos.x + 2.0f, pos.y + 16.0f, 60, 32};
     if (CheckCollisionRecs(rect, entity.getRect()))
         return true;
 
@@ -63,21 +70,26 @@ void LaserEye::handleCollision(GameScene *scene, Entity *entity)
     entity->delete_entity = true;
     scene->setCameraShake(CameraShake(2, 30));
 
-    if (current_state != LaserEyeState::WAITING)
-        return; // The player can only deal damage to the eye when it is in the waiting state
-
     health--;
     scene->setBossHealth(health);
     if (health <= 0)
     {
         is_dead = true;
+        frame_counter = 0;
         scene->addScore(score);
         scene->setCameraShake(CameraShake(3, 90));
+        AudioManager::getInstance().playSFX(SFXFile::BOSS_EXPLOSION);
     }
 }
 
 void LaserEye::draw()
 {
+    if (is_dead)
+    {
+        explosion->draw({center.x - 24.0f, center.y - 24.0f});
+        return;
+    }
+
     if (current_state == LaserEyeState::DELAY)
     {
         DrawTexture(background, static_cast<int>(pos.x), static_cast<int>(pos.y), WHITE);
@@ -191,8 +203,15 @@ void LaserEye::update(GameScene *scene)
 
 void LaserEye::attack1(GameScene *scene)
 {
-    (void)scene;
     frame_counter++;
+
+    if (frame_counter % attack_1_fire_time == 0)
+    {
+        // Move the bullet a bit outwards so it doesn't spawn on top of the shooter
+        scene->spawnEntity(new EnemyProjectile(center, player_angle, 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, player_angle + deg2rad(20), 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, player_angle - deg2rad(20), 1.5f));
+    }
 
     if (frame_counter >= attack_1_time)
     {
@@ -204,8 +223,19 @@ void LaserEye::attack1(GameScene *scene)
 
 void LaserEye::attack2(GameScene *scene)
 {
-    (void)scene;
     frame_counter++;
+
+    if (frame_counter % attack_2_fire_time == 0)
+    {
+        scene->spawnEntity(new EnemyProjectile(center, 0, 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, deg2rad(45), 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, deg2rad(90), 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, deg2rad(135), 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, deg2rad(180), 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, deg2rad(225), 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, deg2rad(270), 1.5f));
+        scene->spawnEntity(new EnemyProjectile(center, deg2rad(315), 1.5f));
+    }
 
     if (frame_counter >= attack_2_time)
     {
@@ -217,8 +247,20 @@ void LaserEye::attack2(GameScene *scene)
 
 void LaserEye::attack3(GameScene *scene)
 {
-    (void)scene;
     frame_counter++;
+
+    if (frame_counter % attack_3_fire_time == 0)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Vector2 bullet = {12.0f, 0.0f};
+            float angle = attack_3_angle + 90.0f * static_cast<float>(i);
+            bullet = Vector2Rotate(bullet, deg2rad(angle));
+            bullet = Vector2Add(bullet, center);
+            scene->spawnEntity(new SpiralBullet(bullet, center));
+        }
+        attack_3_angle += attack_3_angular_vel;
+    }
 
     if (frame_counter >= attack_3_time)
     {
@@ -230,8 +272,14 @@ void LaserEye::attack3(GameScene *scene)
 
 void LaserEye::attack4(GameScene *scene)
 {
-    (void)scene;
     frame_counter++;
+
+    if (frame_counter % attack_4_fire_time == 0)
+    {
+        float angle = static_cast<float>(GetRandomValue(-30, 30));
+        // Move the bullet a bit outwards so it doesn't spawn on top of the shooter
+        scene->spawnEntity(new EnemyProjectile(center, player_angle + deg2rad(angle), 1.25f));
+    }
 
     if (frame_counter >= attack_4_time)
     {

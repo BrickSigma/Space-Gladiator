@@ -50,6 +50,7 @@ target_sources(${PROJECT_NAME}
         src/entities/enemies/blockade_ball.cpp
         src/utils/audio_manager.cpp
         src/entities/bosses/laser_eye.cpp
+        src/entities/bosses/spiral_bullet.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -92,6 +93,7 @@ target_sources(${PROJECT_NAME}
         include/entities/enemies/blockade_ball.hpp
         include/utils/audio_manager.hpp
         include/entities/bosses/laser_eye.hpp
+        include/entities/bosses/spiral_bullet.hpp
 )
 
 #set(raylib_VERBOSE 1)
