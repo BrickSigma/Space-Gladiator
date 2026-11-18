@@ -8,6 +8,12 @@ public:
     StartScene(RenderTexture *screen_);
     ~StartScene();
     SceneState update() override;
+
+private:
+    Texture background;
+    Texture player;
+
+    int current_option{0};
 };
 
 #endif  // START_SCENE_HPP

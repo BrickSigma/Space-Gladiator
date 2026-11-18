@@ -27,7 +27,7 @@ void LevelManager::reset()
         level->reset();
     }
 
-    current_level = 1;  // Change this to jump to another level on startup
+    current_level = 0;  // Change this to jump to another level on startup
 }
 
 bool LevelManager::nextLevel()

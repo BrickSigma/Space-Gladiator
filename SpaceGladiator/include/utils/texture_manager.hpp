@@ -22,6 +22,8 @@ public:
 
     // Textures which are part of the texture manager
 
+    Texture start_screen;
+
     Texture numbers;
     Texture letters;
     Texture hud;

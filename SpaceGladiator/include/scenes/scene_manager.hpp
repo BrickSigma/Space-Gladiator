@@ -43,7 +43,7 @@ private:
     int timeLoc;
 
     // Used to toggle if the shader should be shown or not
-    bool useShader = false;
+    bool useShader{true};
 };
 
 #endif // SCENE_MANAGER_HPP
