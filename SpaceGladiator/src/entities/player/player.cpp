@@ -38,7 +38,7 @@ void Player::reset(bool restore_health)
     shield = 0;                         // Remove the sheild
     has_laser = false;                  // Disable the laser
     has_multishot = false;              // Disable multishot
-    shoot_delay = 10;
+    shoot_delay = BASE_SHOOT_DELAY;
     is_dead = false;
     explosion->reset();
 
@@ -285,7 +285,7 @@ void Player::handlePowerUp(PowerUp *power_up)
         break;
     case PowerUpType::LASER:
         has_laser = true;
-        shoot_delay = 20;
+        shoot_delay = 15;
         break;
     case PowerUpType::SHIELD:
         shield = PLAYER_SHIELD_MAX_HEALTH;
