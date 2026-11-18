@@ -36,6 +36,7 @@ TextureManager::TextureManager()
     TraceLog(LOG_INFO, "Creating texture manager instance");
 
     start_screen = LoadTexture(getImageAssetFile("start-screen.png"));
+    credits_screen = LoadTexture(getImageAssetFile("credits-screen.png"));
 
     // Fonts and HUD
     numbers = LoadTexture(getImageAssetFile("numbers.png"));
@@ -123,6 +124,7 @@ TextureManager::~TextureManager()
     TraceLog(LOG_INFO, "Destroying texture manager instance");
 
     UnloadTexture(start_screen);
+    UnloadTexture(credits_screen);
 
     // Fonts and HUD
     UnloadTexture(numbers);

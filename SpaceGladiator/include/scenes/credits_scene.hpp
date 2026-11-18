@@ -11,6 +11,8 @@ public:
 
     // Used to start the end credits music
     void onEnter(SceneState previous_state) override;
+
+    Texture background;
 };
 
 #endif  // CREDITS_SCENE_HPP

@@ -109,8 +109,8 @@ SceneState GameScene::update()
     // Handle user input
     if (IsKeyPressed(KEY_BACKSPACE))
         return SceneState::START_SCREEN;
-    else if (IsKeyPressed(KEY_ENTER))
-        return SceneState::CREDITS;
+    // else if (IsKeyPressed(KEY_ENTER))
+    //     return SceneState::CREDITS;
 
     // Handle rendering here for all entities and the level
     BeginTextureMode(canvas);
@@ -151,10 +151,10 @@ SceneState GameScene::update()
     DrawTextureRec(canvas.texture, {0, 0, SPACE_CANVAS_WIDTH, -SPACE_CANVAS_HEIGHT}, camera.offset, WHITE);
 
     // Drawing the distance for debugging
-    std::string distance_str = std::to_string(scroll_distance);
-    DrawText(distance_str.c_str(), 8, 0, 8, WHITE);
-    std::string fps = std::to_string(GetFPS());
-    DrawText(fps.c_str(), 16 * 14, 0, 8, WHITE);
+    // std::string distance_str = std::to_string(scroll_distance);
+    // DrawText(distance_str.c_str(), 8, 0, 8, WHITE);
+    // std::string fps = std::to_string(GetFPS());
+    // DrawText(fps.c_str(), 16 * 14, 0, 8, WHITE);
 
     // HUD goes here
     DrawTexture(hud_background, 0, SPACE_CANVAS_HEIGHT, WHITE);
