@@ -115,7 +115,7 @@ Level::~Level()
 
 void Level::reset()
 {
-    last_checkpoint = 3; // Change this to skip to a checkpoint in a level
+    last_checkpoint = 0; // Change this to skip to a checkpoint in a level
     next_spawner = 0;
 }
 
