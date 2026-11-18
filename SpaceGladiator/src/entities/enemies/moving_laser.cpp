@@ -2,6 +2,7 @@
 #include "scenes/game_scene.hpp"
 
 #include "utils/texture_manager.hpp"
+#include "utils/audio_manager.hpp"
 
 #include <cmath>
 #include <numbers>
@@ -77,6 +78,7 @@ void MovingLaser::update(GameScene *scene)
             state = MovingLaserState::FIRING;
             scene->setCameraShake(CameraShake(3, static_cast<unsigned int>(firing_duration)));
             frame_counter = 0;
+            AudioManager::getInstance().playSFX(SFXFile::BOSS_EXPLOSION);
         }
         break;
 

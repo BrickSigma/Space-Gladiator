@@ -1,6 +1,7 @@
 #include "entities/explosion.hpp"
 
 #include "utils/texture_manager.hpp"
+#include "utils/audio_manager.hpp"
 
 Explosion::Explosion(int type_, Vector2 ceneter) : Entity(EntityType::NONE, ceneter, 16, 16)
 {
@@ -18,6 +19,9 @@ Explosion::Explosion(int type_, Vector2 ceneter) : Entity(EntityType::NONE, cene
         pos.y -= 8;
         break;
     }
+
+    // Play the explosion sound whenever an explosion is created
+    AudioManager::getInstance().playSFX(SFXFile::ENEMEY_EXPLOSION);
 }
 
 Explosion::~Explosion()

@@ -3,6 +3,7 @@
 #include "utils/constants.hpp"
 #include "level_manager/level_manager.hpp"
 #include "utils/texture_manager.hpp"
+#include "utils/audio_manager.hpp"
 
 #include <algorithm>
 #include <string>
@@ -312,6 +313,7 @@ void GameScene::handleStateChange()
     case GameSceneState::PAUSED:
         // No need to check if the previous state was a level since it's done earlier on
         state = next_state;
+        AudioManager::getInstance().pauseMusic(); // Also pause the background music
         break;
     case GameSceneState::LEVEL:
     {
@@ -320,6 +322,7 @@ void GameScene::handleStateChange()
         {
         case GameSceneState::PAUSED:
             state = next_state;
+            AudioManager::getInstance().resumeMusic(); // Resume the background music
             break;
         case GameSceneState::PLAYER_KILLED:
             stop_scrolling = false; // Make sure to enable scrolling again
@@ -344,9 +347,14 @@ void GameScene::handleStateChange()
         state = next_state;
         frame_counter = 0;
         if (player.lives < 0)
+        {
             player_killed_timer = GAME_OVER_TIME;
+            AudioManager::getInstance().playSFX(SFXFile::GAME_OVER);
+        }
         else
+        {
             player_killed_timer = PLAYER_DEATH_TIME;
+        }
         break;
 
     case GameSceneState::COMPLETED:

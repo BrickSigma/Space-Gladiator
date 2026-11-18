@@ -7,6 +7,7 @@
 #include "entities/player/player_laser.hpp"
 #include "entities/player/player_multishot.hpp"
 #include "entities/explosion.hpp"
+#include "utils/audio_manager.hpp"
 
 #include <algorithm>
 
@@ -137,10 +138,16 @@ void Player::handleShooting(GameScene *scene)
     if (is_shooting && (projectiles < max_shots || has_laser) && shooting_timer >= shoot_delay)
     {
         if (has_laser)
+        {
             scene->spawnEntity(new PlayerLaser({pos.x + static_cast<float>(width), getCenter().y - 1.0f}));
+            AudioManager::getInstance().playSFX(SFXFile::LASER);
+        }
         else
+        {
             scene->spawnEntity(new PlayerBullet(
                 {pos.x + static_cast<float>(width), pos.y + static_cast<float>(height) / 2}, {PROJECTILE_SPEED, 0}));
+            AudioManager::getInstance().playSFX(SFXFile::SHOOT);
+        }
         shooting_timer = 0; // Reset the timer
     }
 
@@ -156,6 +163,7 @@ void Player::handleShooting(GameScene *scene)
                 {pos.x + static_cast<float>(width), getCenter().y}, 1));
             scene->spawnEntity(new PlayerMultishot(
                 {pos.x + static_cast<float>(width), getCenter().y}, -1));
+            AudioManager::getInstance().playSFX(SFXFile::SHOOT);
         }
     }
 }
@@ -229,6 +237,7 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
         }
     }
 
+    shield = 0; // Set the sheild to 0 when the player dies
     is_dead = true;
     lives--;
     clearMovementArray();
@@ -238,6 +247,10 @@ void Player::handleCollision(GameScene *scene, Entity *entity)
 
     // Also shake the camera a bit
     scene->setCameraShake(CameraShake(2, 120));
+
+    // And finally play the player explosion SFX and also stop the music
+    AudioManager::getInstance().playSFX(SFXFile::PLAYER_EXPLOSION);
+    AudioManager::getInstance().stopMusic();
 }
 
 void Player::handleTilemapCollision(GameScene *scene)
@@ -254,6 +267,8 @@ void Player::handleTilemapCollision(GameScene *scene)
 
     scene->pushStateEvent(GameSceneState::PLAYER_KILLED);
     scene->setCameraShake(CameraShake(2, 120));
+    AudioManager::getInstance().playSFX(SFXFile::PLAYER_EXPLOSION);
+    AudioManager::getInstance().stopMusic();
 }
 
 void Player::handlePowerUp(PowerUp *power_up)
@@ -281,6 +296,10 @@ void Player::handlePowerUp(PowerUp *power_up)
     case PowerUpType::NONE:
         break;
     }
+
+    // Play an SFX when a powerup is picked up
+    if (power_up->type != PowerUpType::NONE)
+        AudioManager::getInstance().playSFX(SFXFile::POWERUP);
 
     // Don't forget to delete the power-up!
     power_up->delete_entity = true;

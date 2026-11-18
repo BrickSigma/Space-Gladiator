@@ -191,7 +191,8 @@ Snakes::~Snakes()
 
 void Snakes::update(GameScene *scene)
 {
-    if (is_dead) {
+    if (is_dead)
+    {
         frame_counter++;
         if (frame_counter >= death_time)
         {

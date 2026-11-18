@@ -3,6 +3,7 @@
 #include "utils/texture_manager.hpp"
 #include "scenes/game_scene.hpp"
 #include "entities/bosses/big_spaceship_bullet.hpp"
+#include "utils/audio_manager.hpp"
 
 #include <cmath>
 #include <numbers>
@@ -102,6 +103,7 @@ void BigSpaceship::handleCollision(GameScene *scene, Entity *entity)
         frame_counter = 0;
         scene->addScore(score);
         scene->setCameraShake(CameraShake(3, 90));
+        AudioManager::getInstance().playSFX(SFXFile::BOSS_EXPLOSION);
     }
 }
 

@@ -38,6 +38,23 @@ void AudioManager::stopMusic()
     current_track = nullptr;
 }
 
+void AudioManager::pauseMusic() const
+{
+    if (current_track != nullptr)
+        PauseMusicStream(*current_track);
+}
+
+void AudioManager::resumeMusic() const
+{
+    if (current_track != nullptr)
+        ResumeMusicStream(*current_track);
+}
+
+void AudioManager::playSFX(SFXFile file) const
+{
+    PlaySound(sfxs[static_cast<size_t>(file)]);
+}
+
 // Audio Manager setup below
 // =========================
 
@@ -49,8 +66,17 @@ static inline char *getMusicAssetFile(const char *file)
     return TextJoin(const_cast<char **>(strings), 2, "");
 }
 
+static inline char *getSFXAssetFile(const char *file)
+{
+    const char *strings[] = {
+        "assets/audio/sfx/",
+        file};
+    return TextJoin(const_cast<char **>(strings), 2, "");
+}
+
 AudioManager::AudioManager()
 {
+    // Load the background music files
     music_list[0] = LoadMusicStream(getMusicAssetFile("start-screen.mp3"));
     music_list[1] = LoadMusicStream(getMusicAssetFile("credits-screen.mp3"));
     music_list[2] = LoadMusicStream(getMusicAssetFile("level-1.mp3"));
@@ -59,10 +85,23 @@ AudioManager::AudioManager()
     music_list[5] = LoadMusicStream(getMusicAssetFile("level-2-boss.mp3"));
     music_list[6] = LoadMusicStream(getMusicAssetFile("level-3.mp3"));
     music_list[7] = LoadMusicStream(getMusicAssetFile("level-3-boss.mp3"));
+
+    // Load the sound effects
+    sfxs[0] = LoadSound(getSFXAssetFile("boss-explosion.wav"));
+    sfxs[1] = LoadSound(getSFXAssetFile("enemy-explosion.wav"));
+    sfxs[2] = LoadSound(getSFXAssetFile("game-over.mp3"));
+    sfxs[3] = LoadSound(getSFXAssetFile("laser.wav"));
+    sfxs[4] = LoadSound(getSFXAssetFile("player-explosion.wav"));
+    sfxs[5] = LoadSound(getSFXAssetFile("powerup.wav"));
+    sfxs[6] = LoadSound(getSFXAssetFile("shoot.wav"));
+    sfxs[7] = LoadSound(getSFXAssetFile("start.mp3"));
 }
 
 AudioManager::~AudioManager()
 {
     for (size_t i = 0; i < MUSIC_FILES_NO; i++)
         UnloadMusicStream(music_list[i]);
+
+    for (size_t i = 0; i < SFX_FILES_NO; i++)
+        UnloadSound(sfxs[i]);
 }

@@ -16,6 +16,17 @@ enum class MusicFile
     LEVEL_3_BOSS
 };
 
+enum class SFXFile {
+    BOSS_EXPLOSION,
+    ENEMEY_EXPLOSION,
+    GAME_OVER,
+    LASER,
+    PLAYER_EXPLOSION,
+    POWERUP,
+    SHOOT,
+    START
+};
+
 /**
  * Audio manager class.
  *
@@ -41,16 +52,28 @@ public:
     // Update the music stream (must be called in the main update loop)
     void update() const;
 
-    // Start playing a music file
+    // Start playing a music file from the beginning
     void startMusicFile(MusicFile file);
 
     // Stop the music from playing (used when the player dies)
     void stopMusic();
 
+    // Pause the music
+    void pauseMusic() const;
+
+    // Resume the music
+    void resumeMusic() const;
+    
+    // Play a sound effect
+    void playSFX(SFXFile file) const;
+
     static constexpr size_t MUSIC_FILES_NO{8};
+    static constexpr size_t SFX_FILES_NO{8};
 
     // Array of all the music files loaded into the audio manager
     Music music_list[MUSIC_FILES_NO]{};
+
+    Sound sfxs[SFX_FILES_NO]{};
 };
 
 #endif // AUDIO_MANAGER_HPP
