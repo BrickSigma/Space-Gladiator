@@ -12,6 +12,7 @@
 #include "entities/enemies/blockade_ball.hpp"
 #include "entities/bosses/big_spaceship.hpp"
 #include "entities/bosses/snakes.hpp"
+#include "entities/bosses/laser_eye.hpp"
 
 #include <format>
 #include <cstring>
@@ -41,6 +42,8 @@ SpawnerType spawnerStringToType(const char *str)
         return SpawnerType::BIG_SPACESHIP;
     else if (!strcmp(str, "SNAKES"))
         return SpawnerType::SNAKES;
+    else if (!strcmp(str, "LASER_EYE"))
+        return SpawnerType::LASER_EYE;
     else
         throw std::runtime_error(std::format("Invalid spawner type string passed: {}", str));
 }
@@ -64,6 +67,7 @@ static void spawnGroundShooter(const SpawnerData &data, GameScene *scene);
 static void spawnBlockadeBall(const SpawnerData &data, GameScene *scene);
 static void spawnBigSpaceship(const SpawnerData &data, GameScene *scene);
 static void spawnSnakes(const SpawnerData &data, GameScene *scene);
+static void spawnLaserEye(const SpawnerData &data, GameScene *scene);
 
 static SpawnerCB spawner_cb_table[]{
     spawnAsteroid,
@@ -76,7 +80,8 @@ static SpawnerCB spawner_cb_table[]{
     spawnGroundShooter,
     spawnBlockadeBall,
     spawnBigSpaceship,
-    spawnSnakes};
+    spawnSnakes,
+    spawnLaserEye};
 
 void spawnerDispatch(const SpawnerData &data, GameScene *scene)
 {
@@ -173,7 +178,7 @@ static void spawnFlyerSpawner(const SpawnerData &data, GameScene *scene)
     bool flipped = data.flags_1 != 0;
     if (!flipped)
         pos.y += 5; // Move the flyer a little down to stay on the ground
-    
+
     scene->spawnEntity(new FlyerSpawner(pos, flipped));
 }
 
@@ -221,4 +226,10 @@ static void spawnSnakes(const SpawnerData &data, GameScene *scene)
 {
     (void)data;
     scene->spawnEntity(new Snakes());
+}
+
+static void spawnLaserEye(const SpawnerData &data, GameScene *scene)
+{
+    Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
+    scene->spawnEntity(new LaserEye(pos));
 }

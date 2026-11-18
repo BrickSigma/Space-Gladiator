@@ -108,6 +108,12 @@ TextureManager::TextureManager()
     snake_head = LoadTexture(getImageAssetFile("snake-head.png"));
     snake_spine = LoadTexture(getImageAssetFile("snake-spine.png"));
     snake_fire = LoadTexture(getImageAssetFile("snake-fire.png"));
+
+    // Laser eye textures
+    laser_eye = LoadTexture(getImageAssetFile("laser-eye.png"));
+    laser_eye_ball = LoadTexture(getImageAssetFile("laser-eye-ball.png"));
+    laser_eye_frames = LoadTexture(getImageAssetFile("laser-eye-frames.png"));
+    laser_eye_back = LoadTexture(getImageAssetFile("laser-eye-back.png"));
 }
 
 TextureManager::~TextureManager()
@@ -187,4 +193,10 @@ TextureManager::~TextureManager()
     UnloadTexture(snake_head);
     UnloadTexture(snake_spine);
     UnloadTexture(snake_fire);
+
+    // Laser eye textures
+    UnloadTexture(laser_eye);
+    UnloadTexture(laser_eye_ball);
+    UnloadTexture(laser_eye_frames);
+    UnloadTexture(laser_eye_back);
 }

@@ -79,6 +79,11 @@ public:
     Texture snake_head;
     Texture snake_spine;
     Texture snake_fire;
+
+    Texture laser_eye;
+    Texture laser_eye_ball;
+    Texture laser_eye_frames;
+    Texture laser_eye_back;
 };
 
 #endif // TEXTURES_MANAGER_HPP

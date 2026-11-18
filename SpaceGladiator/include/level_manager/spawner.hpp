@@ -16,7 +16,8 @@ enum class SpawnerType
     GROUND_SHOOTER,
     BLOCKADE_BALL,
     BIG_SPACESHIP,
-    SNAKES
+    SNAKES,
+    LASER_EYE
 };
 
 // Convert a string to a spawner type, or throw an error on failure
