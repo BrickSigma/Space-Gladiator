@@ -76,12 +76,12 @@ public:
     // List of all entities in the system;
     std::vector<Entity *> entities{};
 
+    // Render texture used for showing all the entities and separating the view from the score board
+    RenderTexture canvas;
+
 private:
     // Queue for any entities to add at the end of the game loop
     std::vector<Entity *> new_entities{};
-
-    // Render texture used for showing all the entities and separating the view from the score board
-    RenderTexture canvas;
 
     // Internal frame counter used to adjust the distance
     int frame_counter{0};

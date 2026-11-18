@@ -114,6 +114,7 @@ TextureManager::TextureManager()
     laser_eye_ball = LoadTexture(getImageAssetFile("laser-eye-ball.png"));
     laser_eye_frames = LoadTexture(getImageAssetFile("laser-eye-frames.png"));
     laser_eye_back = LoadTexture(getImageAssetFile("laser-eye-back.png"));
+    laser_eye_mask = LoadTexture(getImageAssetFile("laser-eye-mask.png"));
 }
 
 TextureManager::~TextureManager()
@@ -199,4 +200,5 @@ TextureManager::~TextureManager()
     UnloadTexture(laser_eye_ball);
     UnloadTexture(laser_eye_frames);
     UnloadTexture(laser_eye_back);
+    UnloadTexture(laser_eye_mask);
 }

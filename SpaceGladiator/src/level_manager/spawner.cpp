@@ -231,5 +231,5 @@ static void spawnSnakes(const SpawnerData &data, GameScene *scene)
 static void spawnLaserEye(const SpawnerData &data, GameScene *scene)
 {
     Vector2 pos = spawnPositionToVector(data, scene->scroll_distance);
-    scene->spawnEntity(new LaserEye(pos));
+    scene->spawnEntity(new LaserEye(pos, scene->canvas));
 }

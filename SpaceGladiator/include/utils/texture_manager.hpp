@@ -84,6 +84,7 @@ public:
     Texture laser_eye_ball;
     Texture laser_eye_frames;
     Texture laser_eye_back;
+    Texture laser_eye_mask;
 };
 
 #endif // TEXTURES_MANAGER_HPP

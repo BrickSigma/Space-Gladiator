@@ -6,7 +6,13 @@
 #include <raymath.h>
 #include <cmath>
 
-LaserEye::LaserEye(Vector2 pos_) : Entity(EntityType::ENEMY, pos_, WIDTH, HEIGHT)
+#if defined(PLATFORM_DESKTOP)
+#define GLSL_VERSION 330
+#else
+#define GLSL_VERSION 100
+#endif
+
+LaserEye::LaserEye(Vector2 pos_, RenderTexture canvas_) : Entity(EntityType::ENEMY, pos_, WIDTH, HEIGHT), canvas(canvas_)
 {
     TextureManager &texture_manager = TextureManager::getInstance();
     laser_eye = texture_manager.laser_eye;
@@ -16,11 +22,19 @@ LaserEye::LaserEye(Vector2 pos_) : Entity(EntityType::ENEMY, pos_, WIDTH, HEIGHT
     frames = new Animation(texture_manager.laser_eye_frames, 64, 5, false);
     center = {pos.x + 32.0f, pos.y + 32.0f};
     is_tile = true;
+
+    eye_canvas = LoadRenderTexture(WIDTH, HEIGHT);
+    mask = texture_manager.laser_eye_mask;
+
+    mask_shader = LoadShader(0, TextFormat("assets/shaders/glsl%i/mask.frag", GLSL_VERSION));
+    mask_loc = GetShaderLocation(mask_shader, "mask");
 }
 
 LaserEye::~LaserEye()
 {
     delete frames;
+    UnloadRenderTexture(eye_canvas);
+    UnloadShader(mask_shader);
 }
 
 bool LaserEye::checkCollision(const Entity &entity) const
@@ -68,14 +82,15 @@ void LaserEye::draw()
     {
         DrawTexture(background, static_cast<int>(pos.x), static_cast<int>(pos.y), WHITE);
         return;
-    } else if (current_state == LaserEyeState::SPAWNING)
+    }
+    else if (current_state == LaserEyeState::SPAWNING)
     {
         frames->draw(pos);
         return;
     }
 
     DrawTexture(laser_eye, static_cast<int>(pos.x), static_cast<int>(pos.y), WHITE);
-    
+
     // Eye ball drawing
     // Calculate the eye's position based on the player's position
     Vector2 direction{8.0f, 0.0f};
@@ -85,9 +100,19 @@ void LaserEye::draw()
     // Direction will now hold the eye ball's center coordinate
     direction.x -= 12.0f;
     direction.y -= 12.0f;
-    direction = Vector2Add(direction, center);
+    direction = Vector2Add(direction, {32.0f, 32.0f});
 
+    EndTextureMode(); // Stop rendering to the canvas temporarily
+    BeginTextureMode(eye_canvas);
+    ClearBackground({0, 0, 0, 0});
+    BeginShaderMode(mask_shader);
+    SetShaderValueTexture(mask_shader, mask_loc, mask);
     DrawTexture(eye_ball, static_cast<int>(direction.x), static_cast<int>(direction.y), WHITE);
+    EndShaderMode();
+    EndTextureMode();
+    BeginTextureMode(canvas); // Go back to rendering to the canvas again
+
+    DrawTextureRec(eye_canvas.texture, {0, 0, static_cast<float>(WIDTH), static_cast<float>(-HEIGHT)}, pos, WHITE);
 }
 
 void LaserEye::update(GameScene *scene)
@@ -125,6 +150,12 @@ void LaserEye::update(GameScene *scene)
             current_state = LaserEyeState::WAITING;
         break;
 
+    case LaserEyeState::WAITING:
+        frame_counter++;
+        if (frame_counter >= wait_time)
+            current_state = next_state;
+        break;
+
     case LaserEyeState::ATTACK_1:
         attack1(scene);
         break;
@@ -147,7 +178,7 @@ void LaserEye::update(GameScene *scene)
 
     // Update the eye's center at the end of the frame
     center = {pos.x + 32.0f, pos.y + 32.0f};
-    
+
     // Track the player's position relative to the eye's center
     Vector2 player_pos = scene->player.getCenter();
     float dx = player_pos.x - center.x;
@@ -161,19 +192,51 @@ void LaserEye::update(GameScene *scene)
 void LaserEye::attack1(GameScene *scene)
 {
     (void)scene;
+    frame_counter++;
+
+    if (frame_counter >= attack_1_time)
+    {
+        frame_counter = 0;
+        next_state = LaserEyeState::ATTACK_2;
+        current_state = LaserEyeState::WAITING;
+    }
 }
 
 void LaserEye::attack2(GameScene *scene)
 {
     (void)scene;
+    frame_counter++;
+
+    if (frame_counter >= attack_2_time)
+    {
+        frame_counter = 0;
+        next_state = LaserEyeState::ATTACK_3;
+        current_state = LaserEyeState::WAITING;
+    }
 }
 
 void LaserEye::attack3(GameScene *scene)
 {
     (void)scene;
+    frame_counter++;
+
+    if (frame_counter >= attack_3_time)
+    {
+        frame_counter = 0;
+        next_state = LaserEyeState::ATTACK_4;
+        current_state = LaserEyeState::WAITING;
+    }
 }
 
 void LaserEye::attack4(GameScene *scene)
 {
     (void)scene;
+    frame_counter++;
+
+    if (frame_counter >= attack_4_time)
+    {
+        frame_counter = 0;
+        next_state = LaserEyeState::ATTACK_1;
+        current_state = LaserEyeState::WAITING;
+    }
 }
