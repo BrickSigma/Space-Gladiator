@@ -10,6 +10,7 @@ LevelManager::LevelManager()
     TraceLog(LOG_INFO, "Loading levels...");
     levels.push_back(new Level(1));
     levels.push_back(new Level(2));
+    levels.push_back(new Level(3));
 }
 
 LevelManager::~LevelManager()
@@ -27,7 +28,7 @@ void LevelManager::reset()
         level->reset();
     }
 
-    current_level = 1; // Change this to jump to another level on startup
+    current_level = 2; // Change this to jump to another level on startup
 }
 
 bool LevelManager::nextLevel()
