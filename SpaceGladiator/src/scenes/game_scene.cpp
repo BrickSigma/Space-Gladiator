@@ -234,6 +234,7 @@ SceneState GameScene::update()
             {
                 stop_scrolling = true; // Stop scrolling when we hit the end of the level
                 scroll_distance = (LEVEL_GRID_WIDTH * TILE_SIZE - SPACE_CANVAS_WIDTH);
+                level_manager.startBossMusic(); // Also start the boss music for the level
             }
 
             // Update the level so new entities can spawn in as we scroll

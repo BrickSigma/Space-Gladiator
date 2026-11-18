@@ -27,7 +27,7 @@ void LevelManager::reset()
         level->reset();
     }
 
-    current_level = 0;  // Change this to jump to another level on startup
+    current_level = 0; // Change this to jump to another level on startup
 }
 
 bool LevelManager::nextLevel()
@@ -38,6 +38,8 @@ bool LevelManager::nextLevel()
     }
 
     current_level++;
+    // Start playing the music for the next level as well
+    levels[current_level]->startMusic();
     return true;
 }
 
@@ -92,4 +94,9 @@ void LevelManager::drawLevel(GameScene *scene)
 std::bitset<LEVEL_GRID_WIDTH * LEVEL_GRID_HEIGHT> &LevelManager::getTilemap() const
 {
     return levels[current_level]->tilemap;
+}
+
+void LevelManager::startBossMusic() const
+{
+    levels[current_level]->startBossMusic();
 }

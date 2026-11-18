@@ -17,13 +17,13 @@ static bool spawner_data_cmp(const SpawnerData &lhs, const SpawnerData &rhs)
     return lhs.x_tile_pos < rhs.x_tile_pos;
 }
 
-Level::Level(unsigned int no)
+Level::Level(unsigned int level_no_) : level_no(level_no_)
 {
     // Read the data file containing the checkpoints and entities first
-    std::ifstream data_file(TextFormat("assets/levels/level_%d_data.txt", no));
+    std::ifstream data_file(TextFormat("assets/levels/level_%d_data.txt", level_no_));
 
     if (!data_file)
-        throw std::runtime_error(std::format("Could not open level data file for level {}", no));
+        throw std::runtime_error(std::format("Could not open level data file for level {}", level_no_));
 
     std::string buffer{};
 
@@ -60,9 +60,9 @@ Level::Level(unsigned int no)
     std::sort(spawners.begin(), spawners.end(), spawner_data_cmp);
 
     // Next load up the tilemap data file needed
-    std::ifstream tilemap_file(TextFormat("assets/levels/level_%d_tilemap.txt", no));
+    std::ifstream tilemap_file(TextFormat("assets/levels/level_%d_tilemap.txt", level_no_));
     if (!tilemap_file)
-        throw std::runtime_error(std::format("Could not open level tilemap file for level {}", no));
+        throw std::runtime_error(std::format("Could not open level tilemap file for level {}", level_no_));
 
     char c;
     int x = 0;
@@ -80,7 +80,30 @@ Level::Level(unsigned int no)
         x++;
     }
 
-    background = LoadTexture(TextFormat("assets/levels/level_%d_background.png", no));
+    background = LoadTexture(TextFormat("assets/levels/level_%d_background.png", level_no_));
+
+    // Setup the correct music tracks for the level as well
+    switch (level_no)
+    {
+    case 1:
+        music = MusicFile::LEVEL_1;
+        boss_music = MusicFile::LEVEL_1_BOSS;
+        break;
+
+    case 2:
+        music = MusicFile::LEVEL_2;
+        boss_music = MusicFile::LEVEL_2_BOSS;
+        break;
+    case 3:
+        music = MusicFile::LEVEL_3;
+        boss_music = MusicFile::LEVEL_3_BOSS;
+        break;
+
+    default:
+        music = MusicFile::LEVEL_2;
+        boss_music = MusicFile::LEVEL_2_BOSS;
+        break;
+    }
 
     reset();
 }
@@ -113,6 +136,9 @@ void Level::returnToCheckpoint(GameScene *scene)
             break;
         }
     }
+
+    // Play the background music for the level as well
+    AudioManager::getInstance().startMusicFile(music);
 }
 
 void Level::update(GameScene *scene)
@@ -151,4 +177,14 @@ void Level::update(GameScene *scene)
             break;
         }
     }
+}
+
+void Level::startMusic() const
+{
+    AudioManager::getInstance().startMusicFile(music);
+}
+
+void Level::startBossMusic() const
+{
+    AudioManager::getInstance().startMusicFile(boss_music);
 }

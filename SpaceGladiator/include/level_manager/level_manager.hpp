@@ -39,6 +39,9 @@ public:
      */
     void drawLevel(GameScene *scene);
 
+    // Start the boss music for the current level
+    void startBossMusic() const;
+
     // Get the current level tilemap
     std::bitset<LEVEL_GRID_WIDTH*LEVEL_GRID_HEIGHT>& getTilemap() const;
 

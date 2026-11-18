@@ -1,6 +1,8 @@
 #include "scenes/credits_scene.hpp"
 #include <raylib.h>
 
+#include "utils/audio_manager.hpp"
+
 CreditsScene::CreditsScene(RenderTexture *screen_) : Scene(screen_) {}
 
 CreditsScene::~CreditsScene() {}
@@ -10,9 +12,12 @@ SceneState CreditsScene::update()
     SceneState next_state = SceneState::NO_CHANGE;
 
     // Handle user input
-    if (IsKeyPressed(KEY_BACKSPACE)) {
+    if (IsKeyPressed(KEY_BACKSPACE))
+    {
         next_state = SceneState::GAME;
-    } else if (IsKeyPressed(KEY_ENTER)) {
+    }
+    else if (IsKeyPressed(KEY_ENTER))
+    {
         next_state = SceneState::START_SCREEN;
     }
 
@@ -23,4 +28,11 @@ SceneState CreditsScene::update()
     EndTextureMode();
 
     return next_state;
+}
+
+void CreditsScene::onEnter(SceneState previous_state)
+{
+    (void)previous_state;
+    AudioManager &audio_manager = AudioManager::getInstance();
+    audio_manager.startMusicFile(MusicFile::CREDITS_SCREEN);
 }

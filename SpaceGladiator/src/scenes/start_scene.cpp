@@ -2,6 +2,7 @@
 #include <raylib.h>
 
 #include "utils/texture_manager.hpp"
+#include "utils/audio_manager.hpp"
 
 StartScene::StartScene(RenderTexture *screen_) : Scene(screen_)
 {
@@ -35,9 +36,18 @@ SceneState StartScene::update()
     BeginTextureMode(*screen);
     DrawTexture(background, 0, 0, WHITE);
 
-    DrawTexture(player, 72, 62 + 24*current_option, WHITE);
+    DrawTexture(player, 72, 62 + 24 * current_option, WHITE);
 
     EndTextureMode();
 
     return next_state;
+}
+
+void StartScene::onEnter(SceneState previous_state)
+{
+    (void)previous_state;
+    current_option = 0;
+
+    AudioManager &audio_manager = AudioManager::getInstance();
+    audio_manager.startMusicFile(MusicFile::START_SCREEN);
 }

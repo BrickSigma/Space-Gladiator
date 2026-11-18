@@ -9,6 +9,7 @@
 #include "scenes/game_scene.hpp"
 #include "scenes/credits_scene.hpp"
 #include "utils/texture_manager.hpp"
+#include "utils/audio_manager.hpp"
 
 #include <iostream>
 #include <ctime>
@@ -33,6 +34,7 @@ int main(int argc, char *argv[])
 
     // Initialize the window
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Space Gladiator");
+    InitAudioDevice();
 
     SetWindowState(FLAG_WINDOW_RESIZABLE);
 
@@ -103,12 +105,17 @@ int main(int argc, char *argv[])
     UnloadRenderTexture(screen);
     UnloadRenderTexture(window);
 
+    CloseAudioDevice();
     CloseWindow();
     return 0;
 }
 
 void UpdateDrawFrame(void)
 {
+    // Update the audio music stream
+    AudioManager &audio_manager = AudioManager::getInstance();
+    audio_manager.update();
+
     try
     {
         scene_manager->update();

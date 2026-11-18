@@ -8,6 +8,9 @@ public:
     CreditsScene(RenderTexture *screen_);
     ~CreditsScene();
     SceneState update() override;
+
+    // Used to start the end credits music
+    void onEnter(SceneState previous_state) override;
 };
 
 #endif  // CREDITS_SCENE_HPP

@@ -22,6 +22,9 @@ SceneManager::SceneManager(RenderTexture *screenTexture, Scene *start_scene, Sce
     float colDiffuse[4] = {1, 1, 1, 0};
     SetShaderValue(crt_shader, colDiffuseLoc, colDiffuse, SHADER_UNIFORM_VEC4);
     SetTextureFilter(screen->texture, useShader ? TEXTURE_FILTER_BILINEAR : TEXTURE_FILTER_POINT);
+
+    // Call the onEnter function for the start screen so that it can initialize it's music system
+    start_scene->onEnter(SceneState::NO_CHANGE);
 }
 
 SceneManager::~SceneManager()

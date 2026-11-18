@@ -48,6 +48,7 @@ target_sources(${PROJECT_NAME}
         src/entities/bosses/snakes.cpp
         src/entities/bosses/snake_fire.cpp
         src/entities/enemies/blockade_ball.cpp
+        src/utils/audio_manager.cpp
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS include
@@ -88,6 +89,7 @@ target_sources(${PROJECT_NAME}
         include/entities/bosses/snakes.hpp
         include/entities/bosses/snake_fire.hpp
         include/entities/enemies/blockade_ball.hpp
+        include/utils/audio_manager.hpp
 )
 
 #set(raylib_VERBOSE 1)
