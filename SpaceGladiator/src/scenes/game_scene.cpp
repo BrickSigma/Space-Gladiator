@@ -30,6 +30,7 @@ void GameScene::reset()
     level_manager.reset();
     player.reset(true);
     player_killed_timer = PLAYER_DEATH_TIME;
+    setCameraShake(CameraShake(0,0));
     resetFromCheckpoint();
 }
 
