@@ -2,6 +2,7 @@
 #include "level_manager/level.hpp"
 
 #include "scenes/game_scene.hpp"
+#include "utils/constants.hpp"
 
 #include <cmath>
 
@@ -28,7 +29,7 @@ void LevelManager::reset()
         level->reset();
     }
 
-    current_level = 0; // Change this to jump to another level on startup
+    current_level = static_cast<size_t>(LEVEL_NO); // Change this to jump to another level on startup
 }
 
 bool LevelManager::nextLevel()

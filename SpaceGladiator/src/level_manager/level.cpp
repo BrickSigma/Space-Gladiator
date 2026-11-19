@@ -9,6 +9,7 @@
 
 #include "level_manager/spawner.hpp"
 #include "scenes/game_scene.hpp"
+#include "utils/constants.hpp"
 
 #define TYPE_STR_MAX_LEN (256)
 
@@ -115,7 +116,7 @@ Level::~Level()
 
 void Level::reset()
 {
-    last_checkpoint = 0; // Change this to skip to a checkpoint in a level
+    last_checkpoint = static_cast<size_t>(CHECKPOINT_NO); // Change this to skip to a checkpoint in a level
     next_spawner = 0;
 }
 

@@ -14,6 +14,9 @@
 #include <iostream>
 #include <ctime>
 
+int LEVEL_NO = 0;
+int CHECKPOINT_NO = 0;
+
 // Global scene manager
 SceneManager *scene_manager = nullptr;
 

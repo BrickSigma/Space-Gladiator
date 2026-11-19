@@ -13,4 +13,7 @@ constexpr int TILEMAP_HEIGHT{26}; // The height of the entire tilemap/level
 constexpr int WINDOW_WIDTH = CANVAS_WIDTH * WINDOW_SCALE;
 constexpr int WINDOW_HEIGHT = CANVAS_HEIGHT * WINDOW_SCALE;
 
+extern int LEVEL_NO;
+extern int CHECKPOINT_NO;
+
 #endif // CONFIG_HPP
