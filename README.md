@@ -1,15 +1,11 @@
 # Space Galdiator
 A retro-style, pixel-art themed space shooter game inspired by the NES game "Gradius" by Konami from 1986, built using C++ and Raylib.
 
-> [!NOTE]  
-> If you are a lecturer reviewing or marking this work, kindly note that this project is still in development. Once it is complete, this README will reflect screenshots of the completed system. You can view the YouTube video submission for the project here: [https://www.youtube.com/watch?v=TfqxgaHlM-4](https://www.youtube.com/watch?v=TfqxgaHlM-4)
-
 ## Table of contents
 - [Background](#background)
 - [Controls](#controls)
 - [list of enemies](#list-of-enemies)
 - [Power-ups](#power-ups)
-- [Remaining items](#remaining-items)
 - [Credits](#credits)
 
 ## Building and running
@@ -58,15 +54,7 @@ To help the player survive, several power-ups can be collected when destroying c
 4. Laser - allow the player to shoot an indestructible laser beam
 5. Shield - protect the player from enemies
 
-## Remaining items
-The following items still need to be added to the game, kindly keep them in mind if you are assessing this work:
-- [x] Snake boss
-- [ ] Laser eye boss
-- [ ] Final level design
-- [ ] Complete title screen and credits
-- [ ] SFX and music
-
 ## Credits
 This game was made using assets created by Nintendo and Konami. All art work, sprites, backgrounds, sound tracks, and themes belong to them. 
 
-**This project is in submission for a class project in university, and is not designed or developed with the intention of being sold or publically played**
+**This project is in submission for a class project in university, and is not designed or developed with the intention of being sold or to rival Nintendo or Konami, but merely as a fan remake of their amazing work.**
